@@ -5,6 +5,7 @@ import {getColumns} from "./schema";
 
 import {AiOutlineClose} from "react-icons/ai";
 import './readExcel.css';
+import {colToRTCol} from "../../table/adapters/reactTableAdapter";
 
 
 const ReadExcel = ({onComplete}) => {
@@ -29,14 +30,14 @@ const ReadExcel = ({onComplete}) => {
 
       const sheetJsons = await excelToJson(files[0]);
       sheetJsons.forEach(sheetJson => {
-        // TBD: We can probably move the column detection outside
-        const columns = getColumns(sheetJson.data);
-
+        if (onComplete) {
+          onComplete({
+            data:sheetJson.data
+          });
+        }
       })
 
-      if (onComplete) {
-        onComplete();
-      }
+
     }
   };
 

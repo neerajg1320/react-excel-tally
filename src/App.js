@@ -1,14 +1,15 @@
 // import './App.css';
 import {BasicTable} from "./components/table/SimpleTable";
-import {useMemo, useState} from "react";
-// import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {useCallback, useMemo, useState} from "react";
 import MOCK_DATA from "./assets/MOCK_DATA.json";
 import { MOCK_COLUMNS } from './assets/MOCK_COLUMNS';
 import ReadExcel from "./components/excel/xlsx/ReadExcel";
 
 
 import * as React from 'react';
-import { Routes, Route, Outlet, NavLink } from 'react-router-dom';
+import {Routes, Route, Outlet, NavLink, useNavigate, useLocation} from 'react-router-dom';
+import {getColumns} from "./components/excel/xlsx/schema";
+import {colToRTCol} from "./components/table/adapters/reactTableAdapter";
 
 const App = () => {
   console.log(`Rendering <App>`);
@@ -17,8 +18,8 @@ const App = () => {
       <Routes>
         <Route element={<Layout />}>
           <Route index element={<Read />} />
-          <Route path="home" element={<Read />} />
-          <Route path="about" element={<Table />} />
+          <Route path="read" element={<Read />} />
+          <Route path="table" element={<Table />} />
           <Route path="*" element={<p>There's nothing here: 404!</p>} />
         </Route>
       </Routes>
@@ -44,10 +45,10 @@ const Layout = () => {
               display: "flex", flexDirection:"row", gap:"10px"
             }}
         >
-          <NavLink to="/home" style={style}>
+          <NavLink to="/read" style={style}>
             Read
           </NavLink>
-          <NavLink to="/about" style={style}>
+          <NavLink to="/table" style={style}>
             Table
           </NavLink>
         </nav>
@@ -61,23 +62,40 @@ const Layout = () => {
 
 const Read = () => {
   console.log(`Rendering <Read>`);
+  const navigate = useNavigate();
+
+  const onLoadComplete = useCallback(({data}) => {
+    console.log(`data=${JSON.stringify(data, null, 2)}`);
+
+    navigate('/table', { state: { id: 9, just:"like", data } });
+  });
 
   return (
       <>
-        <ReadExcel />
+        <ReadExcel onComplete={onLoadComplete}/>
       </>
   );
 };
 
 const Table = () => {
   console.log(`Rendering <Table>`);
+  const {state} = useLocation();
+  // const [data, setData] = useState(MOCK_DATA);
+  // const [columns, setColumns] = useState(MOCK_COLUMNS)
 
-  const columns = useMemo(() => MOCK_COLUMNS, []);
-  const data = useMemo(() => MOCK_DATA, []);
+  if (!state) {
+    return <h1>Empty</h1>
+    // TBD: We can probably move the column detection outside
+  }
+  const {data} = state;
+  const columns = getColumns(data);
+  const rtColumns = columns.map(colToRTCol);
+  console.log(`rtColumns=${JSON.stringify(rtColumns, null, 2)}`)
 
-  const rtColumns = columns.map(col => {
-    return {...col, id: col.key, Header: col.label, accessor: col.key}
-  });
+
+  // const rtColumns = columns.map(col => {
+  //   return {...col, id: col.key, Header: col.label, accessor: col.key}
+  // });
 
 
   return (

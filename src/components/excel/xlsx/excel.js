@@ -23,7 +23,7 @@ export function excelToJson (file) {
         // We will get dates as string as what is visible
         const data = XLSX.utils.sheet_to_json(ws, );
         const dataAdjustedDates = data.map(item => fixDatesInObject(item));
-        console.log(JSON.stringify(dataAdjustedDates, null, 2));
+        // console.log(JSON.stringify(dataAdjustedDates, null, 2));
 
         const sheetObj = {
           sheetName,
