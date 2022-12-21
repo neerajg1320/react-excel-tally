@@ -18,7 +18,6 @@ export const MOCK_COLUMNS = [
     label: 'Date of Birth',
     key: 'date_of_birth',
     Cell: ({ value }) => {
-      // return String(value);
       return  valToString(new Date(value));
     }
   },

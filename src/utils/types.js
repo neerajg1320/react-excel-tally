@@ -18,7 +18,7 @@ export function valToString(val) {
   if (isDate(val)) {
     return format(val, localDateFormat);
   }
-  
+
   return val.toString();
 }
 
