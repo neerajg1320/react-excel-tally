@@ -8,7 +8,7 @@ import {RowCheckbox} from "./parts/RowCheckbox";
 
 export const BasicTable = ({data, columns}) => {
   console.log(`Rendering <BasicTable>`);
-  // console.log(columns);
+  console.log(`columns.length=${columns.length} data.length=${data.length}`);
 
   const {
     getTableProps,
