@@ -14,14 +14,14 @@ export const MOCK_COLUMNS = [
     label: 'Last Name',
     key: 'last_name'
   },
-  // {
-  //   label: 'Date of Birth',
-  //   key: 'date_of_birth',
-  //   Cell: ({ value }) => {
-  //     return String(value);
-  //     // return  valToString(new Date(value));
-  //   }
-  // },
+  {
+    label: 'Date of Birth',
+    key: 'date_of_birth',
+    Cell: ({ value }) => {
+      // return String(value);
+      return  valToString(new Date(value));
+    }
+  },
   {
     label: 'Country',
     key: 'country',

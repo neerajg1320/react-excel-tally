@@ -15,14 +15,10 @@ export function isDate(val) {
 }
 
 export function valToString(val) {
-  if (val) {
-    if (isDate(val)) {
-
-    }
-    console.log(`typeof val: ${typeof val} ${val}`)
-    console.log(JSON.stringify(val, null, 2));
+  if (isDate(val)) {
+    return format(val, localDateFormat);
   }
-
+  
   return val.toString();
 }
 
