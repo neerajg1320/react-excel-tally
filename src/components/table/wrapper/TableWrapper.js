@@ -21,6 +21,7 @@ export const TableWrapper = () => {
   // console.log(`data=${JSON.stringify(data)}`);
 
   const [updates, setUpdates] = useState([]);
+  const [tableKey, setTableKey] = useState(1);
 
   useEffect(() => {
     if (debug.lifecycle) {
@@ -55,11 +56,10 @@ export const TableWrapper = () => {
 
 
   const handleUpdateData = useCallback((row, col, value) => {
-    // console.log('handleUpdateData', row, col, value);
+    console.log('handleUpdateData', row, col, value);
 
     // Using this is mandatory as using the updates does not work
     setUpdates((prevState) => {
-      // console.log(`prevState=${prevState.length}`);
       return [...prevState].concat({row, col, value});
     });
   }, []);
@@ -89,13 +89,23 @@ export const TableWrapper = () => {
       return
     }
 
-    const updatedData = updates.reduce((prevData, update, index) => {
-      return applyUpdate(prevData, update);
-    }, data);
+    // Since data is updated on the previous state
+    setData((prevData) => {
+      return updates.reduce((pData, update, index) => {
+            return applyUpdate(pData, update);
+          }, prevData);
+    });
 
     // console.log(`updatedData=${JSON.stringify(updatedData, null, 2)}`);
-    setData(updatedData);
+    // setData(updatedData);
     setUpdates([]);
+  }, []);
+
+  const handleResetClick = useCallback((updates) => {
+    // const _data = [...data];
+    // setData(_data);
+    // console.log(JSON.stringify(_data, null, 2));
+    setTableKey((prevTableKey) => prevTableKey + 1);
   }, []);
 
   return (
@@ -107,8 +117,22 @@ export const TableWrapper = () => {
           <div style={{
             display:"flex", flexDirection:"column", gap:"20px", alignItems:"center",
           }}>
-            <SimpleTable data={data} columns={rtColumns} onChange={handleUpdateData}/>
-            <div>
+            <SimpleTable
+                key={tableKey}
+                data={data}
+                columns={rtColumns}
+                onChange={handleUpdateData}
+            />
+            <div style={{
+              display:"flex", flexDirection:"row", gap:"20px"
+            }}>
+              <Button
+                  className="btn-outline-primary bg-transparent"
+                  disabled={updates.length < 1}
+                  onClick={e => handleResetClick(updates)}
+              >
+                Reset
+              </Button>
               <Button
                   disabled={updates.length < 1}
                   onClick={e => handleSaveClick(updates)}

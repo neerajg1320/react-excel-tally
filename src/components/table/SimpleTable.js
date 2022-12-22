@@ -4,7 +4,8 @@ import {
   useRowSelect
 } from "react-table";
 import {RowCheckbox} from "./parts/RowCheckbox";
-import EditableCell from "./parts/editableCell";
+// import EditableCell from "./parts/editableCell";
+import EditableCell from "./parts/editableControlledCell";
 import SelectableCell from "./parts/selectableCell";
 import React, {useState} from "react";
 import {debug} from "../config/debugEnabled";
@@ -13,7 +14,8 @@ const SimpleTable = ({data, columns, onChange:updateData}) => {
   if (debug.lifecycle) {
     console.log(`Rendering <SimpleTable>`);
   }
-  console.log(`columns.length=${columns.length} data.length=${data.length}`);
+  console.log(`data.length=${data.length} columns.length=${columns.length}`);
+  console.log(JSON.stringify(data, null, 2));
 
   // The selection feature when enabled causes double render
   const [featureSelection, setFeatureSelection] = useState(false);
