@@ -3,15 +3,18 @@ import {getColumns} from "../../excel/xlsx/schema";
 import {colToRTCol} from "../adapters/reactTableAdapter";
 import SimpleTable from "../SimpleTable";
 import {presetColumns} from "../presets/presetColumns";
-import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import Button from "react-bootstrap/Button";
+import {debug} from "../../config/debug";
 
 // We derive columns from data
 // We will just convert the columns.
 // Any modification of columns should be handled above this.
 
 export const TableWrapper = () => {
-  console.log(`Rendering <TableWrapper>`);
+  if (debug.lifecycle) {
+    console.log(`Rendering <TableWrapper>`);
+  }
   const {state} = useLocation();
 
   const [data, setData] = useState(state?.data);
@@ -20,9 +23,14 @@ export const TableWrapper = () => {
   const [updates, setUpdates] = useState([]);
 
   useEffect(() => {
-    console.log(`<TableWrapper>: First render`);
+    if (debug.lifecycle) {
+      console.log(`<TableWrapper>: First render`);
+    }
+
     return () => {
-      console.log(`<TableWrapper>: Destroyed`);
+      if (debug.lifecycle) {
+        console.log(`<TableWrapper>: Destroyed`);
+      }
     }
   }, []);
 
@@ -43,9 +51,10 @@ export const TableWrapper = () => {
     col.index = index;
     return colToRTCol(col);
   };
-  const [rtColumns, setRTColumns] = useState(getColumns(data).map(attachPresetProperties))
+  const [rtColumns, setRTColumns] = useState(getColumns(data).map(attachPresetProperties));
 
-  const handleUpdateData = (row, col, value) => {
+
+  const handleUpdateData = useCallback((row, col, value) => {
     // console.log('handleUpdateData', row, col, value);
 
     // Using this is mandatory as using the updates does not work
@@ -53,7 +62,7 @@ export const TableWrapper = () => {
       // console.log(`prevState=${prevState.length}`);
       return [...prevState].concat({row, col, value});
     });
-  };
+  }, []);
 
   const applyUpdate = (prevData, update) => {
     const {row, col, value} = update
@@ -74,8 +83,8 @@ export const TableWrapper = () => {
     return updatedData;
   }
 
-  const handleSaveClick =() => {
-    console.log(`updates count: ${updates.length}`);
+  const handleSaveClick = () => {
+    // console.log(`updates count: ${updates.length}`);
     if (updates.length < 1) {
       return
     }

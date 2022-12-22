@@ -7,9 +7,12 @@ import {RowCheckbox} from "./parts/RowCheckbox";
 import EditableCell from "./parts/editableCell";
 import SelectableCell from "./parts/selectableCell";
 import React, {useState} from "react";
+import {debug} from "../config/debugEnabled";
 
 const SimpleTable = ({data, columns, onChange:updateData}) => {
-  console.log(`Rendering <SimpleTable>`);
+  if (debug.lifecycle) {
+    console.log(`Rendering <SimpleTable>`);
+  }
   console.log(`columns.length=${columns.length} data.length=${data.length}`);
 
   // The selection feature when enabled causes double render
@@ -122,5 +125,5 @@ const SimpleTable = ({data, columns, onChange:updateData}) => {
   );
 }
 
-export default SimpleTable;
-// export default React.memo(SimpleTable);
+// export default SimpleTable;
+export default React.memo(SimpleTable);

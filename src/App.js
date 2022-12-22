@@ -1,16 +1,24 @@
 import ReadExcel from "./components/excel/xlsx/ReadExcel";
 import * as React from 'react';
-import {Routes, Route, Outlet, NavLink, useNavigate, useLocation} from 'react-router-dom';
+import {Routes, Route, Outlet, NavLink, useNavigate} from 'react-router-dom';
 import {TableWrapper} from "./components/table/wrapper/TableWrapper";
 import {useEffect} from "react";
+import {debug} from "./components/config/debug";
 
 const App = () => {
-  console.log(`Rendering <App>`);
+  if (debug.lifecycle) {
+    console.log(`Rendering <App>`);
+  }
 
   useEffect(() => {
-    console.log(`<App>: First render`);
+    if (debug.lifecycle) {
+      console.log(`<App>: First render`);
+    }
+
     return () => {
-      console.log(`<App>: Destroyed`);
+      if (debug.lifecycle) {
+        console.log(`<App>: Destroyed`);
+      }
     }
   }, []);
 
@@ -27,7 +35,9 @@ const App = () => {
 };
 
 const Layout = () => {
-  console.log(`Rendering <Layout>`);
+  if (debug.lifecycle) {
+    console.log(`Rendering <Layout>`);
+  }
 
   const style = ({ isActive }) => ({
     fontWeight: isActive ? 'bold' : 'normal',
@@ -61,7 +71,10 @@ const Layout = () => {
 };
 
 const Read = () => {
-  console.log(`Rendering <Read>`);
+  if (debug.lifecycle) {
+    console.log(`Rendering <Read>`);
+  }
+
   const navigate = useNavigate();
 
   const onLoadComplete = ({data}) => {

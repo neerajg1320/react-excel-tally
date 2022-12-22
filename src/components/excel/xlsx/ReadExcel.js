@@ -1,15 +1,15 @@
 import {useCallback, useRef, useState} from "react";
 import Button from "react-bootstrap/Button";
 import {excelToJson} from "./excel";
-import {getColumns} from "./schema";
-
 import {AiOutlineClose} from "react-icons/ai";
 import './readExcel.css';
-import {colToRTCol} from "../../table/adapters/reactTableAdapter";
+import {debug} from "../../config/debug";
 
 
 const ReadExcel = ({onComplete}) => {
-  console.log(`Rendering <ReadExcel>`);
+  if (debug.lifecycle) {
+    console.log(`Rendering <ReadExcel>`);
+  }
 
   const inputRef = useRef();
   const [files, setFiles] = useState([]);
