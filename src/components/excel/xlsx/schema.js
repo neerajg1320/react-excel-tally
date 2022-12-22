@@ -19,6 +19,10 @@ export function insertProp(propObj, list, before) {
 }
 
 export function getColumns(data, sampleSize=0) {
+  if (!data) {
+    return [];
+  }
+
   let finalData = data;
   if (sampleSize > 0) {
     finalData.slice(0, sampleSize);
