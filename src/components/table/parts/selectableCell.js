@@ -9,7 +9,7 @@ const SelectableCell = ({value: initialValue, row, column, updateData, choices})
   // If the initialValue is changed external, sync it up with our state
   useEffect(() => {
     if (initialValue) {
-      console.log(`initialValue=${initialValue}`);
+      // console.log(`initialValue=${initialValue}`);
       setValue(initialValue);
     }
   }, [initialValue]);

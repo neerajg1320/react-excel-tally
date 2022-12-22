@@ -16,12 +16,13 @@ export const TableWrapper = () => {
   }
 
   const handleUpdateData = (row, col, value) => {
-    console.log('handleUpdateData', row, col, value);
+    // console.log('handleUpdateData', row, col, value);
 
-    const id = row.original.id;
+    const ids = [row.index];
     // key is stored in col.id
     const values = {[col.id]: value};
 
+    console.log(`handleUpdateData: ids=${JSON.stringify(ids)} values=${JSON.stringify(values)}`);
   }
 
   const attachPresetProperties = (col, index) => {
@@ -34,7 +35,6 @@ export const TableWrapper = () => {
         // The Column choices have to be updated.
         // col.choices = choices[col.key.toLowerCase()];
         // col.choices = categoryChoices;
-
       }
     }
 
