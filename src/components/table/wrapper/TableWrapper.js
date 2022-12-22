@@ -3,7 +3,7 @@ import {getColumns} from "../../excel/xlsx/schema";
 import {colToRTCol} from "../adapters/reactTableAdapter";
 import SimpleTable from "../SimpleTable";
 import {presetColumns} from "../presets/presetColumns";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import Button from "react-bootstrap/Button";
 import {debug} from "../../config/debug";
 
@@ -21,7 +21,7 @@ export const TableWrapper = () => {
   // console.log(`data=${JSON.stringify(data)}`);
 
   const [updates, setUpdates] = useState([]);
-  const [tableKey, setTableKey] = useState(1);
+  const tableKeyRef = useRef(1);
 
   useEffect(() => {
     if (debug.lifecycle) {
@@ -99,7 +99,9 @@ export const TableWrapper = () => {
   }, []);
 
   const handleResetClick = useCallback((updates) => {
-    setTableKey((prevTableKey) => prevTableKey + 1);
+    // setTableKey((prevTableKey) => prevTableKey + 1);
+    tableKeyRef.current += 1;
+
     setUpdates([]);
   }, []);
 
@@ -113,7 +115,7 @@ export const TableWrapper = () => {
             display:"flex", flexDirection:"column", gap:"20px", alignItems:"center",
           }}>
             <SimpleTable
-                key={tableKey}
+                key={tableKeyRef.current}
                 data={data}
                 columns={rtColumns}
                 onChange={handleUpdateData}
