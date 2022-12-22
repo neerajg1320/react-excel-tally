@@ -126,4 +126,6 @@ const SimpleTable = ({data, columns, onChange:updateData}) => {
 }
 
 // export default SimpleTable;
+
+// We use React.memo when we want to render the child only when any props change
 export default React.memo(SimpleTable);
