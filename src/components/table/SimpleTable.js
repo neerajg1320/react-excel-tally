@@ -7,7 +7,7 @@ import {RowCheckbox} from "./parts/RowCheckbox";
 // import EditableCell from "./parts/editableCell";
 import EditableCell from "./parts/editableControlledCell";
 import SelectableCell from "./parts/selectableCell";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {debug} from "../config/debugEnabled";
 
 const SimpleTable = ({data, columns, onChange:updateData}) => {
@@ -15,7 +15,19 @@ const SimpleTable = ({data, columns, onChange:updateData}) => {
     console.log(`Rendering <SimpleTable>`);
   }
   console.log(`data.length=${data.length} columns.length=${columns.length}`);
-  console.log(JSON.stringify(data, null, 2));
+  // console.log(JSON.stringify(data, null, 2));
+
+  useEffect(() => {
+    if (debug.lifecycle) {
+      console.log(`<SimpleTable>: First render`);
+    }
+
+    return () => {
+      if (debug.lifecycle) {
+        console.log(`<SimpleTable>: Destroyed`);
+      }
+    }
+  }, []);
 
   // The selection feature when enabled causes double render
   const [featureSelection, setFeatureSelection] = useState(false);

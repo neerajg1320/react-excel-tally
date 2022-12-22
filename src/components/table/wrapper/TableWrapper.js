@@ -95,17 +95,12 @@ export const TableWrapper = () => {
             return applyUpdate(pData, update);
           }, prevData);
     });
-
-    // console.log(`updatedData=${JSON.stringify(updatedData, null, 2)}`);
-    // setData(updatedData);
     setUpdates([]);
   }, []);
 
   const handleResetClick = useCallback((updates) => {
-    // const _data = [...data];
-    // setData(_data);
-    // console.log(JSON.stringify(_data, null, 2));
     setTableKey((prevTableKey) => prevTableKey + 1);
+    setUpdates([]);
   }, []);
 
   return (
