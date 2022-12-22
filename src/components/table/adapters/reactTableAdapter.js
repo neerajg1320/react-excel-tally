@@ -11,8 +11,6 @@ export function colToRTCol (colObj) {
     ...colObj
   }
 
-
-
   if (String(colObj.key).toLowerCase().includes('date')) {
     reactColObj.Cell = ({ value }) => {
       return valToString(value);

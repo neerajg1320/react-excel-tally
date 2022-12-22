@@ -1,11 +1,7 @@
-import {BasicTable} from "./components/table/SimpleTable";
 import ReadExcel from "./components/excel/xlsx/ReadExcel";
-
-
 import * as React from 'react';
 import {Routes, Route, Outlet, NavLink, useNavigate, useLocation} from 'react-router-dom';
-import {getColumns} from "./components/excel/xlsx/schema";
-import {colToRTCol} from "./components/table/adapters/reactTableAdapter";
+import {TableWrapper} from "./components/table/wrapper/TableWrapper";
 
 const App = () => {
   console.log(`Rendering <App>`);
@@ -15,7 +11,7 @@ const App = () => {
         <Route element={<Layout />}>
           <Route index element={<Read />} />
           <Route path="read" element={<Read />} />
-          <Route path="table" element={<Table />} />
+          <Route path="table" element={<TableWrapper />} />
           <Route path="*" element={<p>There's nothing here: 404!</p>} />
         </Route>
       </Routes>
@@ -71,23 +67,5 @@ const Read = () => {
   );
 };
 
-const Table = () => {
-  console.log(`Rendering <Table>`);
-  const {state} = useLocation();
-
-  if (!state) {
-    return <h1>Empty</h1>
-  }
-  const {data} = state;
-  const columns = getColumns(data);
-  const rtColumns = columns.map(colToRTCol);
-  // console.log(`rtColumns=${JSON.stringify(rtColumns, null, 2)}`)
-
-  return (
-    <>
-      <BasicTable data={data} columns={rtColumns}/>
-    </>
-  );
-};
 
 export default App;

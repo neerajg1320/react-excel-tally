@@ -7,18 +7,10 @@ import {RowCheckbox} from "./parts/RowCheckbox";
 import EditableCell from "./parts/editableCell";
 import SelectableCell from "./parts/selectableCell";
 
-export const BasicTable = ({data, columns}) => {
+export const BasicTable = ({data, columns, onChange:updateData}) => {
   console.log(`Rendering <BasicTable>`);
   console.log(`columns.length=${columns.length} data.length=${data.length}`);
 
-  const updateData = (row, col, value) => {
-    console.log('updateData', row, col, value);
-
-    const id = row.original.id;
-    // key is stored in col.id
-    const values = {[col.id]: value};
-
-  }
 
   const {
     getTableProps,
