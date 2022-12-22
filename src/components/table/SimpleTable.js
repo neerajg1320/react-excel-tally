@@ -4,11 +4,21 @@ import {
   useRowSelect
 } from "react-table";
 import {RowCheckbox} from "./parts/RowCheckbox";
-
+import EditableCell from "./parts/editableCell";
+import SelectableCell from "./parts/selectableCell";
 
 export const BasicTable = ({data, columns}) => {
   console.log(`Rendering <BasicTable>`);
   console.log(`columns.length=${columns.length} data.length=${data.length}`);
+
+  const updateData = (row, col, value) => {
+    console.log('updateData', row, col, value);
+
+    const id = row.original.id;
+    // key is stored in col.id
+    const values = {[col.id]: value};
+
+  }
 
   const {
     getTableProps,
@@ -19,7 +29,8 @@ export const BasicTable = ({data, columns}) => {
     prepareRow
   } = useTable({
         columns,
-        data
+        data,
+        updateData
       },
       useRowSelect,
       (hooks) => {
@@ -34,7 +45,18 @@ export const BasicTable = ({data, columns}) => {
                   <RowCheckbox {...row.getToggleRowSelectedProps()} />
               )
             },
-            ...columns
+            ...columns.map(col => {
+              if (col.edit) {
+                if (col.type === 'input') {
+                  col.Cell = EditableCell
+                } else if (col.type === 'select') {
+                  col.Cell = (props) => {
+                    return <SelectableCell choices={col.choices} {...props} />
+                  }
+                }
+              }
+              return col;
+            }),
           ]
         })
       }

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 
 // https://cloudnweb.dev/2020/08/how-to-build-an-actionable-data-table-with-react-table-and-tailwindcss/
-const EditableCell = ({value: initialValue, row, column, updateMyData}) => {
+const EditableCell = ({value: initialValue, row, column, updateData}) => {
   // console.log(`Render Editable Cell`);
   const [value, setValue] = useState(initialValue || "");
 
@@ -23,7 +23,7 @@ const EditableCell = ({value: initialValue, row, column, updateMyData}) => {
             className="form-control"
             value={value}
             onChange={e => setValue(e.target.value)}
-            onBlur={(e) => updateMyData(row, column, value)}
+            onBlur={(e) => updateData(row, column, value)}
         />
       </form>
     </>
