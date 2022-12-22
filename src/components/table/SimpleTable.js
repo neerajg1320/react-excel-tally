@@ -6,11 +6,26 @@ import {
 import {RowCheckbox} from "./parts/RowCheckbox";
 import EditableCell from "./parts/editableCell";
 import SelectableCell from "./parts/selectableCell";
+import React, {useState} from "react";
 
-export const BasicTable = ({data, columns, onChange:updateData}) => {
-  console.log(`Rendering <BasicTable>`);
+const SimpleTable = ({data, columns, onChange:updateData}) => {
+  console.log(`Rendering <SimpleTable>`);
   console.log(`columns.length=${columns.length} data.length=${data.length}`);
 
+  // The selection feature when enabled causes double render
+  const [featureSelection, setFeatureSelection] = useState(false);
+
+  const selectionColumn = {
+    id: "selection",
+    Header: ({getToggleAllRowsSelectedProps}) => (
+        <RowCheckbox {...getToggleAllRowsSelectedProps()} />
+    ),
+    Cell: ({ row }) => (
+        <RowCheckbox {...row.getToggleRowSelectedProps()} />
+    )
+  };
+
+  const selectionHook = featureSelection ? useRowSelect : null;
 
   const {
     getTableProps,
@@ -24,19 +39,16 @@ export const BasicTable = ({data, columns, onChange:updateData}) => {
         data,
         updateData
       },
-      useRowSelect,
+      // useRowSelect is causing two renders
+      // https://github.com/TanStack/table/issues/1496
+      // As per above don't worry about rerenders as they are performant in react-table
+      // To disable just comment out useRowSelect and Selection column
+      selectionHook,
       (hooks) => {
         hooks.visibleColumns.push((columns) => {
-          return [
-            {
-              id: "selection",
-              Header: ({getToggleAllRowsSelectedProps}) => (
-                  <RowCheckbox {...getToggleAllRowsSelectedProps()} />
-              ),
-              Cell: ({ row }) => (
-                  <RowCheckbox {...row.getToggleRowSelectedProps()} />
-              )
-            },
+          const headColumns = featureSelection ? [selectionColumn] : [];
+          return headColumns.concat([
+
             ...columns.map(col => {
               if (col.edit) {
                 if (col.type === 'input') {
@@ -49,10 +61,16 @@ export const BasicTable = ({data, columns, onChange:updateData}) => {
               }
               return col;
             }),
-          ]
+          ])
         })
       }
   );
+
+  // return (<pre>
+  // {
+  //   JSON.stringify("data", null, 2)
+  // }
+  // </pre>);
 
   return (
   <>
@@ -103,3 +121,5 @@ export const BasicTable = ({data, columns, onChange:updateData}) => {
   </>
   );
 }
+
+export default React.memo(SimpleTable);
