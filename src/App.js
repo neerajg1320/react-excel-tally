@@ -2,9 +2,17 @@ import ReadExcel from "./components/excel/xlsx/ReadExcel";
 import * as React from 'react';
 import {Routes, Route, Outlet, NavLink, useNavigate, useLocation} from 'react-router-dom';
 import {TableWrapper} from "./components/table/wrapper/TableWrapper";
+import {useEffect} from "react";
 
 const App = () => {
   console.log(`Rendering <App>`);
+
+  useEffect(() => {
+    console.log(`<App>: First render`);
+    return () => {
+      console.log(`<App>: Destroyed`);
+    }
+  }, []);
 
   return (
       <Routes>

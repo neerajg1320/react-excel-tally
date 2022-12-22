@@ -122,4 +122,5 @@ const SimpleTable = ({data, columns, onChange:updateData}) => {
   );
 }
 
-export default React.memo(SimpleTable);
+export default SimpleTable;
+// export default React.memo(SimpleTable);

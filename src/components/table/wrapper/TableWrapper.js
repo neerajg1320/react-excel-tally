@@ -3,7 +3,7 @@ import {getColumns} from "../../excel/xlsx/schema";
 import {colToRTCol} from "../adapters/reactTableAdapter";
 import SimpleTable from "../SimpleTable";
 import {presetColumns} from "../presets/presetColumns";
-import {useCallback, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import Button from "react-bootstrap/Button";
 
 // We derive columns from data
@@ -15,9 +15,17 @@ export const TableWrapper = () => {
   const {state} = useLocation();
 
   const [data, setData] = useState(state?.data);
+  // console.log(`data=${JSON.stringify(data)}`);
 
-  // const [updates, setUpdates] = useState([]);
-  const updatesRef = useRef([]);
+  const [updates, setUpdates] = useState([]);
+
+  useEffect(() => {
+    console.log(`<TableWrapper>: First render`);
+    return () => {
+      console.log(`<TableWrapper>: Destroyed`);
+    }
+  }, []);
+
 
   const attachPresetProperties = (col, index) => {
     const mPresetCols = presetColumns.filter(pcol=> pcol.key === col.key);
@@ -37,28 +45,26 @@ export const TableWrapper = () => {
   };
   const [rtColumns, setRTColumns] = useState(getColumns(data).map(attachPresetProperties))
 
-  const handleUpdateData = useCallback((row, col, value) => {
-    console.log('handleUpdateData', row, col, value);
-    // const updatesCopy = [...updates];
-    // updatesCopy.push({row, col, value});
-    // setUpdates(updatesCopy);
-    updatesRef.current.push({row, col, value});
-  }, []);
+  const handleUpdateData = (row, col, value) => {
+    // console.log('handleUpdateData', row, col, value);
+
+    // Using this is mandatory as using the updates does not work
+    setUpdates((prevState) => {
+      // console.log(`prevState=${prevState.length}`);
+      return [...prevState].concat({row, col, value});
+    });
+  };
 
   const applyUpdate = (prevData, update) => {
-    // console.log('handleUpdateData', row, col, value);
     const {row, col, value} = update
 
     const indices = [row.index];
-    // key is stored in col.label
     const values = {[col.label]: value};
 
-    console.log(`handleUpdateData: indices=${JSON.stringify(indices)} values=${JSON.stringify(values)}`);
+    console.log(`applyUpdate: indices=${JSON.stringify(indices)} values=${JSON.stringify(values)}`);
 
     const updatedData = prevData.map((item, item_idx) => {
       if (indices.includes(item_idx)) {
-        // To check rerendering of data use the following
-        // return {...item, ...values, Description: "Hello"};
         return {...item, ...values};
       }
       return {...item};
@@ -68,21 +74,20 @@ export const TableWrapper = () => {
     return updatedData;
   }
 
-  const handleSaveClick = useCallback(() => {
-    if (updatesRef.current.length < 1) {
+  const handleSaveClick =() => {
+    console.log(`updates count: ${updates.length}`);
+    if (updates.length < 1) {
       return
     }
 
-    const updatedData = updatesRef.current.reduce((prevData, update, index) => {
+    const updatedData = updates.reduce((prevData, update, index) => {
       return applyUpdate(prevData, update);
     }, data);
 
     // console.log(`updatedData=${JSON.stringify(updatedData, null, 2)}`);
     setData(updatedData);
-
-    // setUpdates([]);
-    updatesRef.current = []
-  }, []);
+    setUpdates([]);
+  };
 
   return (
       <>
@@ -96,8 +101,8 @@ export const TableWrapper = () => {
             <SimpleTable data={data} columns={rtColumns} onChange={handleUpdateData}/>
             <div>
               <Button
-                  // disabled={updatesRef.current.length < 1}
-                  onClick={handleSaveClick}
+                  disabled={updates.length < 1}
+                  onClick={e => handleSaveClick()}
               >
                 Save Changes
               </Button>
