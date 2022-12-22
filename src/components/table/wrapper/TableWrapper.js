@@ -119,6 +119,7 @@ export const TableWrapper = () => {
                 data={data}
                 columns={rtColumns}
                 onChange={handleUpdateData}
+                selection
             />
             <div style={{
               display:"flex", flexDirection:"row", gap:"20px"

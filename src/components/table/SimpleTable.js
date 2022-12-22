@@ -10,7 +10,7 @@ import SelectableCell from "./parts/selectableCell";
 import React, {useEffect, useState} from "react";
 import {debug} from "../config/debugEnabled";
 
-const SimpleTable = ({data, columns, onChange:updateData}) => {
+const SimpleTable = ({data, columns, onChange:updateData, selection}) => {
   if (debug.lifecycle) {
     console.log(`Rendering <SimpleTable>`);
   }
@@ -30,7 +30,7 @@ const SimpleTable = ({data, columns, onChange:updateData}) => {
   }, []);
 
   // The selection feature when enabled causes double render
-  const [featureSelection, setFeatureSelection] = useState(false);
+  // const [featureSelection, setFeatureSelection] = useState(false);
 
   const selectionColumn = {
     id: "selection",
@@ -42,7 +42,7 @@ const SimpleTable = ({data, columns, onChange:updateData}) => {
     )
   };
 
-  const selectionHook = featureSelection ? useRowSelect : null;
+  const selectionHook = selection ? useRowSelect : null;
 
   const {
     getTableProps,
@@ -63,7 +63,7 @@ const SimpleTable = ({data, columns, onChange:updateData}) => {
       selectionHook,
       (hooks) => {
         hooks.visibleColumns.push((columns) => {
-          const headColumns = featureSelection ? [selectionColumn] : [];
+          const headColumns = selection ? [selectionColumn] : [];
           return headColumns.concat([
 
             ...columns.map(col => {
