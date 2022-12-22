@@ -64,7 +64,7 @@ export const TableWrapper = () => {
     });
   }, []);
 
-  const applyUpdate = (prevData, update) => {
+  const applyUpdate = useCallback((prevData, update) => {
     const {row, col, value} = update
 
     const indices = [row.index];
@@ -81,9 +81,9 @@ export const TableWrapper = () => {
 
     // console.log(`updatedData=${JSON.stringify(updatedData, null, 2)}`);
     return updatedData;
-  }
+  }, []);
 
-  const handleSaveClick = () => {
+  const handleSaveClick = useCallback((updates) => {
     // console.log(`updates count: ${updates.length}`);
     if (updates.length < 1) {
       return
@@ -96,7 +96,7 @@ export const TableWrapper = () => {
     // console.log(`updatedData=${JSON.stringify(updatedData, null, 2)}`);
     setData(updatedData);
     setUpdates([]);
-  };
+  }, []);
 
   return (
       <>
@@ -111,7 +111,7 @@ export const TableWrapper = () => {
             <div>
               <Button
                   disabled={updates.length < 1}
-                  onClick={e => handleSaveClick()}
+                  onClick={e => handleSaveClick(updates)}
               >
                 Save Changes
               </Button>
