@@ -65,7 +65,7 @@ export const TableWrapper = () => {
   // Keep this function as this is used for causing a render
   // Check the behaviour before and after in case this has to be deleted
   const handleSelectionUpdate = useCallback((seletedFlatRows) => {
-    console.log(`handleSelectionUpdate: `, seletedFlatRows);
+    // console.log(`handleSelectionUpdate: `, seletedFlatRows);
     setSelectedRows(seletedFlatRows);
   }, []);
 
@@ -75,7 +75,7 @@ export const TableWrapper = () => {
 
   // convert before using this to ids and patch
   const applyUpdate = useCallback((prevData, {action, payload:{indices, patch}}) => {
-    console.log(`applyUpdate: action=${action}`);
+    // console.log(`applyUpdate: action=${action}`);
 
     switch (action) {
       case PATCH:
@@ -122,7 +122,7 @@ export const TableWrapper = () => {
   }, [commitUpdates, rTable]);
 
   const handleDataChange = useCallback((action, indices, patch) => {
-    console.log('handleDataChange:', action, indices, patch);
+    // console.log('handleDataChange:', action, indices, patch);
 
     const update = {action, payload:{indices, patch}};
 

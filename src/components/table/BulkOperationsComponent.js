@@ -40,7 +40,7 @@ const BulkOperationsComponent = () => {
 
   const handleBulkDeleteClick = useCallback(() => {
     const indices = getRowIndices(selectedFlatRows);
-    console.log(`handleBulkDeleteClick: ids=${JSON.stringify(indices)}`);
+    // console.log(`handleBulkDeleteClick: ids=${JSON.stringify(indices)}`);
 
     updateData(DELETE, indices);
     setBulkEditExpanded(false);
@@ -49,7 +49,7 @@ const BulkOperationsComponent = () => {
   const handleBulkEditSaveClick = useCallback((patch) => {
     const indices = getRowIndices(selectedFlatRows);
 
-    console.log(`handleBulkEditSaveClick: indices=${JSON.stringify(indices)} patch=${JSON.stringify(patch)}`);
+    // console.log(`handleBulkEditSaveClick: indices=${JSON.stringify(indices)} patch=${JSON.stringify(patch)}`);
     updateData(PATCH, indices, patch);
 
     setBulkEditExpanded(false);

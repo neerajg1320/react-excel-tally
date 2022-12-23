@@ -101,7 +101,7 @@ const EditSelectionTable = () => {
   } = rTable;
 
   useEffect(() => {
-    console.log(`Updated rTable`);
+    // console.log(`Updated rTable`);
     updateRTable(rTable);
   }, [rTable]);
 

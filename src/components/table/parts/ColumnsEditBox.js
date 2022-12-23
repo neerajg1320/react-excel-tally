@@ -1,10 +1,12 @@
 import Button from 'react-bootstrap/Button';
 import Select from "react-select";
 import {useEffect} from "react";
-import {debug} from "../../config/debugEnabled";
+import {debug} from "../../config/debug";
 
 const ColumnsEditBox = ({columns, onSave, onCancel, onButtonClick}) => {
-  console.log(`Rendering <ColumnsEditBox>`);
+  if (debug.lifecycle) {
+    console.log(`Rendering <ColumnsEditBox>`);
+  }
 
   useEffect(() => {
     if (debug.lifecycle) {
@@ -98,7 +100,7 @@ const ColumnsEditBox = ({columns, onSave, onCancel, onButtonClick}) => {
                         value={columnValues[col_idx].value}
                         onChange={option => {
                           columnValues[col_idx].value = option.value;
-                          console.log(`columnValues=${JSON.stringify(columnValues, null, 2)}`);
+                          // console.log(`columnValues=${JSON.stringify(columnValues, null, 2)}`);
                         }}
                         styles={{container: provided => ({
                             ...provided,
