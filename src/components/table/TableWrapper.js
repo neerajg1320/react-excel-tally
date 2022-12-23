@@ -64,9 +64,10 @@ export const TableWrapper = () => {
   const handleDataChange = useCallback((action, indices, patch) => {
     console.log('handleDataChange:', action, indices, patch);
 
-    // Using this is mandatory as using the updates does not work
+    const update = {action, payload:{indices, patch}};
+
     setUpdates((prevUpdates) => {
-      return [...prevUpdates].concat({action, payload:{indices, patch}});
+      return [...prevUpdates].concat(update);
     });
   }, []);
 
@@ -112,7 +113,7 @@ export const TableWrapper = () => {
         return applyUpdate(pData, update);
       }, prevData);
     });
-  });
+  }, [applyUpdate]);
 
   const handleCommitClick = useCallback((updates) => {
     // console.log(`updates count: ${updates.length}`);
@@ -127,7 +128,7 @@ export const TableWrapper = () => {
     // Reset the selection of rows
     const {toggleAllRowsSelected} = rTable;
     toggleAllRowsSelected(false);
-  }, [applyUpdate, rTable]);
+  }, [commitUpdates, rTable]);
 
   const handleResetClick = useCallback((updates) => {
     // setTableKey((prevTableKey) => prevTableKey + 1);
