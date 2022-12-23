@@ -96,7 +96,10 @@ const ColumnsEditBox = ({columns, onSave, onCancel, onButtonClick}) => {
                     <Select
                         options={col.choices.map(choice => {return {label: choice, value:choice}})}
                         value={columnValues[col_idx].value}
-                        onChange={option => {columnValues[col_idx].value = option.value}}
+                        onChange={option => {
+                          columnValues[col_idx].value = option.value;
+                          console.log(`columnValues=${JSON.stringify(columnValues, null, 2)}`);
+                        }}
                         styles={{container: provided => ({
                             ...provided,
                             width: 150

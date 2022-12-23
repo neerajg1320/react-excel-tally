@@ -49,6 +49,7 @@ const BulkOperationsComponent = () => {
 
     console.log(`handleBulkEditSaveClick: indices=${JSON.stringify(indices)} patch=${JSON.stringify(patch)}`);
     updateData(indices, patch);
+    setBulkEditExpanded(false);
   }, [selectedFlatRows]);
 
   const handleBulkEditCancelClick = useCallback(() => {
