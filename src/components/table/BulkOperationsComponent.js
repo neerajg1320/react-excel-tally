@@ -32,17 +32,26 @@ const BulkOperationsComponent = () => {
     }
   }, []);
 
+  const getRowIndices = useCallback((selRows) => {
+    return selRows.map(row => {
+      return row.index;
+    });
+  }, []);
 
   const handleBulkDeleteClick = useCallback(() => {
+    const ids = getRowIndices(selectedFlatRows);
 
-  }, []);
+    console.log(`handleBulkDeleteClick: ids=${JSON.stringify(ids)}`);
+  }, [selectedFlatRows]);
 
   const handleBulkEditSaveClick = useCallback((values) => {
-    console.log(`handleBulkEditSaveClick: values=${JSON.stringify(values)}`);
-  }, []);
+    const ids = getRowIndices(selectedFlatRows);
+
+    console.log(`handleBulkEditSaveClick: ids=${JSON.stringify(ids)} values=${JSON.stringify(values)}`);
+  }, [selectedFlatRows]);
 
   const handleBulkEditCancelClick = useCallback(() => {
-
+    setBulkEditExpanded(false);
   }, []);
 
   const handleClearSelectionClick = useCallback(() => {
