@@ -104,9 +104,9 @@ const EditSelectionTable = () => {
 
   // This is causing additional rerender
   // console.log(`selectedFlatRows=${selectedFlatRows}`);
-  // useEffect(() => {
-  //   updateSelection(selectedFlatRows);
-  // }, [selectedFlatRows]);
+  useEffect(() => {
+    updateSelection(selectedFlatRows);
+  }, [selectedFlatRows]);
 
   return (
   <>

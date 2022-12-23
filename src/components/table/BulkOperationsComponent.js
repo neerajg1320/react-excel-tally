@@ -6,19 +6,17 @@ import Button from "react-bootstrap/Button";
 import ExpandableButton from "../expandableButton/ExpandableButton";
 import ColumnsEditBox from "./parts/ColumnsEditBox";
 
-const BulkOperationsTable = () => {
-  const {columns, rTable:{selectedRows}} = useContext(TableDataContext);
+const BulkOperationsComponent = () => {
+  if (debug.lifecycle) {
+    console.log(`Rendering <BulkOperationsComponent>`);
+  }
 
-  const bulkEnabled = useMemo(() => {
-    return selectedRows?.length > 0
-  }, [selectedRows]);
+  const {columns, selectedRows} = useContext(TableDataContext);
+  console.log(selectedRows);
 
+  const bulkEnabled = selectedRows && selectedRows?.length > 0;
   const [bulkEditExpanded, setBulkEditExpanded] = useState(false);
 
-  if (debug.lifecycle) {
-    console.log(`Rendering <BulkOperationsTable>`);
-  }
-  
   // For debugging purpose
   useEffect(() => {
     if (debug.lifecycle) {
@@ -57,7 +55,7 @@ const BulkOperationsTable = () => {
   console.log(`bulkColumns=${JSON.stringify(bulkColumns.map(col => col.key))}`);
 
   return (
-      <>
+
         <div style={{display:"flex", gap: "10px", padding:"20px"}}>
           <Button variant="danger" size="sm"
                   disabled={!bulkEnabled}
@@ -90,12 +88,10 @@ const BulkOperationsTable = () => {
           </Button>
         </div>
 
-        <EditSelectionTable />
-      </>
   );
 }
 
 // export default EditSelectionTable;
 
 // We use React.memo when we want to render the child only when any props change
-export default React.memo(BulkOperationsTable);
+export default React.memo(BulkOperationsComponent);

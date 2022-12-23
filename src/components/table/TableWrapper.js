@@ -2,11 +2,12 @@ import {useLocation} from "react-router-dom";
 import {getColumns} from "../excel/xlsx/schema";
 import {colToRTCol} from "./adapters/reactTableAdapter";
 import {presetColumns} from "./presets/presetColumns";
-import {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import Button from "react-bootstrap/Button";
 import {debug} from "../config/debug";
-import BulkOperationsTable from "./BulkOperationsTable";
+import BulkOperationsComponent from "./BulkOperationsComponent";
 import TableDataContext from "./TableDataContext";
+import EditSelectionTable from "./EditSelectionTable";
 
 // We derive columns from data
 // We will just convert the columns.
@@ -22,6 +23,7 @@ export const TableWrapper = () => {
   const [data, setData] = useState(state?.data);
   // console.log(`data=${JSON.stringify(data)}`);
   const [rTable, setRTable] = useState({})
+  const [selectedRows, setSelectedRows] = useState([])
 
   const [updates, setUpdates] = useState([]);
   const tableKeyRef = useRef(1);
@@ -68,9 +70,10 @@ export const TableWrapper = () => {
     });
   }, []);
 
-  const handleRTableUpdate = useCallback((rt) => {
-    console.log(`handleRTableUpdate: `);
-    setRTable(rt);
+  const handleSelectionUpdate = useCallback((seletedFlatRows) => {
+    console.log(`handleSelectionUpdate: `, seletedFlatRows);
+    // setRTable(rt);
+    setSelectedRows(seletedFlatRows);
   }, []);
 
   const applyUpdate = useCallback((prevData, update) => {
@@ -121,8 +124,9 @@ export const TableWrapper = () => {
           columns: rtColumns,
           onChange: handleUpdateData,
           selection: true,
+          selectedRows,
           rTable,
-          onRTableChange: handleRTableUpdate
+          onSelectionChange: handleSelectionUpdate
         }}>
           {!data &&
             <h1>Please upload an excel file</h1>
@@ -131,9 +135,12 @@ export const TableWrapper = () => {
             <div style={{
               display:"flex", flexDirection:"column", gap:"20px", alignItems:"center",
             }}>
-              <BulkOperationsTable
+              <BulkOperationsComponent
                   key={tableKeyRef.current}
               />
+
+              <EditSelectionTable />
+
               <div style={{
                 display:"flex", flexDirection:"row", gap:"20px"
               }}>
