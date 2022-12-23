@@ -132,8 +132,11 @@ export const TableWrapper = () => {
       });
     } else {
       commitUpdates([update]);
+      // Reset the selection of rows
+      const {toggleAllRowsSelected} = rTable;
+      toggleAllRowsSelected(false);
     }
-  }, [commitUpdates]);
+  }, [commitUpdates, rTable]);
 
 
   const handleResetClick = useCallback((updates) => {
