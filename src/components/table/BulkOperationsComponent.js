@@ -39,15 +39,16 @@ const BulkOperationsComponent = () => {
   }, []);
 
   const handleBulkDeleteClick = useCallback(() => {
-    const ids = getRowIndices(selectedFlatRows);
+    const indices = getRowIndices(selectedFlatRows);
 
-    console.log(`handleBulkDeleteClick: ids=${JSON.stringify(ids)}`);
+    console.log(`handleBulkDeleteClick: ids=${JSON.stringify(indices)}`);
   }, [selectedFlatRows]);
 
-  const handleBulkEditSaveClick = useCallback((values) => {
-    const ids = getRowIndices(selectedFlatRows);
+  const handleBulkEditSaveClick = useCallback((patch) => {
+    const indices = getRowIndices(selectedFlatRows);
 
-    console.log(`handleBulkEditSaveClick: ids=${JSON.stringify(ids)} values=${JSON.stringify(values)}`);
+    console.log(`handleBulkEditSaveClick: indices=${JSON.stringify(indices)} patch=${JSON.stringify(patch)}`);
+    updateData(indices, patch);
   }, [selectedFlatRows]);
 
   const handleBulkEditCancelClick = useCallback(() => {
@@ -87,7 +88,7 @@ const BulkOperationsComponent = () => {
           >
             <ColumnsEditBox
                 columns={bulkColumns}
-                onEdit={values => handleBulkEditSaveClick(values)}
+                onEdit={patch => handleBulkEditSaveClick(patch)}
                 onCancel={handleBulkEditCancelClick}
                 disabled={!bulkEnabled}
             />

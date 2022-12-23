@@ -29,7 +29,7 @@ const EditSelectionTable = () => {
     console.log(`Rendering <EditSelectionTable>`);
   }
   console.log(`data.length=${data.length} columns.length=${columns.length}`);
-  // console.log(JSON.stringify(data, null, 2));
+  console.log(JSON.stringify(data, null, 2));
 
   // For debugging purpose
   useEffect(() => {
