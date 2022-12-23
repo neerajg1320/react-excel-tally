@@ -1,10 +1,15 @@
 import {debug} from "../config/debugEnabled";
-import React, {useContext, useEffect, useMemo} from "react";
+import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import EditSelectionTable from "./EditSelectionTable";
 import TableDataContext from "./TableDataContext";
+import Button from "react-bootstrap/Button";
+import ExpandableButton from "../expandableButton/ExpandableButton";
+import ColumnsEditBox from "./parts/ColumnsEditBox";
 
 const BulkOperationsTable = () => {
   const {columns} = useContext(TableDataContext);
+  const [bulkEnabled, setBulkEnabled] = useState(true);
+  const [bulkEditExpanded, setBulkEditExpanded] = useState(false);
 
   if (debug.lifecycle) {
     console.log(`Rendering <BulkOperationsTable>`);
@@ -24,6 +29,21 @@ const BulkOperationsTable = () => {
   }, []);
 
 
+  const handleBulkDeleteClick = useCallback(() => {
+
+  }, []);
+
+  const handleBulkEditSaveClick = useCallback(() => {
+
+  }, []);
+
+  const handleBulkEditCancelClick = useCallback(() => {
+
+  }, []);
+
+  const handleClearSelectionClick = useCallback(() => {
+
+  }, []);
 
   // Support bulk select
   const bulkColumns = useMemo(() => {
@@ -34,6 +54,38 @@ const BulkOperationsTable = () => {
 
   return (
       <>
+        <div style={{display:"flex", gap: "10px", padding:"20px"}}>
+          <Button variant="danger" size="sm"
+                  disabled={!bulkEnabled}
+                  onClick={e => handleBulkDeleteClick()}
+          >
+            Bulk Delete
+          </Button>
+
+          {/* We should try and replace below */}
+          <ExpandableButton
+              title="Bulk Edit"
+              disabled={!bulkColumns.length || !bulkEnabled}
+              value={bulkEditExpanded}
+              onChange={exp => setBulkEditExpanded(exp)}
+              popupPosition={{left: "60px", top: "25px"}}
+          >
+            <ColumnsEditBox
+                columns={bulkColumns}
+                onEdit={values => handleBulkEditSaveClick(values)}
+                onCancel={handleBulkEditCancelClick}
+                disabled={!bulkEnabled}
+            />
+          </ExpandableButton>
+
+          <Button variant="outline-dark" size="sm"
+                  disabled={!bulkEnabled}
+                  onClick={handleClearSelectionClick}
+          >
+            Clear
+          </Button>
+        </div>
+
         <EditSelectionTable />
       </>
   );
