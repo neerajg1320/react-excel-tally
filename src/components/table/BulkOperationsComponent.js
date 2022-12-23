@@ -11,7 +11,7 @@ const BulkOperationsComponent = () => {
     console.log(`Rendering <BulkOperationsComponent>`);
   }
 
-  const {columns, rTable} = useContext(TableDataContext);
+  const {columns, rTable, onChange:updateData} = useContext(TableDataContext);
 
   console.log(rTable);
   const {selectedFlatRows, toggleAllRowsSelected} = rTable;

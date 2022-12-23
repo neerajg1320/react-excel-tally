@@ -80,17 +80,18 @@ export const TableWrapper = () => {
     setRTable(rt);
   }, []);
 
+  // convert before using this to ids and patch
   const applyUpdate = useCallback((prevData, update) => {
     const {row, col, value} = update
 
     const indices = [row.index];
-    const values = {[col.label]: value};
+    const patch = {[col.label]: value};
 
-    console.log(`applyUpdate: indices=${JSON.stringify(indices)} values=${JSON.stringify(values)}`);
+    console.log(`applyUpdate: indices=${JSON.stringify(indices)} patch=${JSON.stringify(patch)}`);
 
     const updatedData = prevData.map((item, item_idx) => {
       if (indices.includes(item_idx)) {
-        return {...item, ...values};
+        return {...item, ...patch};
       }
       return {...item};
     })
