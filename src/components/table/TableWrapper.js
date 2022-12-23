@@ -62,7 +62,7 @@ export const TableWrapper = () => {
   const [rtColumns, setRTColumns] = useState(getColumns(data).map(attachPresetProperties));
 
   const handleDataChange = useCallback((action, indices, patch) => {
-    console.log('handleDataChange:', indices, patch);
+    console.log('handleDataChange:', action, indices, patch);
 
     // Using this is mandatory as using the updates does not work
     setUpdates((prevUpdates) => {
@@ -105,23 +105,27 @@ export const TableWrapper = () => {
     }
   }, []);
 
+  const commitUpdates = useCallback((updates) => {
+    // Since data is updated on the previous state
+    setData((prevData) => {
+      return updates.reduce((pData, update, index) => {
+        return applyUpdate(pData, update);
+      }, prevData);
+    });
+  });
+
   const handleCommitClick = useCallback((updates) => {
     // console.log(`updates count: ${updates.length}`);
     if (updates.length < 1) {
       return
     }
 
-    // Since data is updated on the previous state
-    setData((prevData) => {
-      return updates.reduce((pData, update, index) => {
-            return applyUpdate(pData, update);
-          }, prevData);
-    });
+    commitUpdates(updates);
 
     setUpdates([]);
 
     // Reset the selection of rows
-    const {selectedFlatRows, toggleAllRowsSelected} = rTable;
+    const {toggleAllRowsSelected} = rTable;
     toggleAllRowsSelected(false);
   }, [applyUpdate, rTable]);
 
