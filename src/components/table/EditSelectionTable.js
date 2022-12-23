@@ -119,7 +119,7 @@ const EditSelectionTable = () => {
 
   return (
   <>
-  <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
+  {/*<GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>*/}
   <table {...getTableProps()}>
     <thead>
     {headerGroups.map(headerGroup => (

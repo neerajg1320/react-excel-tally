@@ -9,6 +9,7 @@ import BulkOperationsComponent from "./BulkOperationsComponent";
 import TableDataContext from "./TableDataContext";
 import EditSelectionTable from "./EditSelectionTable";
 import {DELETE, PATCH} from "./common/operationsTypes";
+import GlobalFilterSection from "./GlobalFilterSection";
 
 // We derive columns from data
 // We will just convert the columns.
@@ -170,7 +171,7 @@ export const TableWrapper = () => {
               <BulkOperationsComponent
                   key={tableKeyRef.current}
               />
-
+              <GlobalFilterSection />
               <EditSelectionTable />
 
               {updateWithCommit &&
