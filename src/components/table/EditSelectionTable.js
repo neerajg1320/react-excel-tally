@@ -7,16 +7,18 @@ import {RowCheckbox} from "./parts/RowCheckbox";
 // import EditableCell from "./parts/editableCell";
 import EditableCell from "./parts/editableControlledCell";
 import SelectableCell from "./parts/selectableCell";
-import React, {useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import {debug} from "../config/debugEnabled";
-
+import TableDataContext from "./TableDataContext";
 
 // Supports:
 //  - Rows Selection
 //  - Edit cells using input and select
 
 
-const EditSelectionTable = ({data, columns, onChange:updateData, selection}) => {
+const EditSelectionTable = () => {
+  const {data, columns, onChange:updateData, selection} = useContext(TableDataContext);
+
   if (debug.lifecycle) {
     console.log(`Rendering <EditSelectionTable>`);
   }

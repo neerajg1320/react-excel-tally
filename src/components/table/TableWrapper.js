@@ -6,10 +6,12 @@ import {useCallback, useEffect, useRef, useState} from "react";
 import Button from "react-bootstrap/Button";
 import {debug} from "../config/debug";
 import BulkOperationsTable from "./BulkOperationsTable";
+import TableDataContext from "./TableDataContext";
 
 // We derive columns from data
 // We will just convert the columns.
 // Any modification of columns should be handled above this.
+
 
 export const TableWrapper = () => {
   if (debug.lifecycle) {
@@ -108,39 +110,42 @@ export const TableWrapper = () => {
 
   return (
       <>
-        {!data &&
-          <h1>Please upload an excel file</h1>
-        }
-        {data &&
-          <div style={{
-            display:"flex", flexDirection:"column", gap:"20px", alignItems:"center",
-          }}>
-            <BulkOperationsTable
-                key={tableKeyRef.current}
-                data={data}
-                columns={rtColumns}
-                onChange={handleUpdateData}
-                // selection
-            />
+        <TableDataContext.Provider value={{
+          data,
+          columns: rtColumns,
+          onChange: handleUpdateData,
+          selection: false
+        }}>
+          {!data &&
+            <h1>Please upload an excel file</h1>
+          }
+          {data &&
             <div style={{
-              display:"flex", flexDirection:"row", gap:"20px"
+              display:"flex", flexDirection:"column", gap:"20px", alignItems:"center",
             }}>
-              <Button
-                  className="btn-outline-primary bg-transparent"
-                  disabled={updates.length < 1}
-                  onClick={e => handleResetClick(updates)}
-              >
-                Reset
-              </Button>
-              <Button
-                  disabled={updates.length < 1}
-                  onClick={e => handleSaveClick(updates)}
-              >
-                Save Changes
-              </Button>
+              <BulkOperationsTable
+                  key={tableKeyRef.current}
+              />
+              <div style={{
+                display:"flex", flexDirection:"row", gap:"20px"
+              }}>
+                <Button
+                    className="btn-outline-primary bg-transparent"
+                    disabled={updates.length < 1}
+                    onClick={e => handleResetClick(updates)}
+                >
+                  Reset
+                </Button>
+                <Button
+                    disabled={updates.length < 1}
+                    onClick={e => handleSaveClick(updates)}
+                >
+                  Save Changes
+                </Button>
+              </div>
             </div>
-          </div>
-        }
+          }
+        </TableDataContext.Provider>
       </>
   );
 

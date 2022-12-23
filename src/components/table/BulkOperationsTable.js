@@ -1,8 +1,11 @@
 import {debug} from "../config/debugEnabled";
-import React, {useEffect, useMemo} from "react";
+import React, {useContext, useEffect, useMemo} from "react";
 import EditSelectionTable from "./EditSelectionTable";
+import TableDataContext from "./TableDataContext";
 
-const BulkOperationsTable = ({data, columns, onChange:updateData, selection}) => {
+const BulkOperationsTable = () => {
+  const {columns} = useContext(TableDataContext);
+
   if (debug.lifecycle) {
     console.log(`Rendering <BulkOperationsTable>`);
   }
@@ -31,12 +34,7 @@ const BulkOperationsTable = ({data, columns, onChange:updateData, selection}) =>
 
   return (
       <>
-        <EditSelectionTable {...{
-          data,
-          columns,
-          onChange:updateData,
-          // selection
-        }}/>
+        <EditSelectionTable />
       </>
   );
 }
