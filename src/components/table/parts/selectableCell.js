@@ -24,7 +24,7 @@ const SelectableCell = ({value: initialValue, row, column, updateData, choices})
   const handleSelect = useCallback((opt) => {
     // console.log(opt.value);
     setValue(opt.value);
-    updateData(row, column, opt.value);
+    updateData([row.index], column, opt.value);
   }, []);
 
   return (
