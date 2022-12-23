@@ -70,9 +70,10 @@ export const TableWrapper = () => {
     });
   }, []);
 
+  // Keep this function as this is used for causing a render
+  // Check the behaviour before and after in case this has to be deleted
   const handleSelectionUpdate = useCallback((seletedFlatRows) => {
     console.log(`handleSelectionUpdate: `, seletedFlatRows);
-    // setRTable(rt);
     setSelectedRows(seletedFlatRows);
   }, []);
 
@@ -117,7 +118,11 @@ export const TableWrapper = () => {
           }, prevData);
     });
     setUpdates([]);
-  }, [applyUpdate]);
+
+    // Reset the selection of rows
+    const {selectedFlatRows, toggleAllRowsSelected} = rTable;
+    toggleAllRowsSelected(false);
+  }, [applyUpdate, rTable]);
 
   const handleResetClick = useCallback((updates) => {
     // setTableKey((prevTableKey) => prevTableKey + 1);
