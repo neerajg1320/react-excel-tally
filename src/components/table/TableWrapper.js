@@ -171,8 +171,9 @@ export const TableWrapper = () => {
             }}>
 
               <div style={{
-                display:"flex", flexDirection:"row", justifyContent:'space-between',
-                width: "100%", padding: "0 40px", border:"1px dashed red"
+                display:"flex", flexDirection:"row", justifyContent:'space-between', gap:"40px",
+                width: "100%", padding: "0 40px",
+                // border:"1px dashed red"
               }}>
                 <BulkOperationsSection />
                 <GlobalFilterSection />
