@@ -1,11 +1,11 @@
 import {useLocation} from "react-router-dom";
-import {getColumns} from "../../excel/xlsx/schema";
-import {colToRTCol} from "../adapters/reactTableAdapter";
-import SimpleTable from "../SimpleTable";
-import {presetColumns} from "../presets/presetColumns";
+import {getColumns} from "../excel/xlsx/schema";
+import {colToRTCol} from "./adapters/reactTableAdapter";
+import {presetColumns} from "./presets/presetColumns";
 import {useCallback, useEffect, useRef, useState} from "react";
 import Button from "react-bootstrap/Button";
-import {debug} from "../../config/debug";
+import {debug} from "../config/debug";
+import BulkOperationsTable from "./BulkOperationsTable";
 
 // We derive columns from data
 // We will just convert the columns.
@@ -52,6 +52,7 @@ export const TableWrapper = () => {
     col.index = index;
     return colToRTCol(col);
   };
+  // eslint-disable-next-line
   const [rtColumns, setRTColumns] = useState(getColumns(data).map(attachPresetProperties));
 
 
@@ -96,7 +97,7 @@ export const TableWrapper = () => {
           }, prevData);
     });
     setUpdates([]);
-  }, []);
+  }, [applyUpdate]);
 
   const handleResetClick = useCallback((updates) => {
     // setTableKey((prevTableKey) => prevTableKey + 1);
@@ -114,12 +115,12 @@ export const TableWrapper = () => {
           <div style={{
             display:"flex", flexDirection:"column", gap:"20px", alignItems:"center",
           }}>
-            <SimpleTable
+            <BulkOperationsTable
                 key={tableKeyRef.current}
                 data={data}
                 columns={rtColumns}
                 onChange={handleUpdateData}
-                selection
+                // selection
             />
             <div style={{
               display:"flex", flexDirection:"row", gap:"20px"

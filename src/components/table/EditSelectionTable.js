@@ -7,31 +7,37 @@ import {RowCheckbox} from "./parts/RowCheckbox";
 // import EditableCell from "./parts/editableCell";
 import EditableCell from "./parts/editableControlledCell";
 import SelectableCell from "./parts/selectableCell";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {debug} from "../config/debugEnabled";
 
-const SimpleTable = ({data, columns, onChange:updateData, selection}) => {
+
+// Supports:
+//  - Rows Selection
+//  - Edit cells using input and select
+
+
+const EditSelectionTable = ({data, columns, onChange:updateData, selection}) => {
   if (debug.lifecycle) {
-    console.log(`Rendering <SimpleTable>`);
+    console.log(`Rendering <EditSelectionTable>`);
   }
   console.log(`data.length=${data.length} columns.length=${columns.length}`);
   // console.log(JSON.stringify(data, null, 2));
 
+  // For debugging purpose
   useEffect(() => {
     if (debug.lifecycle) {
-      console.log(`<SimpleTable>: First render`);
+      console.log(`<EditSelectionTable>: First render`);
     }
 
     return () => {
       if (debug.lifecycle) {
-        console.log(`<SimpleTable>: Destroyed`);
+        console.log(`<EditSelectionTable>: Destroyed`);
       }
     }
   }, []);
 
-  // The selection feature when enabled causes double render
-  // const [featureSelection, setFeatureSelection] = useState(false);
 
+  // Support row select
   const selectionColumn = {
     id: "selection",
     Header: ({getToggleAllRowsSelectedProps}) => (
@@ -41,8 +47,8 @@ const SimpleTable = ({data, columns, onChange:updateData, selection}) => {
         <RowCheckbox {...row.getToggleRowSelectedProps()} />
     )
   };
-
   const selectionHook = selection ? useRowSelect : null;
+
 
   const {
     getTableProps,
@@ -65,7 +71,6 @@ const SimpleTable = ({data, columns, onChange:updateData, selection}) => {
         hooks.visibleColumns.push((columns) => {
           const headColumns = selection ? [selectionColumn] : [];
           return headColumns.concat([
-
             ...columns.map(col => {
               if (col.edit) {
                 if (col.type === 'input') {
@@ -83,11 +88,6 @@ const SimpleTable = ({data, columns, onChange:updateData, selection}) => {
       }
   );
 
-  // return (<pre>
-  // {
-  //   JSON.stringify("data", null, 2)
-  // }
-  // </pre>);
 
   return (
   <>
@@ -139,7 +139,7 @@ const SimpleTable = ({data, columns, onChange:updateData, selection}) => {
   );
 }
 
-// export default SimpleTable;
+// export default EditSelectionTable;
 
 // We use React.memo when we want to render the child only when any props change
-export default React.memo(SimpleTable);
+export default React.memo(EditSelectionTable);

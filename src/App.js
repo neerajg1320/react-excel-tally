@@ -1,7 +1,7 @@
 import ReadExcel from "./components/excel/xlsx/ReadExcel";
 import * as React from 'react';
 import {Routes, Route, Outlet, NavLink, useNavigate} from 'react-router-dom';
-import {TableWrapper} from "./components/table/wrapper/TableWrapper";
+import {TableWrapper} from "./components/table/TableWrapper";
 import {useEffect} from "react";
 import {debug} from "./components/config/debug";
 
