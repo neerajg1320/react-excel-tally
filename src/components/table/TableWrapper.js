@@ -2,7 +2,7 @@ import {useLocation} from "react-router-dom";
 import {getColumns} from "../excel/xlsx/schema";
 import {colToRTCol} from "./adapters/reactTableAdapter";
 import {presetColumns} from "./presets/presetColumns";
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import Button from "react-bootstrap/Button";
 import {debug} from "../config/debug";
 import BulkOperationsComponent from "./BulkOperationsComponent";
@@ -26,6 +26,7 @@ export const TableWrapper = () => {
   const [rTable, setRTable] = useState({})
   const [selectedRows, setSelectedRows] = useState([])
 
+  const updateWithCommit = useMemo(() => false, []);
   const [updates, setUpdates] = useState([]);
   const tableKeyRef = useRef(1);
 
@@ -60,16 +61,6 @@ export const TableWrapper = () => {
   };
   // eslint-disable-next-line
   const [rtColumns, setRTColumns] = useState(getColumns(data).map(attachPresetProperties));
-
-  const handleDataChange = useCallback((action, indices, patch) => {
-    console.log('handleDataChange:', action, indices, patch);
-
-    const update = {action, payload:{indices, patch}};
-
-    setUpdates((prevUpdates) => {
-      return [...prevUpdates].concat(update);
-    });
-  }, []);
 
   // Keep this function as this is used for causing a render
   // Check the behaviour before and after in case this has to be deleted
@@ -130,6 +121,21 @@ export const TableWrapper = () => {
     toggleAllRowsSelected(false);
   }, [commitUpdates, rTable]);
 
+  const handleDataChange = useCallback((action, indices, patch) => {
+    console.log('handleDataChange:', action, indices, patch);
+
+    const update = {action, payload:{indices, patch}};
+
+    if (updateWithCommit) {
+      setUpdates((prevUpdates) => {
+        return [...prevUpdates].concat(update);
+      });
+    } else {
+      commitUpdates([update]);
+    }
+  }, [commitUpdates]);
+
+
   const handleResetClick = useCallback((updates) => {
     // setTableKey((prevTableKey) => prevTableKey + 1);
     tableKeyRef.current += 1;
@@ -162,8 +168,9 @@ export const TableWrapper = () => {
 
               <EditSelectionTable />
 
+              {updateWithCommit &&
               <div style={{
-                display:"flex", flexDirection:"row", gap:"20px"
+                display: "flex", flexDirection: "row", gap: "20px"
               }}>
                 <Button
                     className="btn-outline-primary bg-transparent"
@@ -179,6 +186,7 @@ export const TableWrapper = () => {
                   Commit
                 </Button>
               </div>
+              }
             </div>
           }
         </TableDataContext.Provider>
