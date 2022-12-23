@@ -61,12 +61,12 @@ export const TableWrapper = () => {
   // eslint-disable-next-line
   const [rtColumns, setRTColumns] = useState(getColumns(data).map(attachPresetProperties));
 
-  const handleUpdateData = useCallback((action, indices, patch) => {
-    console.log('handleUpdateData:', indices, patch);
+  const handleDataChange = useCallback((action, indices, patch) => {
+    console.log('handleDataChange:', indices, patch);
 
     // Using this is mandatory as using the updates does not work
-    setUpdates((prevState) => {
-      return [...prevState].concat({action, payload:{indices, patch}});
+    setUpdates((prevUpdates) => {
+      return [...prevUpdates].concat({action, payload:{indices, patch}});
     });
   }, []);
 
@@ -117,6 +117,7 @@ export const TableWrapper = () => {
             return applyUpdate(pData, update);
           }, prevData);
     });
+
     setUpdates([]);
 
     // Reset the selection of rows
@@ -136,7 +137,7 @@ export const TableWrapper = () => {
         <TableDataContext.Provider value={{
           data,
           columns: rtColumns,
-          onChange: handleUpdateData,
+          onChange: handleDataChange,
           selection: true,
           selectedRows,
           rTable,
