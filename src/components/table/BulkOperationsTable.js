@@ -49,45 +49,45 @@ const BulkOperationsTable = () => {
   }, []);
 
   // Support bulk select
-  const bulkColumns = useMemo(() => {
-    return columns?.length ? columns.filter(col => col.bulk) : [];
-  }, [columns]);
-
-  console.log(`bulkColumns=${JSON.stringify(bulkColumns.map(col => col.key))}`);
+  // const bulkColumns = useMemo(() => {
+  //   return columns?.length ? columns.filter(col => col.bulk) : [];
+  // }, [columns]);
+  //
+  // console.log(`bulkColumns=${JSON.stringify(bulkColumns.map(col => col.key))}`);
 
   return (
       <>
-        <div style={{display:"flex", gap: "10px", padding:"20px"}}>
-          <Button variant="danger" size="sm"
-                  disabled={!bulkEnabled}
-                  onClick={e => handleBulkDeleteClick()}
-          >
-            Bulk Delete
-          </Button>
+        {/*<div style={{display:"flex", gap: "10px", padding:"20px"}}>*/}
+        {/*  <Button variant="danger" size="sm"*/}
+        {/*          disabled={!bulkEnabled}*/}
+        {/*          onClick={e => handleBulkDeleteClick()}*/}
+        {/*  >*/}
+        {/*    Bulk Delete*/}
+        {/*  </Button>*/}
 
-          {/* We should try and replace below */}
-          <ExpandableButton
-              title="Bulk Edit"
-              disabled={!bulkColumns.length || !bulkEnabled}
-              value={bulkEditExpanded}
-              onChange={exp => setBulkEditExpanded(exp)}
-              popupPosition={{left: "60px", top: "25px"}}
-          >
-            <ColumnsEditBox
-                columns={bulkColumns}
-                onEdit={values => handleBulkEditSaveClick(values)}
-                onCancel={handleBulkEditCancelClick}
-                disabled={!bulkEnabled}
-            />
-          </ExpandableButton>
+        {/*  /!* We should try and replace below *!/*/}
+        {/*  <ExpandableButton*/}
+        {/*      title="Bulk Edit"*/}
+        {/*      disabled={!bulkColumns.length || !bulkEnabled}*/}
+        {/*      value={bulkEditExpanded}*/}
+        {/*      onChange={exp => setBulkEditExpanded(exp)}*/}
+        {/*      popupPosition={{left: "60px", top: "25px"}}*/}
+        {/*  >*/}
+        {/*    <ColumnsEditBox*/}
+        {/*        columns={bulkColumns}*/}
+        {/*        onEdit={values => handleBulkEditSaveClick(values)}*/}
+        {/*        onCancel={handleBulkEditCancelClick}*/}
+        {/*        disabled={!bulkEnabled}*/}
+        {/*    />*/}
+        {/*  </ExpandableButton>*/}
 
-          <Button variant="outline-dark" size="sm"
-                  disabled={!bulkEnabled}
-                  onClick={handleClearSelectionClick}
-          >
-            Clear
-          </Button>
-        </div>
+        {/*  <Button variant="outline-dark" size="sm"*/}
+        {/*          disabled={!bulkEnabled}*/}
+        {/*          onClick={handleClearSelectionClick}*/}
+        {/*  >*/}
+        {/*    Clear*/}
+        {/*  </Button>*/}
+        {/*</div>*/}
 
         <EditSelectionTable />
       </>

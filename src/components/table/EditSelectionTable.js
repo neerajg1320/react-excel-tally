@@ -56,16 +56,7 @@ const EditSelectionTable = () => {
   };
   const selectionHook = selection ? useRowSelect : null;
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    footerGroups,
-    rows,
-    prepareRow,
-    selectedFlatRows,
-    toggleAllRowsSelected,
-  } = useTable({
+  const rTable = useTable({
         columns,
         data,
         updateData
@@ -96,10 +87,26 @@ const EditSelectionTable = () => {
       }
   );
 
-  // console.log(`selectedFlatRows=${selectedFlatRows}`);
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    footerGroups,
+    rows,
+    prepareRow,
+    selectedFlatRows,
+    toggleAllRowsSelected,
+  } = rTable;
+
   useEffect(() => {
-    updateSelection(selectedFlatRows);
-  }, [selectedFlatRows]);
+    console.log(`Updated rTable`);
+  }, [rTable]);
+
+  // This is causing additional rerender
+  // console.log(`selectedFlatRows=${selectedFlatRows}`);
+  // useEffect(() => {
+  //   updateSelection(selectedFlatRows);
+  // }, [selectedFlatRows]);
 
   return (
   <>
