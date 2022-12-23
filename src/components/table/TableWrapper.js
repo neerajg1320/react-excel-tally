@@ -27,7 +27,7 @@ export const TableWrapper = () => {
   const [rTable, setRTable] = useState({})
   const [selectedRows, setSelectedRows] = useState([])
 
-  const updateWithCommit = useMemo(() => false, []);
+  const updateWithCommit = useMemo(() => true, []);
   const [updates, setUpdates] = useState([]);
   const tableKeyRef = useRef(1);
 
@@ -71,6 +71,7 @@ export const TableWrapper = () => {
   }, []);
 
   const handleRTableChange = useCallback((rt) => {
+    console.log(`handleRTableChange: `, rt);
     setRTable(rt);
   }, []);
 
@@ -168,11 +169,11 @@ export const TableWrapper = () => {
             <div style={{
               display:"flex", flexDirection:"column", gap:"20px", alignItems:"center",
             }}>
-              <BulkOperationsComponent
-                  key={tableKeyRef.current}
-              />
+
+              <BulkOperationsComponent />
               <GlobalFilterSection />
-              <EditSelectionTable />
+
+              <EditSelectionTable key={tableKeyRef.current} />
 
               {updateWithCommit &&
               <div style={{
