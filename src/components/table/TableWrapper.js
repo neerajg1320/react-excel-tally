@@ -76,6 +76,10 @@ export const TableWrapper = () => {
     setSelectedRows(seletedFlatRows);
   }, []);
 
+  const handleRTableChange = useCallback((rt) => {
+    setRTable(rt);
+  }, []);
+
   const applyUpdate = useCallback((prevData, update) => {
     const {row, col, value} = update
 
@@ -126,7 +130,8 @@ export const TableWrapper = () => {
           selection: true,
           selectedRows,
           rTable,
-          onSelectionChange: handleSelectionUpdate
+          onSelectionChange: handleSelectionUpdate,
+          onRTableChange: handleRTableChange
         }}>
           {!data &&
             <h1>Please upload an excel file</h1>

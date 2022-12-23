@@ -21,7 +21,8 @@ const EditSelectionTable = () => {
     columns,
     onChange:updateData,
     selection,
-    onSelectionChange: updateSelection
+    onSelectionChange: updateSelection,
+    onRTableChange: updateRTable
   } = useContext(TableDataContext);
 
   if (debug.lifecycle) {
@@ -59,7 +60,8 @@ const EditSelectionTable = () => {
   const rTable = useTable({
         columns,
         data,
-        updateData
+        updateData,
+        autoResetSelectedRows: false,
       },
       // useRowSelect is causing two renders
       // https://github.com/TanStack/table/issues/1496
@@ -100,6 +102,7 @@ const EditSelectionTable = () => {
 
   useEffect(() => {
     console.log(`Updated rTable`);
+    updateRTable(rTable);
   }, [rTable]);
 
   // This is causing additional rerender

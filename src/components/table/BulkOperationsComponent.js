@@ -11,10 +11,11 @@ const BulkOperationsComponent = () => {
     console.log(`Rendering <BulkOperationsComponent>`);
   }
 
-  const {columns, selectedRows} = useContext(TableDataContext);
-  console.log(selectedRows);
+  const {columns, selectedRows, rTable} = useContext(TableDataContext);
 
-  const bulkEnabled = selectedRows && selectedRows?.length > 0;
+  console.log(rTable);
+
+  const bulkEnabled = rTable?.selectedFlatRows && selectedRows?.length > 0;
   const [bulkEditExpanded, setBulkEditExpanded] = useState(false);
 
   // For debugging purpose
