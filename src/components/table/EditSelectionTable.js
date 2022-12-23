@@ -8,7 +8,7 @@ import {RowCheckbox} from "./parts/RowCheckbox";
 import EditableCell from "./parts/editableControlledCell";
 import SelectableCell from "./parts/selectableCell";
 import React, {useContext, useEffect} from "react";
-import {debug} from "../config/debugEnabled";
+import {debug} from "../config/debug";
 import TableDataContext from "./TableDataContext";
 
 // Supports:
@@ -17,7 +17,12 @@ import TableDataContext from "./TableDataContext";
 
 
 const EditSelectionTable = () => {
-  const {data, columns, onChange:updateData, selection} = useContext(TableDataContext);
+  const {data,
+    columns,
+    onChange:updateData,
+    selection,
+    onSelectionChange: updateSelection
+  } = useContext(TableDataContext);
 
   if (debug.lifecycle) {
     console.log(`Rendering <EditSelectionTable>`);
@@ -51,14 +56,15 @@ const EditSelectionTable = () => {
   };
   const selectionHook = selection ? useRowSelect : null;
 
-
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     footerGroups,
     rows,
-    prepareRow
+    prepareRow,
+    selectedFlatRows,
+    toggleAllRowsSelected,
   } = useTable({
         columns,
         data,
@@ -90,6 +96,10 @@ const EditSelectionTable = () => {
       }
   );
 
+  // console.log(`selectedFlatRows=${selectedFlatRows}`);
+  useEffect(() => {
+    updateSelection(selectedFlatRows);
+  }, [selectedFlatRows]);
 
   return (
   <>

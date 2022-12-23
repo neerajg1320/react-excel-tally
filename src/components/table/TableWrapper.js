@@ -21,6 +21,7 @@ export const TableWrapper = () => {
 
   const [data, setData] = useState(state?.data);
   // console.log(`data=${JSON.stringify(data)}`);
+  const [selectedRows, setSelectedRows] = useState([])
 
   const [updates, setUpdates] = useState([]);
   const tableKeyRef = useRef(1);
@@ -66,6 +67,12 @@ export const TableWrapper = () => {
       return [...prevState].concat({row, col, value});
     });
   }, []);
+
+  const handleUpdateSelection = useCallback((selectedFlatRows) => {
+    if (selectedFlatRows) {
+      console.log(`handleUpdateSelection: rows=${selectedFlatRows.length}`);
+    }
+  })
 
   const applyUpdate = useCallback((prevData, update) => {
     const {row, col, value} = update
@@ -114,7 +121,9 @@ export const TableWrapper = () => {
           data,
           columns: rtColumns,
           onChange: handleUpdateData,
-          selection: false
+          selection: true,
+          selectedRows,
+          onSelectionChange: handleUpdateSelection
         }}>
           {!data &&
             <h1>Please upload an excel file</h1>

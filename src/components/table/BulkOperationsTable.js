@@ -1,4 +1,4 @@
-import {debug} from "../config/debugEnabled";
+import {debug} from "../config/debug";
 import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import EditSelectionTable from "./EditSelectionTable";
 import TableDataContext from "./TableDataContext";
