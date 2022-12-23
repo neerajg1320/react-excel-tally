@@ -1,3 +1,3 @@
 export const debug = {
-  lifecycle: false
+  lifecycle: true
 }
