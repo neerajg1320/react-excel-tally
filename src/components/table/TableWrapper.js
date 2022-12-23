@@ -62,7 +62,7 @@ export const TableWrapper = () => {
 
 
   const handleUpdateData = useCallback((indices, patch) => {
-    console.log('handleUpdateData', JSON.stringify(indices), JSON.stringify(patch));
+    console.log('handleUpdateData:', indices, patch);
 
     // Using this is mandatory as using the updates does not work
     setUpdates((prevState) => {

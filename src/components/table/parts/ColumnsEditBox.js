@@ -1,8 +1,22 @@
 import Button from 'react-bootstrap/Button';
 import Select from "react-select";
+import {useEffect} from "react";
+import {debug} from "../../config/debugEnabled";
 
-const ColumnsEditBox = ({columns, onEdit, onCancel, onButtonClick}) => {
-  // console.log(`Rendering <ColumnsEditBox>`);
+const ColumnsEditBox = ({columns, onSave, onCancel, onButtonClick}) => {
+  console.log(`Rendering <ColumnsEditBox>`);
+
+  useEffect(() => {
+    if (debug.lifecycle) {
+      console.log(`<ColumnsEditBox>: First render`);
+    }
+
+    return () => {
+      if (debug.lifecycle) {
+        console.log(`<ColumnsEditBox>: Destroyed`);
+      }
+    }
+  }, []);
 
   // We haven't used state here as we do not want to rerender the component
   // when setting the columnValues
@@ -12,13 +26,13 @@ const ColumnsEditBox = ({columns, onEdit, onCancel, onButtonClick}) => {
     if (onButtonClick) {
       onButtonClick();
     }
-    if (onEdit) {
+    if (onSave) {
       const modifiedFields = columnValues
                               .filter(item => item.active)
                               .map(item => {
                                 return [item.name, item.value]
                               });
-      onEdit(Object.fromEntries(modifiedFields));
+      onSave(Object.fromEntries(modifiedFields));
     }
   }
 

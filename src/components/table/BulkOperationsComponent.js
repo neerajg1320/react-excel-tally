@@ -88,7 +88,7 @@ const BulkOperationsComponent = () => {
           >
             <ColumnsEditBox
                 columns={bulkColumns}
-                onEdit={patch => handleBulkEditSaveClick(patch)}
+                onSave={handleBulkEditSaveClick}
                 onCancel={handleBulkEditCancelClick}
                 disabled={!bulkEnabled}
             />
