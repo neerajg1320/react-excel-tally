@@ -134,7 +134,9 @@ export const TableWrapper = () => {
       commitUpdates([update]);
       // Reset the selection of rows
       const {toggleAllRowsSelected} = rTable;
-      toggleAllRowsSelected(false);
+      if (toggleAllRowsSelected) {
+        toggleAllRowsSelected(false);
+      }
     }
   }, [commitUpdates, rTable]);
 
