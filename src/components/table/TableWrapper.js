@@ -8,6 +8,7 @@ import {debug} from "../config/debug";
 import BulkOperationsComponent from "./BulkOperationsComponent";
 import TableDataContext from "./TableDataContext";
 import EditSelectionTable from "./EditSelectionTable";
+import {DELETE, PATCH} from "./common/operationsTypes";
 
 // We derive columns from data
 // We will just convert the columns.
@@ -60,13 +61,12 @@ export const TableWrapper = () => {
   // eslint-disable-next-line
   const [rtColumns, setRTColumns] = useState(getColumns(data).map(attachPresetProperties));
 
-
-  const handleUpdateData = useCallback((indices, patch) => {
+  const handleUpdateData = useCallback((action, indices, patch) => {
     console.log('handleUpdateData:', indices, patch);
 
     // Using this is mandatory as using the updates does not work
     setUpdates((prevState) => {
-      return [...prevState].concat({indices, patch});
+      return [...prevState].concat({action, payload:{indices, patch}});
     });
   }, []);
 
@@ -81,18 +81,27 @@ export const TableWrapper = () => {
   }, []);
 
   // convert before using this to ids and patch
-  const applyUpdate = useCallback((prevData, {indices, patch}) => {
-    console.log(`applyUpdate: indices=${JSON.stringify(indices)} patch=${JSON.stringify(patch)}`);
+  const applyUpdate = useCallback((prevData, {action, payload:{indices, patch}}) => {
+    console.log(`applyUpdate: action=${action}`);
 
-    const updatedData = prevData.map((item, item_idx) => {
-      if (indices.includes(item_idx)) {
-        return {...item, ...patch};
-      }
-      return {...item};
-    })
+    switch (action) {
+      case PATCH:
+        const updatedData = prevData.map((item, item_idx) => {
+          if (indices.includes(item_idx)) {
+            return {...item, ...patch};
+          }
+          return {...item};
+        })
 
-    // console.log(`updatedData=${JSON.stringify(updatedData, null, 2)}`);
-    return updatedData;
+        // console.log(`updatedData=${JSON.stringify(updatedData, null, 2)}`);
+        return updatedData;
+
+      case DELETE:
+        return prevData.filter((item, index) => !indices.includes(index))
+
+      default:
+        return prevData;
+    }
   }, []);
 
   const handleSaveClick = useCallback((updates) => {

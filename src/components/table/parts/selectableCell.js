@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useState} from "react";
 import Select from "react-select";
+import {PATCH} from "../common/operationsTypes";
 
 // https://cloudnweb.dev/2020/08/how-to-build-an-actionable-data-table-with-react-table-and-tailwindcss/
 const SelectableCell = ({value: initialValue, row, column, updateData, choices}) => {
@@ -24,7 +25,7 @@ const SelectableCell = ({value: initialValue, row, column, updateData, choices})
   const handleSelect = useCallback((opt) => {
     // console.log(opt.value);
     setValue(opt.value);
-    updateData([row.index], {[column.label]: opt.value});
+    updateData(PATCH, [row.index], {[column.label]: opt.value});
   }, []);
 
   return (

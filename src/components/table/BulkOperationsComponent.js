@@ -1,10 +1,10 @@
 import {debug} from "../config/debug";
 import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
-import EditSelectionTable from "./EditSelectionTable";
 import TableDataContext from "./TableDataContext";
 import Button from "react-bootstrap/Button";
 import ExpandableButton from "../expandableButton/ExpandableButton";
 import ColumnsEditBox from "./parts/ColumnsEditBox";
+import {DELETE, PATCH} from "./common/operationsTypes";
 
 const BulkOperationsComponent = () => {
   if (debug.lifecycle) {
@@ -13,7 +13,7 @@ const BulkOperationsComponent = () => {
 
   const {columns, rTable, onChange:updateData} = useContext(TableDataContext);
 
-  console.log(rTable);
+  // console.log(rTable);
   const {selectedFlatRows, toggleAllRowsSelected} = rTable;
 
   const bulkEnabled = selectedFlatRows && selectedFlatRows?.length > 0;
@@ -40,15 +40,18 @@ const BulkOperationsComponent = () => {
 
   const handleBulkDeleteClick = useCallback(() => {
     const indices = getRowIndices(selectedFlatRows);
-
     console.log(`handleBulkDeleteClick: ids=${JSON.stringify(indices)}`);
+
+    updateData(DELETE, indices);
+    setBulkEditExpanded(false);
   }, [selectedFlatRows]);
 
   const handleBulkEditSaveClick = useCallback((patch) => {
     const indices = getRowIndices(selectedFlatRows);
 
     console.log(`handleBulkEditSaveClick: indices=${JSON.stringify(indices)} patch=${JSON.stringify(patch)}`);
-    updateData(indices, patch);
+    updateData(PATCH, indices, patch);
+
     setBulkEditExpanded(false);
   }, [selectedFlatRows]);
 
@@ -67,7 +70,7 @@ const BulkOperationsComponent = () => {
     return columns?.length ? columns.filter(col => col.bulk) : [];
   }, [columns]);
 
-  console.log(`bulkColumns=${JSON.stringify(bulkColumns.map(col => col.key))}`);
+  // console.log(`bulkColumns=${JSON.stringify(bulkColumns.map(col => col.key))}`);
 
   return (
 

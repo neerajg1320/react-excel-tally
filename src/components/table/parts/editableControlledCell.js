@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {debug} from "../../config/debug";
+import {PATCH} from "../common/operationsTypes";
 
 // https://cloudnweb.dev/2020/08/how-to-build-an-actionable-data-table-with-react-table-and-tailwindcss/
 const EditableControlledCell = ({value:initialValue, row, column, updateData}) => {
@@ -33,7 +34,7 @@ const EditableControlledCell = ({value:initialValue, row, column, updateData}) =
             className="form-control"
             value={value}
             onChange={e => setValue(e.target.value)}
-            onBlur={(e) => updateData([row.index], {[column.label]: value})}
+            onBlur={(e) => updateData(PATCH, [row.index], {[column.label]: value})}
         />
       </form>
     </>
