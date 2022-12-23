@@ -61,11 +61,9 @@ export const TableWrapper = () => {
   const [rtColumns, setRTColumns] = useState(getColumns(data).map(attachPresetProperties));
 
 
-  const handleUpdateData = useCallback((indices, col, value) => {
-    console.log('handleUpdateData', indices, col, value);
-    // const indices = [row.index];
-    const patch = {[col.label]: value};
-
+  const handleUpdateData = useCallback((indices, patch) => {
+    console.log('handleUpdateData', JSON.stringify(indices), JSON.stringify(patch));
+    
     // Using this is mandatory as using the updates does not work
     setUpdates((prevState) => {
       return [...prevState].concat({indices, patch});

@@ -23,7 +23,7 @@ const EditableCell = ({value: initialValue, row, column, updateData}) => {
             className="form-control"
             value={value}
             onChange={e => setValue(e.target.value)}
-            onBlur={(e) => updateData([row.index], column, value)}
+            onBlur={(e) => updateData([row.index], {[column.label]: value})}
         />
       </form>
     </>
