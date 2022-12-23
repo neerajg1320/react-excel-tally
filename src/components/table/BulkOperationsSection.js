@@ -73,8 +73,7 @@ const BulkOperationsSection = () => {
   // console.log(`bulkColumns=${JSON.stringify(bulkColumns.map(col => col.key))}`);
 
   return (
-
-        <div style={{display:"flex", gap: "10px", padding:"20px"}}>
+        <div style={{display:"flex", gap: "10px", alignItems:"center"}}>
           <Button variant="danger" size="sm"
                   disabled={!bulkEnabled}
                   onClick={e => handleBulkDeleteClick()}

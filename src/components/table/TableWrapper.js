@@ -27,7 +27,7 @@ export const TableWrapper = () => {
   const [rTable, setRTable] = useState({})
   const [selectedRows, setSelectedRows] = useState([])
 
-  const updateWithCommit = useMemo(() => true, []);
+  const updateWithCommit = useMemo(() => false, []);
   const [updates, setUpdates] = useState([]);
   const tableKeyRef = useRef(1);
 
@@ -170,8 +170,13 @@ export const TableWrapper = () => {
               display:"flex", flexDirection:"column", gap:"20px", alignItems:"center",
             }}>
 
-              <BulkOperationsSection />
-              <GlobalFilterSection />
+              <div style={{
+                display:"flex", flexDirection:"row", justifyContent:'space-between',
+                width: "100%", padding: "0 40px", border:"1px dashed red"
+              }}>
+                <BulkOperationsSection />
+                <GlobalFilterSection />
+              </div>
 
               <EditSelectionTable key={tableKeyRef.current} />
 
