@@ -104,7 +104,7 @@ export const TableWrapper = () => {
     }
   }, []);
 
-  const handleSaveClick = useCallback((updates) => {
+  const handleCommitClick = useCallback((updates) => {
     // console.log(`updates count: ${updates.length}`);
     if (updates.length < 1) {
       return
@@ -163,9 +163,9 @@ export const TableWrapper = () => {
                 </Button>
                 <Button
                     disabled={updates.length < 1}
-                    onClick={e => handleSaveClick(updates)}
+                    onClick={e => handleCommitClick(updates)}
                 >
-                  Save Changes
+                  Commit
                 </Button>
               </div>
             </div>

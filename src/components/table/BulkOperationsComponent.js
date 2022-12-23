@@ -61,7 +61,7 @@ const BulkOperationsComponent = () => {
 
   const handleClearSelectionClick = useCallback(() => {
     if (toggleAllRowsSelected) {
-      toggleAllRowsSelected();
+      toggleAllRowsSelected(false);
     }
   }, [toggleAllRowsSelected]);
 
