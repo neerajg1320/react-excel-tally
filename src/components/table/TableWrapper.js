@@ -63,10 +63,12 @@ export const TableWrapper = () => {
 
   const handleUpdateData = useCallback((row, col, value) => {
     console.log('handleUpdateData', row, col, value);
+    const indices = [row.index];
+    const patch = {[col.label]: value};
 
     // Using this is mandatory as using the updates does not work
     setUpdates((prevState) => {
-      return [...prevState].concat({row, col, value});
+      return [...prevState].concat({indices, patch});
     });
   }, []);
 
@@ -81,12 +83,7 @@ export const TableWrapper = () => {
   }, []);
 
   // convert before using this to ids and patch
-  const applyUpdate = useCallback((prevData, update) => {
-    const {row, col, value} = update
-
-    const indices = [row.index];
-    const patch = {[col.label]: value};
-
+  const applyUpdate = useCallback((prevData, {indices, patch}) => {
     console.log(`applyUpdate: indices=${JSON.stringify(indices)} patch=${JSON.stringify(patch)}`);
 
     const updatedData = prevData.map((item, item_idx) => {
