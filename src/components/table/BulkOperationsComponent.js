@@ -37,8 +37,8 @@ const BulkOperationsComponent = () => {
 
   }, []);
 
-  const handleBulkEditSaveClick = useCallback(() => {
-
+  const handleBulkEditSaveClick = useCallback((values) => {
+    console.log(`handleBulkEditSaveClick: values=${JSON.stringify(values)}`);
   }, []);
 
   const handleBulkEditCancelClick = useCallback(() => {
