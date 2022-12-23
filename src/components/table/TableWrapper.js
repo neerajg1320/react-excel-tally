@@ -158,6 +158,7 @@ export const TableWrapper = () => {
           onChange: handleDataChange,
           selection: true,
           filter: true,
+          bulk: true,
           selectedRows,
           rTable,
           onSelectionChange: handleSelectionUpdate,
@@ -176,8 +177,12 @@ export const TableWrapper = () => {
                 width: "100%", padding: "0 40px",
                 // border:"1px dashed red"
               }}>
-                <BulkOperationsSection />
-                <GlobalFilterSection />
+                <div>
+                  <BulkOperationsSection />
+                </div>
+                <div>
+                  <GlobalFilterSection />
+                </div>
               </div>
 
               <EditSelectionTable key={tableKeyRef.current} />

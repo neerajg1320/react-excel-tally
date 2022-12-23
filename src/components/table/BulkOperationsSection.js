@@ -11,7 +11,7 @@ const BulkOperationsSection = () => {
     console.log(`Rendering <BulkOperationsComponent>`);
   }
 
-  const {columns, rTable, onChange:updateData} = useContext(TableDataContext);
+  const {bulk, columns, rTable, onChange:updateData} = useContext(TableDataContext);
 
   // console.log(rTable);
   const {selectedFlatRows, toggleAllRowsSelected} = rTable;
@@ -73,6 +73,8 @@ const BulkOperationsSection = () => {
   // console.log(`bulkColumns=${JSON.stringify(bulkColumns.map(col => col.key))}`);
 
   return (
+      <>
+      {bulk &&
         <div style={{display:"flex", gap: "10px", alignItems:"center"}}>
           <Button variant="danger" size="sm"
                   disabled={!bulkEnabled}
@@ -104,7 +106,8 @@ const BulkOperationsSection = () => {
             Clear
           </Button>
         </div>
-
+      }
+      </>
   );
 }
 
