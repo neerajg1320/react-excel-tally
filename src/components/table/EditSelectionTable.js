@@ -1,7 +1,8 @@
 import './table.css';
 import {
   useTable,
-  useRowSelect
+  useRowSelect,
+  useGlobalFilter
 } from "react-table";
 import {RowCheckbox} from "./parts/RowCheckbox";
 // import EditableCell from "./parts/editableCell";
@@ -10,6 +11,7 @@ import SelectableCell from "./parts/selectableCell";
 import React, {useContext, useEffect} from "react";
 import {debug} from "../config/debug";
 import TableDataContext from "./TableDataContext";
+import {GlobalFilter} from "./filter/GlobalFilter";
 
 // Supports:
 //  - Rows Selection
@@ -67,6 +69,7 @@ const EditSelectionTable = () => {
       // https://github.com/TanStack/table/issues/1496
       // As per above don't worry about rerenders as they are performant in react-table
       // To disable just comment out useRowSelect and Selection column
+      useGlobalFilter,
       selectionHook,
       (hooks) => {
         hooks.visibleColumns.push((columns) => {
@@ -97,8 +100,11 @@ const EditSelectionTable = () => {
     rows,
     prepareRow,
     selectedFlatRows,
-    toggleAllRowsSelected,
+    state,
+    setGlobalFilter,
   } = rTable;
+
+  const { globalFilter } = state;
 
   useEffect(() => {
     // console.log(`Updated rTable`);
@@ -113,6 +119,7 @@ const EditSelectionTable = () => {
 
   return (
   <>
+  <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
   <table {...getTableProps()}>
     <thead>
     {headerGroups.map(headerGroup => (
