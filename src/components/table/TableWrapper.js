@@ -69,8 +69,11 @@ export const TableWrapper = () => {
   }, []);
 
   const handleUpdateSelection = useCallback((selectedFlatRows) => {
+    console.log(`handleUpdateSelection: rows=${selectedFlatRows.length}`);
+    setSelectedRows(selectedFlatRows);
+
     if (selectedFlatRows) {
-      console.log(`handleUpdateSelection: rows=${selectedFlatRows.length}`);
+
     }
   })
 

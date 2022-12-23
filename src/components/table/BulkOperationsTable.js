@@ -7,8 +7,10 @@ import ExpandableButton from "../expandableButton/ExpandableButton";
 import ColumnsEditBox from "./parts/ColumnsEditBox";
 
 const BulkOperationsTable = () => {
-  const {columns} = useContext(TableDataContext);
-  const [bulkEnabled, setBulkEnabled] = useState(true);
+  const {columns, selectedRows} = useContext(TableDataContext);
+  // const [bulkEnabled, setBulkEnabled] = useState(true);
+  const bulkEnabled = useMemo(() => selectedRows.length > 0, [selectedRows]);
+
   const [bulkEditExpanded, setBulkEditExpanded] = useState(false);
 
   if (debug.lifecycle) {
