@@ -14,8 +14,9 @@ const BulkOperationsComponent = () => {
   const {columns, selectedRows, rTable} = useContext(TableDataContext);
 
   console.log(rTable);
+  const {selectedFlatRows, toggleAllRowsSelected} = rTable;
 
-  const bulkEnabled = rTable?.selectedFlatRows && selectedRows?.length > 0;
+  const bulkEnabled = selectedFlatRows && selectedFlatRows?.length > 0;
   const [bulkEditExpanded, setBulkEditExpanded] = useState(false);
 
   // For debugging purpose
@@ -45,8 +46,10 @@ const BulkOperationsComponent = () => {
   }, []);
 
   const handleClearSelectionClick = useCallback(() => {
-
-  }, []);
+    if (toggleAllRowsSelected) {
+      toggleAllRowsSelected();
+    }
+  }, [toggleAllRowsSelected]);
 
   // Support bulk select
   const bulkColumns = useMemo(() => {
