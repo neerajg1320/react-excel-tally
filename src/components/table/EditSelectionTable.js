@@ -58,7 +58,7 @@ const EditSelectionTable = () => {
     )
   };
   const selectionHook = selection ? useRowSelect : null;
-
+  
   const rTable = useTable({
         columns,
         data,
@@ -100,11 +100,7 @@ const EditSelectionTable = () => {
     rows,
     prepareRow,
     selectedFlatRows,
-    state,
-    setGlobalFilter,
   } = rTable;
-
-  const { globalFilter } = state;
 
   useEffect(() => {
     // console.log(`Updated rTable`);
