@@ -6,7 +6,7 @@ import ExpandableButton from "../expandableButton/ExpandableButton";
 import ColumnsEditBox from "./parts/ColumnsEditBox";
 import {DELETE, PATCH} from "./common/operationsTypes";
 
-const BulkOperationsComponent = () => {
+const BulkOperationsSection = () => {
   if (debug.lifecycle) {
     console.log(`Rendering <BulkOperationsComponent>`);
   }
@@ -112,4 +112,4 @@ const BulkOperationsComponent = () => {
 // export default EditSelectionTable;
 
 // We use React.memo when we want to render the child only when any props change
-export default React.memo(BulkOperationsComponent);
+export default React.memo(BulkOperationsSection);

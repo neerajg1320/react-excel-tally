@@ -5,7 +5,7 @@ import {presetColumns} from "./presets/presetColumns";
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import Button from "react-bootstrap/Button";
 import {debug} from "../config/debug";
-import BulkOperationsComponent from "./BulkOperationsComponent";
+import BulkOperationsSection from "./BulkOperationsSection";
 import TableDataContext from "./TableDataContext";
 import EditSelectionTable from "./EditSelectionTable";
 import {DELETE, PATCH} from "./common/operationsTypes";
@@ -170,7 +170,7 @@ export const TableWrapper = () => {
               display:"flex", flexDirection:"column", gap:"20px", alignItems:"center",
             }}>
 
-              <BulkOperationsComponent />
+              <BulkOperationsSection />
               <GlobalFilterSection />
 
               <EditSelectionTable key={tableKeyRef.current} />
