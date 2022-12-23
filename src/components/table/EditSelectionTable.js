@@ -23,6 +23,7 @@ const EditSelectionTable = () => {
     columns,
     onChange:updateData,
     selection,
+    filter,
     onSelectionChange: updateSelection,
     onRTableChange: updateRTable
   } = useContext(TableDataContext);
@@ -57,8 +58,9 @@ const EditSelectionTable = () => {
         <RowCheckbox {...row.getToggleRowSelectedProps()} />
     )
   };
-  const selectionHook = selection ? useRowSelect : null;
-  
+  const selectionHook = selection ? useRowSelect : () => {};
+  const globalFilterHook = filter ? useGlobalFilter : () => {};
+
   const rTable = useTable({
         columns,
         data,
@@ -69,7 +71,7 @@ const EditSelectionTable = () => {
       // https://github.com/TanStack/table/issues/1496
       // As per above don't worry about rerenders as they are performant in react-table
       // To disable just comment out useRowSelect and Selection column
-      useGlobalFilter,
+      globalFilterHook,
       selectionHook,
       (hooks) => {
         hooks.visibleColumns.push((columns) => {
@@ -115,7 +117,6 @@ const EditSelectionTable = () => {
 
   return (
   <>
-  {/*<GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>*/}
   <table {...getTableProps()}>
     <thead>
     {headerGroups.map(headerGroup => (

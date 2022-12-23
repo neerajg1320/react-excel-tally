@@ -20,16 +20,16 @@ const GlobalFilterSection = () => {
     }
   }, []);
 
-  const {rTable} = useContext(TableDataContext);
+  const {rTable, filter} = useContext(TableDataContext);
   const {state, setGlobalFilter} = rTable;
   const {globalFilter} = state || {};
 
   return (
       <>
-        <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
+        {filter && <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>}
       </>
   )
 
 }
 
-export default GlobalFilterSection;
+export default React.memo(GlobalFilterSection);

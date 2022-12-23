@@ -157,6 +157,7 @@ export const TableWrapper = () => {
           columns: rtColumns,
           onChange: handleDataChange,
           selection: true,
+          filter: true,
           selectedRows,
           rTable,
           onSelectionChange: handleSelectionUpdate,
