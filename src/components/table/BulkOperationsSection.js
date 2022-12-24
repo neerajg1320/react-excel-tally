@@ -6,7 +6,7 @@ import ExpandableButton from "../expandableButton/ExpandableButton";
 import ColumnsEditBox from "./parts/ColumnsEditBox";
 import {DELETE, PATCH} from "./common/operationsTypes";
 
-const BulkOperationsSection = () => {
+const BulkOperationsSection = ({edit}) => {
   if (debug.lifecycle) {
     console.log(`Rendering <BulkOperationsComponent>`);
   }
@@ -76,28 +76,32 @@ const BulkOperationsSection = () => {
       <>
       {bulk &&
         <div style={{display:"flex", gap: "10px", alignItems:"center"}}>
-          <Button variant="danger" size="sm"
-                  disabled={!bulkEnabled}
-                  onClick={e => handleBulkDeleteClick()}
-          >
-            Bulk Delete
-          </Button>
+          {edit &&
+            <>
+              <Button variant="danger" size="sm"
+                      disabled={!bulkEnabled}
+                      onClick={e => handleBulkDeleteClick()}
+              >
+                Bulk Delete
+              </Button>
 
-          {/* We should try and replace below */}
-          <ExpandableButton
+            {/* We should try and replace below */}
+              <ExpandableButton
               title="Bulk Edit"
               disabled={!bulkColumns.length || !bulkEnabled}
               value={bulkEditExpanded}
               onChange={exp => setBulkEditExpanded(exp)}
               popupPosition={{left: "60px", top: "25px"}}
-          >
-            <ColumnsEditBox
-                columns={bulkColumns}
-                onSave={handleBulkEditSaveClick}
-                onCancel={handleBulkEditCancelClick}
-                disabled={!bulkEnabled}
-            />
-          </ExpandableButton>
+              >
+              <ColumnsEditBox
+              columns={bulkColumns}
+              onSave={handleBulkEditSaveClick}
+              onCancel={handleBulkEditCancelClick}
+              disabled={!bulkEnabled}
+              />
+              </ExpandableButton>
+            </>
+          }
 
           <Button variant="outline-dark" size="sm"
                   disabled={!bulkEnabled}

@@ -31,6 +31,12 @@ export const TableWrapper = () => {
   const [updates, setUpdates] = useState([]);
   const tableKeyRef = useRef(1);
 
+  // Table features:
+  const [featureSelection, setFeatureSelection] = useState(false);
+  const [featureEdit, setFeatureEdit] = useState(false);
+  const [featureBulk, setFeatureBulk] = useState(false);
+  const [featureGlobalFilter, setFeatureGlobalFilter] = useState(false);
+
   useEffect(() => {
     if (debug.lifecycle) {
       console.log(`<TableWrapper>: First render`);
@@ -156,10 +162,10 @@ export const TableWrapper = () => {
           data,
           columns: rtColumns,
           onChange: handleDataChange,
-          selection: true,
-          filter: true,
-          bulk: true,
-          edit: true,
+          selection: featureSelection,
+          filter: featureGlobalFilter,
+          bulk: featureBulk,
+          edit: featureEdit,
           selectedRows,
           rTable,
           onSelectionChange: handleSelectionUpdate,
@@ -179,7 +185,7 @@ export const TableWrapper = () => {
                 // border:"1px dashed red"
               }}>
                 <div>
-                  <BulkOperationsSection />
+                  <BulkOperationsSection edit={featureEdit}/>
                 </div>
                 <div>
                   <GlobalFilterSection />
