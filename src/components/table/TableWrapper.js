@@ -32,10 +32,10 @@ export const TableWrapper = () => {
   const tableKeyRef = useRef(1);
 
   // Table features:
-  const [featureSelection, setFeatureSelection] = useState(false);
-  const [featureEdit, setFeatureEdit] = useState(false);
-  const [featureBulk, setFeatureBulk] = useState(false);
-  const [featureGlobalFilter, setFeatureGlobalFilter] = useState(false);
+  const [featureSelection, setFeatureSelection] = useState(true);
+  const [featureEdit, setFeatureEdit] = useState(true);
+  const [featureBulk, setFeatureBulk] = useState(true);
+  const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
 
   useEffect(() => {
     if (debug.lifecycle) {
