@@ -8,7 +8,7 @@ import {RowCheckbox} from "./parts/RowCheckbox";
 // import EditableCell from "./parts/editableCell";
 import EditableCell from "./parts/editableControlledCell";
 import SelectableCell from "./parts/selectableCell";
-import React, {useContext, useEffect} from "react";
+import React, {useCallback, useContext, useEffect} from "react";
 import {debug} from "../config/debug";
 import TableDataContext from "./TableDataContext";
 import {GlobalFilter} from "./filter/GlobalFilter";
@@ -60,7 +60,27 @@ const EditSelectionTable = () => {
   };
   const selectionHook = selection ? useRowSelect : () => {};
   const globalFilterHook = filter ? useGlobalFilter : () => {};
-  const pluginHooks = [selectionHook, globalFilterHook];
+  const columnEditHook = useCallback((hooks) => {
+    hooks.visibleColumns.push((columns) => {
+      const headColumns = selection ? [selectionColumn] : [];
+      return headColumns.concat([
+        ...columns.map(col => {
+          if (col.edit) {
+            if (col.type === 'input') {
+              col.Cell = EditableCell
+            } else if (col.type === 'select') {
+              col.Cell = (props) => {
+                return <SelectableCell choices={col.choices} {...props} />
+              }
+            }
+          }
+          return col;
+        }),
+      ])
+    })
+  }, []);
+
+  const pluginHooks = [selectionHook, globalFilterHook, columnEditHook];
 
   const rTable = useTable({
         columns,
@@ -73,25 +93,6 @@ const EditSelectionTable = () => {
       // As per above don't worry about rerenders as they are performant in react-table
       // To disable just comment out useRowSelect and Selection column
       ...pluginHooks,
-      (hooks) => {
-        hooks.visibleColumns.push((columns) => {
-          const headColumns = selection ? [selectionColumn] : [];
-          return headColumns.concat([
-            ...columns.map(col => {
-              if (col.edit) {
-                if (col.type === 'input') {
-                  col.Cell = EditableCell
-                } else if (col.type === 'select') {
-                  col.Cell = (props) => {
-                    return <SelectableCell choices={col.choices} {...props} />
-                  }
-                }
-              }
-              return col;
-            }),
-          ])
-        })
-      }
   );
 
   const {
