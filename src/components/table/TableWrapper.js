@@ -172,7 +172,11 @@ export const TableWrapper = () => {
           onRTableChange: handleRTableChange
         }}>
           {!data &&
-            <h1>Please upload an excel file</h1>
+            <div style={{
+              display:"flex", flexDirection:"row", justifyContent:"center", alignItems: "center"
+            }}>
+              <h1>Please upload an excel file</h1>
+            </div>
           }
           {data &&
             <div style={{
@@ -182,7 +186,6 @@ export const TableWrapper = () => {
               <div style={{
                 display:"flex", flexDirection:"row", justifyContent:'space-between', gap:"40px",
                 width: "100%", padding: "0 40px",
-                // border:"1px dashed red"
               }}>
                 <div>
                   <BulkOperationsSection edit={featureEdit}/>
