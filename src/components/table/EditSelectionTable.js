@@ -8,7 +8,7 @@ import {RowCheckbox} from "./parts/RowCheckbox";
 // import EditableCell from "./parts/editableCell";
 import EditableCell from "./parts/editableControlledCell";
 import SelectableCell from "./parts/selectableCell";
-import React, {useCallback, useContext, useEffect} from "react";
+import React, {useCallback, useContext, useEffect, useMemo} from "react";
 import {debug} from "../config/debug";
 import TableDataContext from "./TableDataContext";
 import {GlobalFilter} from "./filter/GlobalFilter";
@@ -24,6 +24,7 @@ const EditSelectionTable = () => {
     onChange:updateData,
     selection,
     filter,
+    edit,
     onSelectionChange: updateSelection,
     onRTableChange: updateRTable
   } = useContext(TableDataContext);
@@ -47,40 +48,49 @@ const EditSelectionTable = () => {
     }
   }, []);
 
+  const usePrepareColumn = useCallback((hooks) => {
+    // Support row select
+    const selectionColumn = {
+      id: "selection",
+      Header: ({getToggleAllRowsSelectedProps}) => (
+          <RowCheckbox {...getToggleAllRowsSelectedProps()} />
+      ),
+      Cell: ({ row }) => (
+          <RowCheckbox {...row.getToggleRowSelectedProps()} />
+      )
+    };
 
-  // Support row select
-  const selectionColumn = {
-    id: "selection",
-    Header: ({getToggleAllRowsSelectedProps}) => (
-        <RowCheckbox {...getToggleAllRowsSelectedProps()} />
-    ),
-    Cell: ({ row }) => (
-        <RowCheckbox {...row.getToggleRowSelectedProps()} />
-    )
-  };
-  const selectionHook = selection ? useRowSelect : () => {};
-  const globalFilterHook = filter ? useGlobalFilter : () => {};
-  const columnEditHook = useCallback((hooks) => {
     hooks.visibleColumns.push((columns) => {
       const headColumns = selection ? [selectionColumn] : [];
-      return headColumns.concat([
-        ...columns.map(col => {
-          if (col.edit) {
-            if (col.type === 'input') {
-              col.Cell = EditableCell
-            } else if (col.type === 'select') {
-              col.Cell = (props) => {
-                return <SelectableCell choices={col.choices} {...props} />
+
+      if (edit) {
+        return headColumns.concat([
+          ...columns.map(col => {
+            if (col.edit) {
+              if (col.type === 'input') {
+                col.Cell = EditableCell
+              } else if (col.type === 'select') {
+                col.Cell = (props) => {
+                  return <SelectableCell choices={col.choices} {...props} />
+                }
               }
             }
-          }
-          return col;
-        }),
-      ])
+            return col;
+          }),
+        ])
+      } else {
+        return headColumns.concat([...columns]);
+      }
     })
-  }, []);
+  }, [selection, edit]);
 
-  const pluginHooks = [selectionHook, globalFilterHook, columnEditHook];
+
+  const pluginHooks = useMemo(() => {
+    const selectionHook = selection ? useRowSelect : () => {};
+    const globalFilterHook = filter ? useGlobalFilter : () => {};
+
+    return [selectionHook, globalFilterHook, usePrepareColumn];
+  }, [selection, filter, edit])
 
   const rTable = useTable({
         columns,

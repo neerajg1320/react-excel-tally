@@ -159,6 +159,7 @@ export const TableWrapper = () => {
           selection: true,
           filter: true,
           bulk: true,
+          edit: true,
           selectedRows,
           rTable,
           onSelectionChange: handleSelectionUpdate,
