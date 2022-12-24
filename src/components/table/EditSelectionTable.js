@@ -60,6 +60,7 @@ const EditSelectionTable = () => {
   };
   const selectionHook = selection ? useRowSelect : () => {};
   const globalFilterHook = filter ? useGlobalFilter : () => {};
+  const pluginHooks = [selectionHook, globalFilterHook];
 
   const rTable = useTable({
         columns,
@@ -71,8 +72,7 @@ const EditSelectionTable = () => {
       // https://github.com/TanStack/table/issues/1496
       // As per above don't worry about rerenders as they are performant in react-table
       // To disable just comment out useRowSelect and Selection column
-      globalFilterHook,
-      selectionHook,
+      ...pluginHooks,
       (hooks) => {
         hooks.visibleColumns.push((columns) => {
           const headColumns = selection ? [selectionColumn] : [];
