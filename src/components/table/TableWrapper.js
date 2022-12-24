@@ -10,6 +10,7 @@ import TableDataContext from "./TableDataContext";
 import EditSelectionTable from "./EditSelectionTable";
 import {DELETE, PATCH} from "./common/operationsTypes";
 import GlobalFilterSection from "./GlobalFilterSection";
+import PaginationSection from "./PaginationSection";
 
 // We derive columns from data
 // We will just convert the columns.
@@ -36,6 +37,9 @@ export const TableWrapper = () => {
   const [featureEdit, setFeatureEdit] = useState(true);
   const [featureBulk, setFeatureBulk] = useState(true);
   const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
+  const [featurePagination, setFeaturePagination] = useState(true);
+
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (debug.lifecycle) {
@@ -156,6 +160,11 @@ export const TableWrapper = () => {
     setUpdates([]);
   }, []);
 
+  const handlePageChange = useCallback((pageIndex) => {
+    // console.log(`handlePageChange: ${pageIndex}`);
+    setPage(pageIndex);
+  }, []);
+
   return (
       <>
         <TableDataContext.Provider value={{
@@ -166,10 +175,13 @@ export const TableWrapper = () => {
           filter: featureGlobalFilter,
           bulk: featureBulk,
           edit: featureEdit,
+          pagination: featurePagination,
           selectedRows,
           rTable,
           onSelectionChange: handleSelectionUpdate,
-          onRTableChange: handleRTableChange
+          onRTableChange: handleRTableChange,
+          onPageChange: handlePageChange,
+          page,
         }}>
           {!data &&
             <div style={{
@@ -196,6 +208,7 @@ export const TableWrapper = () => {
               </div>
 
               <EditSelectionTable key={tableKeyRef.current} />
+              <PaginationSection />
 
               {updateWithCommit &&
               <div style={{

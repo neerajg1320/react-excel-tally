@@ -2,16 +2,15 @@ import './table.css';
 import {
   useTable,
   useRowSelect,
-  useGlobalFilter
+  useGlobalFilter,
+  usePagination
 } from "react-table";
 import {RowCheckbox} from "./parts/RowCheckbox";
-// import EditableCell from "./parts/editableCell";
 import EditableCell from "./parts/editableControlledCell";
 import SelectableCell from "./parts/selectableCell";
 import React, {useCallback, useContext, useEffect, useMemo} from "react";
 import {debug} from "../config/debug";
 import TableDataContext from "./TableDataContext";
-import {GlobalFilter} from "./filter/GlobalFilter";
 
 // Supports:
 //  - Rows Selection
@@ -25,8 +24,10 @@ const EditSelectionTable = () => {
     selection,
     filter,
     edit,
+    pagination,
     onSelectionChange: updateSelection,
-    onRTableChange: updateRTable
+    onRTableChange: updateRTable,
+    onPageChange: updatePage
   } = useContext(TableDataContext);
 
   if (debug.lifecycle) {
@@ -88,15 +89,17 @@ const EditSelectionTable = () => {
   const pluginHooks = useMemo(() => {
     const selectionHook = selection ? useRowSelect : () => {};
     const globalFilterHook = filter ? useGlobalFilter : () => {};
+    const paginationHook = pagination ? usePagination : () => {};
 
-    return [selectionHook, globalFilterHook, usePrepareColumn];
-  }, [selection, filter, edit])
+    return [globalFilterHook, paginationHook, selectionHook, usePrepareColumn];
+  }, [selection, filter, edit, pagination])
 
   const rTable = useTable({
         columns,
         data,
         updateData,
         autoResetSelectedRows: false,
+        // initialState: {pageIndex: 2}
       },
       // useRowSelect is causing two renders
       // https://github.com/TanStack/table/issues/1496
@@ -113,18 +116,26 @@ const EditSelectionTable = () => {
     rows,
     prepareRow,
     selectedFlatRows,
+    page,
+    state
   } = rTable;
+
+  const visibleRows = pagination ? page : rows;
+
+  const { pageIndex, pageSize } = state;
+  useEffect(() => {
+    updatePage(pageIndex);
+  }, [pageIndex]);
+
+  // Required for rerendering the BulkSelection component
+  useEffect(() => {
+    updateSelection(selectedFlatRows);
+  }, [selectedFlatRows]);
 
   useEffect(() => {
     // console.log(`Updated rTable`);
     updateRTable(rTable);
   }, [rTable]);
-
-  // This is causing additional rerender
-  // console.log(`selectedFlatRows=${selectedFlatRows}`);
-  useEffect(() => {
-    updateSelection(selectedFlatRows);
-  }, [selectedFlatRows]);
 
   return (
   <>
@@ -142,7 +153,7 @@ const EditSelectionTable = () => {
     </thead>
     <tbody {...getTableBodyProps()}>
     {
-      rows.map(row => {
+      visibleRows.map(row => {
         prepareRow(row);
         return (
             <tr {...row.getRowProps()}>
