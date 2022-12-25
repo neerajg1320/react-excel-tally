@@ -265,12 +265,14 @@ export const TableWrapper = () => {
                 <div style={{
                     display: "flex", flexDirection:"row", gap: "20px"
                   }}>
-                  <Button className="btn-outline-dark bg-transparent"
-                      size="sm"
-                      onClick={handleFilterClearClick}
-                  >
-                    Clear Filters
-                  </Button>
+                  {(featureGlobalFilter || featureColumnFilter) &&
+                    <Button className="btn-outline-dark bg-transparent"
+                            size="sm"
+                            onClick={handleFilterClearClick}
+                    >
+                      Clear Filters
+                    </Button>
+                  }
                   <GlobalFilterSection />
                 </div>
               </div>
