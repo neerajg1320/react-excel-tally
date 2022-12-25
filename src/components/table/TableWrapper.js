@@ -127,7 +127,9 @@ export const TableWrapper = () => {
     });
   }, [applyUpdate]);
 
-  const {toggleAllRowsSelected} = rTable;
+  const {toggleAllRowsSelected, gotoPage} = rTable;
+
+  console.log(`gotoPage:`, gotoPage);
 
   const handleCommitClick = useCallback((updates) => {
     // console.log(`updates count: ${updates.length}`);
@@ -182,6 +184,10 @@ export const TableWrapper = () => {
     setGlobalFilterValue((preValue) => {
       if (!preValue && value) {
         console.log(`Filter active pulse`);
+        // We need to reset the page as the current page might be out of bound for filtered data
+        setTimeout(() => {
+          gotoPage(0);
+        }, 0)
       }
 
       if (preValue && !value) {
@@ -189,7 +195,7 @@ export const TableWrapper = () => {
       }
       return value;
     })
-  }, [])
+  }, [gotoPage])
 
   const providePageIndex = () => {
     console.log(`providePageIndex: pageIndex=${pageIndex}`)
