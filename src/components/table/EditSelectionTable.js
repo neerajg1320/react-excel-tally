@@ -131,6 +131,7 @@ const EditSelectionTable = () => {
         initialState: {
           pageIndex: currentPageIndex,
         },
+        defaultColumn,
       },
       // useRowSelect is causing two renders
       // https://github.com/TanStack/table/issues/1496
@@ -179,8 +180,18 @@ const EditSelectionTable = () => {
             headerGroup.headers.map(column => (
               !featureColumnFilter ?
                 <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-                  :
-                  <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                :
+                <th {...column.getHeaderProps()}>
+                  <div
+                      style={{display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center"
+                      }}
+                  >
+                    {column.render('Header')}
+                    <span>{column.canFilter ? column.render('Filter') : null}</span>
+                  </div>
+                </th>
             ))
           }
         </tr>
