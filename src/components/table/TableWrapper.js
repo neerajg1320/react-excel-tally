@@ -190,6 +190,8 @@ export const TableWrapper = () => {
     if (!globalFilterValueRef.current && value) {
       console.log(`Filter active pulse`);
       // We need to reset the page as the current page might be out of bound for filtered data
+
+      // Note: The following cause a rerender
       setTimeout(() => {
         gotoPage(0);
       }, 0)
@@ -216,7 +218,7 @@ export const TableWrapper = () => {
     featureBulk,
     featureEdit,
     featurePagination,
-    selectedRows,
+    // selectedRows,
     tableInstance: tableInstanceRef.current,
     onSelectionChange: handleSelectionUpdate,
     onRTableChange: handleRTableChange,
