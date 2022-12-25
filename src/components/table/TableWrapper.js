@@ -32,12 +32,11 @@ export const TableWrapper = () => {
   const updateWithCommit = useMemo(() => true, []);
   const [updates, setUpdates] = useState([]);
 
-
   // // Table Section
 
   // Used for re-rendering the table
   const tableKeyRef = useRef(1);
-  const [rTable, setRTable] = useState({})
+  const tableInstanceRef = useRef({});
 
   // Here we put features which affect each other
   // Here is the list:
@@ -45,7 +44,7 @@ export const TableWrapper = () => {
   //    When a bulk operation is completed we need to reset the selected rows
   // 2. Filter, Pagination
   //    When we filter data the page numnber needs to be reset to 0.
-  const {toggleAllRowsSelected, gotoPage} = rTable;
+  const {toggleAllRowsSelected, gotoPage} = tableInstanceRef.current;
 
   // Table features:
   const [featureSelection, setFeatureSelection] = useState(true);
@@ -101,7 +100,7 @@ export const TableWrapper = () => {
 
   const handleRTableChange = useCallback((rt) => {
     console.log(`handleRTableChange: `, rt);
-    setRTable(rt);
+    tableInstanceRef.current = rt;
   }, []);
 
   // convert before using this to ids and patch
@@ -218,7 +217,7 @@ export const TableWrapper = () => {
     featureEdit,
     featurePagination,
     selectedRows,
-    rTable,
+    rTable: tableInstanceRef.current,
     onSelectionChange: handleSelectionUpdate,
     onRTableChange: handleRTableChange,
     onPageChange: handlePageChange,
