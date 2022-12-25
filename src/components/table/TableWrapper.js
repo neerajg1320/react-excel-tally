@@ -29,7 +29,7 @@ export const TableWrapper = () => {
 
   // Data Features:
   // Update with commit
-  const updateWithCommit = useMemo(() => true, []);
+  const updateWithCommit = useMemo(() => false, []);
   const [updates, setUpdates] = useState([]);
 
   // // Table Section
@@ -56,9 +56,9 @@ export const TableWrapper = () => {
   const [featurePagination, setFeaturePagination] = useState(true);
   const [featureColumnFilter, setFeatureColumnFilter] = useState(true);
 
+  // We can't change following to ref as we need to rerender BulkSection
   const [selectedRows, setSelectedRows] = useState([])
   const [pageIndex, setPageIndex] = useState(0);
-  // const [globalFilterValue, setGlobalFilterValue] = useState('');
   const globalFilterValueRef = useRef('');
 
 
