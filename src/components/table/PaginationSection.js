@@ -20,7 +20,7 @@ const PaginationSection = () => {
   }, []);
 
   const {
-    rTable,
+    tableInstance,
     featurePagination
   } = useContext(TableDataContext);
 
@@ -35,7 +35,7 @@ const PaginationSection = () => {
     pageCount,
     setPageSize,
     state,
-  } = rTable;
+  } = tableInstance;
 
   const {
     pageIndex,

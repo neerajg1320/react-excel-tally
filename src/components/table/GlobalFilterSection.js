@@ -21,12 +21,12 @@ const GlobalFilterSection = () => {
   }, []);
 
   const {
-    rTable,
+    tableInstance,
     featureGlobalFilter,
     onGlobalFilterChange: updateGlobalFilter
   } = useContext(TableDataContext);
 
-  const {state, setGlobalFilter} = rTable;
+  const {state, setGlobalFilter} = tableInstance;
   const {globalFilter} = state || {};
 
   // const globalFilterActiveRef = useRef(globalFilter && globalFilter.length);

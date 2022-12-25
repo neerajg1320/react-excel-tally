@@ -217,7 +217,7 @@ export const TableWrapper = () => {
     featureEdit,
     featurePagination,
     selectedRows,
-    rTable: tableInstanceRef.current,
+    tableInstance: tableInstanceRef.current,
     onSelectionChange: handleSelectionUpdate,
     onRTableChange: handleRTableChange,
     onPageChange: handlePageChange,

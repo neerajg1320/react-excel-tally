@@ -112,7 +112,7 @@ const EditSelectionTable = () => {
   const currentPageIndex = getCurrentPageIndex();
   console.log(`<EditSelectionTable>: currentPageIndex:${currentPageIndex}`);
 
-  const rTable = useTable({
+  const tableInstance = useTable({
         columns,
         data,
         updateData,
@@ -138,7 +138,7 @@ const EditSelectionTable = () => {
     selectedFlatRows,
     page,
     state
-  } = rTable;
+  } = tableInstance;
 
   const visibleRows = featurePagination ? page : rows;
 
@@ -153,9 +153,9 @@ const EditSelectionTable = () => {
   }, [selectedFlatRows]);
 
   useEffect(() => {
-    // console.log(`Updated rTable`);
-    updateRTable(rTable);
-  }, [rTable]);
+    // console.log(`Updated tableInstance`);
+    updateRTable(tableInstance);
+  }, [tableInstance]);
 
   return (
   <>
