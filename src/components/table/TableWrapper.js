@@ -39,6 +39,14 @@ export const TableWrapper = () => {
   const tableKeyRef = useRef(1);
   const [rTable, setRTable] = useState({})
 
+  // Here we put features which affect each other
+  // Here is the list:
+  // 1. Bulk, Selection
+  //    When a bulk operation is completed we need to reset the selected rows
+  // 2. Filter, Pagination
+  //    When we filter data the page numnber needs to be reset to 0.
+  const {toggleAllRowsSelected, gotoPage} = rTable;
+
   // Table features:
   const [featureSelection, setFeatureSelection] = useState(true);
   const [featureEdit, setFeatureEdit] = useState(true);
@@ -127,7 +135,6 @@ export const TableWrapper = () => {
     });
   }, [applyUpdate]);
 
-  const {toggleAllRowsSelected, gotoPage} = rTable;
 
   console.log(`gotoPage:`, gotoPage);
 
