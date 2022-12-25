@@ -147,6 +147,7 @@ const EditSelectionTable = () => {
     updatePageIndex(pageIndex);
   }, [pageIndex]);
 
+  // Note: Causes a rerender
   // Required for rerendering the BulkSelection component
   useEffect(() => {
     updateSelection(selectedFlatRows);
