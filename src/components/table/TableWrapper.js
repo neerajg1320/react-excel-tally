@@ -56,7 +56,9 @@ export const TableWrapper = () => {
 
   const [selectedRows, setSelectedRows] = useState([])
   const [pageIndex, setPageIndex] = useState(0);
-  const [globalFilterValue, setGlobalFilterValue] = useState('');
+  // const [globalFilterValue, setGlobalFilterValue] = useState('');
+  const globalFilterValueRef = useRef('');
+
 
   useEffect(() => {
     if (debug.lifecycle) {
@@ -185,20 +187,20 @@ export const TableWrapper = () => {
   // We need to fix the pageIndex when filtering starts
   const handleGlobalFilterChange = useCallback((value) => {
     console.log(`handleGlobalFilterChange: value=${value}`);
-    setGlobalFilterValue((prevValue) => {
-      if (!prevValue && value) {
-        console.log(`Filter active pulse`);
-        // We need to reset the page as the current page might be out of bound for filtered data
-        // setTimeout(() => {
-        //   gotoPage(0);
-        // }, 0)
-      }
 
-      if (prevValue && !value) {
-        console.log(`Filter passive pulse`);
-      }
-      return value;
-    })
+    if (!globalFilterValueRef.current && value) {
+      console.log(`Filter active pulse`);
+      // We need to reset the page as the current page might be out of bound for filtered data
+      setTimeout(() => {
+        gotoPage(0);
+      }, 0)
+    }
+
+    if (globalFilterValueRef.current && !value) {
+      console.log(`Filter inactive pulse`);
+    }
+
+    globalFilterValueRef.current = value;
   }, [gotoPage])
 
   const providePageIndex = () => {
