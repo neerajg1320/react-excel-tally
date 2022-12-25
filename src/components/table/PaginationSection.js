@@ -21,8 +21,7 @@ const PaginationSection = () => {
 
   const {
     rTable,
-    pagination,
-    getPageIndex
+    featurePagination,
   } = useContext(TableDataContext);
 
   const {
@@ -49,7 +48,7 @@ const PaginationSection = () => {
 
   return (
     <>
-    {pagination &&
+    {featurePagination &&
       <div>
         <span>
           Page{' '}

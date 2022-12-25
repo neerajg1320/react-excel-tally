@@ -21,10 +21,10 @@ const EditSelectionTable = () => {
   const {data,
     columns,
     onChange:updateData,
-    selection,
-    filter,
-    edit,
-    pagination,
+    featureSelection,
+    featureGlobalFilter,
+    featureEdit,
+    featurePagination,
     onSelectionChange: updateSelection,
     onRTableChange: updateRTable,
     onPageChange: updatePageIndex,
@@ -63,9 +63,9 @@ const EditSelectionTable = () => {
     };
 
     hooks.visibleColumns.push((columns) => {
-      const headColumns = selection ? [selectionColumn] : [];
+      const headColumns = featureSelection ? [selectionColumn] : [];
 
-      if (edit) {
+      if (featureEdit) {
         return headColumns.concat([
           ...columns.map(col => {
             if (col.edit) {
@@ -84,18 +84,18 @@ const EditSelectionTable = () => {
         return headColumns.concat([...columns]);
       }
     })
-  }, [selection, edit]);
+  }, [featureSelection, featureEdit]);
 
 
   const pluginHooks = useMemo(() => {
     const hooks = [];
-    if (filter) {
+    if (featureGlobalFilter) {
       hooks.push(useGlobalFilter);
     }
-    if (pagination) {
+    if (featurePagination) {
       hooks.push(usePagination);
     }
-    if (selection) {
+    if (featureSelection) {
       hooks.push(useRowSelect);
     }
     hooks.push(usePrepareColumn);
@@ -107,7 +107,7 @@ const EditSelectionTable = () => {
     // const paginationHook = pagination ? usePagination : () => {};
     //
     // return [globalFilterHook, paginationHook, selectionHook, usePrepareColumn];
-  }, [selection, filter, edit, pagination])
+  }, [featureSelection, featureGlobalFilter, featureEdit, featurePagination])
 
   const currentPageIndex = getCurrentPageIndex();
   console.log(`<EditSelectionTable>: currentPageIndex:${currentPageIndex}`);
@@ -140,7 +140,7 @@ const EditSelectionTable = () => {
     state
   } = rTable;
 
-  const visibleRows = pagination ? page : rows;
+  const visibleRows = featurePagination ? page : rows;
 
   const { pageIndex, pageSize } = state;
   useEffect(() => {

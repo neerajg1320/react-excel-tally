@@ -11,7 +11,7 @@ const BulkOperationsSection = ({edit}) => {
     console.log(`Rendering <BulkOperationsComponent>`);
   }
 
-  const {bulk, columns, rTable, onChange:updateData} = useContext(TableDataContext);
+  const {featureBulk, columns, rTable, onChange:updateData} = useContext(TableDataContext);
 
   // console.log(rTable);
   const {selectedFlatRows, toggleAllRowsSelected} = rTable;
@@ -74,7 +74,7 @@ const BulkOperationsSection = ({edit}) => {
 
   return (
       <>
-      {bulk &&
+      {featureBulk &&
         <div style={{display:"flex", gap: "10px", alignItems:"center"}}>
           {edit &&
             <>

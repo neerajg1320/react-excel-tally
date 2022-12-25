@@ -22,7 +22,7 @@ const GlobalFilterSection = () => {
 
   const {
     rTable,
-    filter,
+    featureGlobalFilter,
     onGlobalFilterChange: updateGlobalFilter
   } = useContext(TableDataContext);
 
@@ -38,7 +38,7 @@ const GlobalFilterSection = () => {
   // We need to reset the pageIndex to 0 when we start typing in the filter
   return (
       <>
-        {filter && <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>}
+        {featureGlobalFilter && <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>}
       </>
   )
 
