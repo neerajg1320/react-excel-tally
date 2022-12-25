@@ -232,6 +232,7 @@ export const TableWrapper = () => {
     featureEdit,
     featurePagination,
     featureColumnFilter,
+    featureSorting,
 
     tableInstance: tableInstanceRef.current,
     onSelectionChange: handleSelectionUpdate,

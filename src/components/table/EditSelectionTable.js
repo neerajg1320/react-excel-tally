@@ -103,15 +103,16 @@ const EditSelectionTable = () => {
     if (featureColumnFilter) {
       hooks.push(useFilters);
     }
+    if (featureSorting) {
+      hooks.push(useSortBy);
+    }
     if (featurePagination) {
       hooks.push(usePagination);
     }
     if (featureSelection) {
       hooks.push(useRowSelect);
     }
-    if (featureSorting) {
-      hooks.push(useSortBy);
-    }
+
     hooks.push(usePrepareColumn);
 
     return hooks;
@@ -182,10 +183,11 @@ const EditSelectionTable = () => {
         <tr {...headerGroup.getHeaderGroupProps()}>
           {
             headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>
-                <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+              <th {...column.getHeaderProps(featureSorting ? column.getSortByToggleProps() : {})}>
+                <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", gap:"10px"}}>
                   {column.render('Header')}
-                  <div>
+                  <div style={{display:"flex", flexDirection:"row", gap:"5px", alignItems:"center"}}>
+                    {featureSorting && <span>{column.isSorted ? (column.isSortedDesc ? ' >' : ' <') : '<>'}</span>}
                     {featureColumnFilter && <span>{column.canFilter ? column.render('Filter') : null}</span>}
                   </div>
                 </div>
