@@ -4,7 +4,10 @@ export const ColumnFilter = ({ column }) => {
   return (
       <div>
         Search: {' '}
-        <input value={filterValue || ''} onChange={(e) => setFilter(e.target.value)} />
+        <input
+            value={filterValue || ''}
+            onChange={(e) => setFilter(e.target.value)}
+        />
       </div>
   );
 }

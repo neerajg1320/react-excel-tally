@@ -3,7 +3,8 @@ import {
   useTable,
   useRowSelect,
   useGlobalFilter,
-  usePagination
+  usePagination,
+  useFilters,
 } from "react-table";
 import {RowCheckbox} from "./parts/RowCheckbox";
 import EditableCell from "./parts/editableControlledCell";
@@ -12,6 +13,7 @@ import React, {useCallback, useContext, useEffect, useMemo, useState} from "reac
 import {debug} from "../config/debugEnabled";
 import TableDataContext from "./TableDataContext";
 import {ColumnFilterWithIcon} from "./filter/ColumnFilterWithIcon";
+import {ColumnFilter} from "./filter/ColumnFilter";
 
 // Supports:
 //  - Rows Selection
@@ -91,6 +93,10 @@ const EditSelectionTable = () => {
 
   const pluginHooks = useMemo(() => {
     const hooks = [];
+
+    if (columnFilter) {
+      hooks.push(useFilters);
+    }
     if (filter) {
       hooks.push(useGlobalFilter);
     }
@@ -110,7 +116,7 @@ const EditSelectionTable = () => {
 
   const defaultColumnAttrs = useMemo(() => {
     return {
-      Filter: ColumnFilterWithIcon
+      Filter: ColumnFilter
       // filter: filterEmptyValues,
     }
   }, []);
@@ -168,7 +174,22 @@ const EditSelectionTable = () => {
         <tr {...headerGroup.getHeaderGroupProps()}>
           {
             headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                <th {...column.getHeaderProps()}>
+                  {columnFilter
+                  ?
+                      <div
+                          style={{display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center"
+                          }}
+                      >
+                        {column.render('Header')}
+                        <span>{column.canFilter ? column.render('Filter') : null}</span>
+                      </div>
+                  :
+                      column.render('Header')
+                  }
+                </th>
             ))
           }
         </tr>
