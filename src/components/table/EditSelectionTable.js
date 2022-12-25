@@ -8,8 +8,8 @@ import {
 import {RowCheckbox} from "./parts/RowCheckbox";
 import EditableCell from "./parts/editableControlledCell";
 import SelectableCell from "./parts/selectableCell";
-import React, {useCallback, useContext, useEffect, useMemo} from "react";
-import {debug} from "../config/debug";
+import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
+import {debug} from "../config/debugEnabled";
 import TableDataContext from "./TableDataContext";
 
 // Supports:
@@ -27,8 +27,8 @@ const EditSelectionTable = () => {
     pagination,
     onSelectionChange: updateSelection,
     onRTableChange: updateRTable,
-    onPageChange: updatePage,
-    pageIndex: currentPageIndex,
+    onPageChange: updatePageIndex,
+    getPageIndex: getCurrentPageIndex,
   } = useContext(TableDataContext);
 
   if (debug.lifecycle) {
@@ -95,17 +95,17 @@ const EditSelectionTable = () => {
     return [globalFilterHook, paginationHook, selectionHook, usePrepareColumn];
   }, [selection, filter, edit, pagination])
 
-  console.log(`currentPageIndex: ${currentPageIndex}`);
-  const initialState = {
-    pageIndex: currentPageIndex
-  }
+  const currentPageIndex = getCurrentPageIndex();
+  console.log(`<EditSelectionTable>: currentPageIndex:${currentPageIndex}`);
 
   const rTable = useTable({
         columns,
         data,
         updateData,
         autoResetSelectedRows: false,
-        initialState
+        initialState: {
+          pageIndex: currentPageIndex,
+        },
       },
       // useRowSelect is causing two renders
       // https://github.com/TanStack/table/issues/1496
@@ -130,7 +130,7 @@ const EditSelectionTable = () => {
 
   const { pageIndex, pageSize } = state;
   useEffect(() => {
-    updatePage(pageIndex);
+    updatePageIndex(pageIndex);
   }, [pageIndex]);
 
   // Required for rerendering the BulkSelection component

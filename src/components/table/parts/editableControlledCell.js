@@ -7,7 +7,7 @@ const EditableControlledCell = ({value:initialValue, row, column, updateData}) =
   if (debug.lifecycle) {
     console.log(`Rendering <EditableControlledCell>`);
   }
-  const [value, setValue] = useState(initialValue );
+  const [value, setValue] = useState(initialValue);
 
   useEffect(() => {
     if (debug.lifecycle) {

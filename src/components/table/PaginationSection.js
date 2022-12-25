@@ -19,7 +19,11 @@ const PaginationSection = () => {
     }
   }, []);
 
-  const {rTable, pagination} = useContext(TableDataContext);
+  const {
+    rTable,
+    pagination,
+    getPageIndex
+  } = useContext(TableDataContext);
 
   const {
     // page,
@@ -34,8 +38,14 @@ const PaginationSection = () => {
     state,
   } = rTable;
 
-  const { pageIndex, pageSize } = state || {};
-  console.log(`pageIndex=${pageIndex}`);
+  // const { pageIndex, pageSize } = state || {};
+  const {
+    pageIndex,
+    pageSize
+  } = state || {};
+
+  // const pageIndex = getPageIndex();
+  // console.log(`pageIndex=${pageIndex}`);
 
   return (
     <>

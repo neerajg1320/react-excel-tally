@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useRef} from "react";
 import TableDataContext from "./TableDataContext";
 import {GlobalFilter} from "./filter/GlobalFilter";
 import {debug} from "../config/debugEnabled";
@@ -20,10 +20,22 @@ const GlobalFilterSection = () => {
     }
   }, []);
 
-  const {rTable, filter} = useContext(TableDataContext);
+  const {
+    rTable,
+    filter,
+    onGlobalFilterChange: updateGlobalFilter
+  } = useContext(TableDataContext);
+
   const {state, setGlobalFilter} = rTable;
   const {globalFilter} = state || {};
 
+  // const globalFilterActiveRef = useRef(globalFilter && globalFilter.length);
+  useEffect(() => {
+    console.log(`Global Filter: ${globalFilter}`)
+    updateGlobalFilter({value: globalFilter});
+  }, [globalFilter]);
+
+  // We need to reset the pageIndex to 0 when we start typing in the filter
   return (
       <>
         {filter && <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>}

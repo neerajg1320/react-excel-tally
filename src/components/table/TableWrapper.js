@@ -21,16 +21,23 @@ export const TableWrapper = () => {
   if (debug.lifecycle) {
     console.log(`Rendering <TableWrapper>`);
   }
+
+  // // Data Section
+
   const {state} = useLocation();
-
   const [data, setData] = useState(state?.data);
-  // console.log(`data=${JSON.stringify(data)}`);
-  const [rTable, setRTable] = useState({})
-  const [selectedRows, setSelectedRows] = useState([])
 
-  const updateWithCommit = useMemo(() => false, []);
+  // Data Features:
+  // Update with commit
+  const updateWithCommit = useMemo(() => true, []);
   const [updates, setUpdates] = useState([]);
+
+
+  // // Table Section
+
+  // Used for re-rendering the table
   const tableKeyRef = useRef(1);
+  const [rTable, setRTable] = useState({})
 
   // Table features:
   const [featureSelection, setFeatureSelection] = useState(true);
@@ -39,7 +46,9 @@ export const TableWrapper = () => {
   const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
   const [featurePagination, setFeaturePagination] = useState(true);
 
-  const [pageIndex, setPageIndex] = useState(1);
+  const [selectedRows, setSelectedRows] = useState([])
+  const [pageIndex, setPageIndex] = useState(0);
+  const [globalFilterValue, setGlobalFilterValue] = useState('');
 
   useEffect(() => {
     if (debug.lifecycle) {
@@ -118,6 +127,8 @@ export const TableWrapper = () => {
     });
   }, [applyUpdate]);
 
+  const {toggleAllRowsSelected} = rTable;
+
   const handleCommitClick = useCallback((updates) => {
     // console.log(`updates count: ${updates.length}`);
     if (updates.length < 1) {
@@ -129,7 +140,7 @@ export const TableWrapper = () => {
     setUpdates([]);
 
     // Reset the selection of rows
-    const {toggleAllRowsSelected} = rTable;
+    // const {toggleAllRowsSelected} = rTable; // TBD Optimize: take definition outside
     toggleAllRowsSelected(false);
   }, [commitUpdates, rTable]);
 
@@ -144,8 +155,8 @@ export const TableWrapper = () => {
       });
     } else {
       commitUpdates([update]);
+
       // Reset the selection of rows
-      const {toggleAllRowsSelected} = rTable;
       if (toggleAllRowsSelected) {
         toggleAllRowsSelected(false);
       }
@@ -161,28 +172,55 @@ export const TableWrapper = () => {
   }, []);
 
   const handlePageChange = useCallback((pageIndex) => {
-    // console.log(`handlePageChange: ${pageIndex}`);
+    console.log(`handlePageChange: ${pageIndex}`);
     setPageIndex(pageIndex);
   }, []);
 
+
+  // We need to fix the pageIndex when filtering starts
+  const handleGlobalFilterChange = useCallback(({value}) => {
+    console.log(`handleGlobalFilterChange: value=${value}`);
+    setGlobalFilterValue((preValue) => {
+      if (!preValue && value) {
+        console.log(`Filter active pulse`);
+        // setPageIndex(0);
+        // const {gotoPage} = rTable;
+        // gotoPage(1);
+      }
+
+      if (preValue && !value) {
+        console.log(`Filter passive pulse`);
+      }
+      return value;
+    })
+  }, [rTable])
+
+  const providePageIndex = () => {
+    console.log(`providePageIndex: pageIndex=${pageIndex}`)
+    return pageIndex;
+  }
+
+  const tableContext = {
+    data,
+    columns: rtColumns,
+    onChange: handleDataChange,
+    selection: featureSelection,
+    filter: featureGlobalFilter,
+    bulk: featureBulk,
+    edit: featureEdit,
+    pagination: featurePagination,
+    selectedRows,
+    rTable,
+    onSelectionChange: handleSelectionUpdate,
+    onRTableChange: handleRTableChange,
+    onPageChange: handlePageChange,
+    getPageIndex: providePageIndex,
+    onGlobalFilterChange: handleGlobalFilterChange
+  };
+
   return (
       <>
-        <TableDataContext.Provider value={{
-          data,
-          columns: rtColumns,
-          onChange: handleDataChange,
-          selection: featureSelection,
-          filter: featureGlobalFilter,
-          bulk: featureBulk,
-          edit: featureEdit,
-          pagination: featurePagination,
-          selectedRows,
-          rTable,
-          onSelectionChange: handleSelectionUpdate,
-          onRTableChange: handleRTableChange,
-          onPageChange: handlePageChange,
-          pageIndex,
-        }}>
+        <TableDataContext.Provider value={tableContext}>
           {!data &&
             <div style={{
               display:"flex", flexDirection:"row", justifyContent:"center", alignItems: "center"
