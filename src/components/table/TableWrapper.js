@@ -55,6 +55,7 @@ export const TableWrapper = () => {
   const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
   const [featurePagination, setFeaturePagination] = useState(true);
   const [featureColumnFilter, setFeatureColumnFilter] = useState(true);
+  const [featureSorting, setFeatureSorting] = useState(true);
 
   // We can't change following to ref as we need to rerender BulkSection
   const [selectedRows, setSelectedRows] = useState([])

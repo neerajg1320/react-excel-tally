@@ -4,7 +4,8 @@ import {
   useRowSelect,
   useGlobalFilter,
   usePagination,
-  useFilters
+  useFilters,
+  useSortBy
 } from "react-table";
 import {RowCheckbox} from "./parts/RowCheckbox";
 import EditableCell from "./parts/editableControlledCell";
@@ -30,6 +31,7 @@ const EditSelectionTable = () => {
     featureEdit,
     featurePagination,
     featureColumnFilter,
+    featureSorting,
 
     onSelectionChange: updateSelection,
     onRTableChange: updateRTable,
@@ -107,7 +109,9 @@ const EditSelectionTable = () => {
     if (featureSelection) {
       hooks.push(useRowSelect);
     }
-
+    if (featureSorting) {
+      hooks.push(useSortBy);
+    }
     hooks.push(usePrepareColumn);
 
     return hooks;
@@ -178,20 +182,14 @@ const EditSelectionTable = () => {
         <tr {...headerGroup.getHeaderGroupProps()}>
           {
             headerGroup.headers.map(column => (
-              !featureColumnFilter ?
-                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-                :
-                <th {...column.getHeaderProps()}>
-                  <div
-                      style={{display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center"
-                      }}
-                  >
-                    {column.render('Header')}
-                    <span>{column.canFilter ? column.render('Filter') : null}</span>
+              <th {...column.getHeaderProps()}>
+                <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                  {column.render('Header')}
+                  <div>
+                    {featureColumnFilter && <span>{column.canFilter ? column.render('Filter') : null}</span>}
                   </div>
-                </th>
+                </div>
+              </th>
             ))
           }
         </tr>
