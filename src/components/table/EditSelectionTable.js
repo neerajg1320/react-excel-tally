@@ -11,6 +11,7 @@ import SelectableCell from "./parts/selectableCell";
 import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {debug} from "../config/debugEnabled";
 import TableDataContext from "./TableDataContext";
+import {ColumnFilterWithIcon} from "./filter/ColumnFilterWithIcon";
 
 // Supports:
 //  - Rows Selection
@@ -25,6 +26,7 @@ const EditSelectionTable = () => {
     filter,
     edit,
     pagination,
+    columnFilter,
     onSelectionChange: updateSelection,
     onRTableChange: updateRTable,
     onPageChange: updatePageIndex,
@@ -101,21 +103,22 @@ const EditSelectionTable = () => {
     hooks.push(usePrepareColumn);
 
     return hooks;
-
-    // const selectionHook = selection ? useRowSelect : () => {};
-    // const globalFilterHook = filter ? useGlobalFilter : () => {};
-    // const paginationHook = pagination ? usePagination : () => {};
-    //
-    // return [globalFilterHook, paginationHook, selectionHook, usePrepareColumn];
   }, [selection, filter, edit, pagination])
 
   const currentPageIndex = getCurrentPageIndex();
   console.log(`<EditSelectionTable>: currentPageIndex:${currentPageIndex}`);
 
+  const defaultColumnAttrs = useMemo(() => {
+    return {
+      Filter: ColumnFilterWithIcon
+      // filter: filterEmptyValues,
+    }
+  }, []);
   const rTable = useTable({
         columns,
         data,
         updateData,
+        defaultColumn: defaultColumnAttrs,
         autoResetSelectedRows: false,
         initialState: {
           pageIndex: currentPageIndex,

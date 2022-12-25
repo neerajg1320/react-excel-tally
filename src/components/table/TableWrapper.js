@@ -27,12 +27,6 @@ export const TableWrapper = () => {
   const {state} = useLocation();
   const [data, setData] = useState(state?.data);
 
-  // Data Features:
-  // Update with commit
-  const updateWithCommit = useMemo(() => true, []);
-  const [updates, setUpdates] = useState([]);
-
-
   // // Table Section
 
   // Used for re-rendering the table
@@ -48,15 +42,20 @@ export const TableWrapper = () => {
   const {toggleAllRowsSelected, gotoPage} = rTable;
 
   // Table features:
+  const [featureUpdateCommits, setFeatureUpdateCommits] = useState(false);
   const [featureSelection, setFeatureSelection] = useState(true);
   const [featureEdit, setFeatureEdit] = useState(true);
   const [featureBulk, setFeatureBulk] = useState(true);
   const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
   const [featurePagination, setFeaturePagination] = useState(true); // problem with toggle
+  const [featureColumnFilter, setFeatureColumnFilter] = useState(true);
 
+  const [updates, setUpdates] = useState([]);
   const [selectedRows, setSelectedRows] = useState([])
   const [pageIndex, setPageIndex] = useState(0);
   const [globalFilterValue, setGlobalFilterValue] = useState('');
+
+
 
   useEffect(() => {
     if (debug.lifecycle) {
@@ -154,7 +153,7 @@ export const TableWrapper = () => {
 
     const update = {action, payload:{indices, patch}};
 
-    if (updateWithCommit) {
+    if (featureUpdateCommits) {
       setUpdates((prevUpdates) => {
         return [...prevUpdates].concat(update);
       });
@@ -215,6 +214,7 @@ export const TableWrapper = () => {
     bulk: featureBulk,
     edit: featureEdit,
     pagination: featurePagination,
+    columnFilter: featureColumnFilter,
     selectedRows,
     rTable,
     onSelectionChange: handleSelectionUpdate,
@@ -254,7 +254,7 @@ export const TableWrapper = () => {
               <EditSelectionTable key={tableKeyRef.current} />
               <PaginationSection />
 
-              {updateWithCommit &&
+              {featureUpdateCommits &&
               <div style={{
                 display: "flex", flexDirection: "row", gap: "20px"
               }}>
