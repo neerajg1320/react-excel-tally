@@ -13,7 +13,7 @@ import React, {useCallback, useContext, useEffect, useMemo, useState} from "reac
 import {debug} from "../config/debugEnabled";
 import TableDataContext from "./TableDataContext";
 import {ColumnFilterWithIcon} from "./filter/ColumnFilterWithIcon";
-import {ColumnFilter} from "./filter/ColumnFilter";
+import {filterEmptyValues} from "./filter/customFilter";
 
 // Supports:
 //  - Rows Selection
@@ -116,10 +116,11 @@ const EditSelectionTable = () => {
 
   const defaultColumnAttrs = useMemo(() => {
     return {
-      Filter: ColumnFilter
-      // filter: filterEmptyValues,
+      Filter: ColumnFilterWithIcon,
+      filter: filterEmptyValues,
     }
   }, []);
+  
   const rTable = useTable({
         columns,
         data,
@@ -175,8 +176,11 @@ const EditSelectionTable = () => {
           {
             headerGroup.headers.map(column => (
                 <th {...column.getHeaderProps()}>
-                  {columnFilter
+                  {!columnFilter
                   ?
+                      column.render('Header')
+
+                  :
                       <div
                           style={{display: "flex",
                             justifyContent: "space-between",
@@ -186,8 +190,6 @@ const EditSelectionTable = () => {
                         {column.render('Header')}
                         <span>{column.canFilter ? column.render('Filter') : null}</span>
                       </div>
-                  :
-                      column.render('Header')
                   }
                 </th>
             ))

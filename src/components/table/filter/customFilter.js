@@ -1,4 +1,4 @@
-import {isString, valToString} from "../../../../utils/types";
+import {isString, valToString} from "../../../utils/types";
 
 export const filterEmptyValues = (rows, columnIds, filterValue) => {
   // console.log(`rows[]=${rows.length} columnsIds=${JSON.stringify(columnIds, null, 2)}`);

@@ -55,8 +55,6 @@ export const TableWrapper = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [globalFilterValue, setGlobalFilterValue] = useState('');
 
-
-
   useEffect(() => {
     if (debug.lifecycle) {
       console.log(`<TableWrapper>: First render`);
