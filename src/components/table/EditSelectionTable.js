@@ -34,7 +34,7 @@ const EditSelectionTable = () => {
   if (debug.lifecycle) {
     console.log(`Rendering <EditSelectionTable>`);
   }
-  console.log(`data.length=${data.length} columns.length=${columns.length}`);
+  console.log(`<EditSelectionTable>: data.length=${data.length} columns.length=${columns.length}`);
   // console.log(JSON.stringify(data, null, 2));
 
   // For debugging purpose
@@ -88,11 +88,25 @@ const EditSelectionTable = () => {
 
 
   const pluginHooks = useMemo(() => {
-    const selectionHook = selection ? useRowSelect : () => {};
-    const globalFilterHook = filter ? useGlobalFilter : () => {};
-    const paginationHook = pagination ? usePagination : () => {};
+    const hooks = [];
+    if (filter) {
+      hooks.push(useGlobalFilter);
+    }
+    if (pagination) {
+      hooks.push(usePagination);
+    }
+    if (selection) {
+      hooks.push(useRowSelect);
+    }
+    hooks.push(usePrepareColumn);
 
-    return [globalFilterHook, paginationHook, selectionHook, usePrepareColumn];
+    return hooks;
+
+    // const selectionHook = selection ? useRowSelect : () => {};
+    // const globalFilterHook = filter ? useGlobalFilter : () => {};
+    // const paginationHook = pagination ? usePagination : () => {};
+    //
+    // return [globalFilterHook, paginationHook, selectionHook, usePrepareColumn];
   }, [selection, filter, edit, pagination])
 
   const currentPageIndex = getCurrentPageIndex();

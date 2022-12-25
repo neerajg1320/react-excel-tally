@@ -52,7 +52,7 @@ export const TableWrapper = () => {
   const [featureEdit, setFeatureEdit] = useState(true);
   const [featureBulk, setFeatureBulk] = useState(true);
   const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
-  const [featurePagination, setFeaturePagination] = useState(true);
+  const [featurePagination, setFeaturePagination] = useState(true); // problem with toggle
 
   const [selectedRows, setSelectedRows] = useState([])
   const [pageIndex, setPageIndex] = useState(0);
@@ -135,9 +135,6 @@ export const TableWrapper = () => {
     });
   }, [applyUpdate]);
 
-
-  console.log(`gotoPage:`, gotoPage);
-
   const handleCommitClick = useCallback((updates) => {
     // console.log(`updates count: ${updates.length}`);
     if (updates.length < 1) {
@@ -150,7 +147,7 @@ export const TableWrapper = () => {
 
     // Reset the selection of rows
     toggleAllRowsSelected(false);
-  }, [commitUpdates]);
+  }, [commitUpdates, toggleAllRowsSelected]);
 
   const handleDataChange = useCallback((action, indices, patch) => {
     // console.log('handleDataChange:', action, indices, patch);
@@ -169,7 +166,7 @@ export const TableWrapper = () => {
         toggleAllRowsSelected(false);
       }
     }
-  }, [commitUpdates]);
+  }, [commitUpdates, toggleAllRowsSelected]);
 
 
   const handleResetClick = useCallback((updates) => {
@@ -205,7 +202,7 @@ export const TableWrapper = () => {
   }, [gotoPage])
 
   const providePageIndex = () => {
-    console.log(`providePageIndex: pageIndex=${pageIndex}`)
+    // console.log(`providePageIndex: pageIndex=${pageIndex}`)
     return pageIndex;
   }
 
