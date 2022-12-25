@@ -183,18 +183,18 @@ export const TableWrapper = () => {
 
 
   // We need to fix the pageIndex when filtering starts
-  const handleGlobalFilterChange = useCallback(({value}) => {
+  const handleGlobalFilterChange = useCallback((value) => {
     console.log(`handleGlobalFilterChange: value=${value}`);
-    setGlobalFilterValue((preValue) => {
-      if (!preValue && value) {
+    setGlobalFilterValue((prevValue) => {
+      if (!prevValue && value) {
         console.log(`Filter active pulse`);
         // We need to reset the page as the current page might be out of bound for filtered data
-        setTimeout(() => {
-          gotoPage(0);
-        }, 0)
+        // setTimeout(() => {
+        //   gotoPage(0);
+        // }, 0)
       }
 
-      if (preValue && !value) {
+      if (prevValue && !value) {
         console.log(`Filter passive pulse`);
       }
       return value;

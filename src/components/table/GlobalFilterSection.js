@@ -32,7 +32,7 @@ const GlobalFilterSection = () => {
   // const globalFilterActiveRef = useRef(globalFilter && globalFilter.length);
   useEffect(() => {
     console.log(`Global Filter: ${globalFilter}`)
-    updateGlobalFilter({value: globalFilter});
+    updateGlobalFilter(globalFilter);
   }, [globalFilter]);
 
   // We need to reset the pageIndex to 0 when we start typing in the filter

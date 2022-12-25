@@ -21,7 +21,7 @@ const PaginationSection = () => {
 
   const {
     rTable,
-    featurePagination,
+    featurePagination
   } = useContext(TableDataContext);
 
   const {
@@ -37,14 +37,10 @@ const PaginationSection = () => {
     state,
   } = rTable;
 
-  // const { pageIndex, pageSize } = state || {};
   const {
     pageIndex,
     pageSize
   } = state || {};
-
-  // const pageIndex = getPageIndex();
-  // console.log(`pageIndex=${pageIndex}`);
 
   return (
     <>
