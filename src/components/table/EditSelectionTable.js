@@ -27,7 +27,8 @@ const EditSelectionTable = () => {
     pagination,
     onSelectionChange: updateSelection,
     onRTableChange: updateRTable,
-    onPageChange: updatePage
+    onPageChange: updatePage,
+    pageIndex: currentPageIndex,
   } = useContext(TableDataContext);
 
   if (debug.lifecycle) {
@@ -94,12 +95,17 @@ const EditSelectionTable = () => {
     return [globalFilterHook, paginationHook, selectionHook, usePrepareColumn];
   }, [selection, filter, edit, pagination])
 
+  console.log(`currentPageIndex: ${currentPageIndex}`);
+  const initialState = {
+    pageIndex: currentPageIndex
+  }
+
   const rTable = useTable({
         columns,
         data,
         updateData,
         autoResetSelectedRows: false,
-        // initialState: {pageIndex: 2}
+        initialState
       },
       // useRowSelect is causing two renders
       // https://github.com/TanStack/table/issues/1496

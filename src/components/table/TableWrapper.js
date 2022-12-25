@@ -39,7 +39,7 @@ export const TableWrapper = () => {
   const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
   const [featurePagination, setFeaturePagination] = useState(true);
 
-  const [page, setPage] = useState(1);
+  const [pageIndex, setPageIndex] = useState(1);
 
   useEffect(() => {
     if (debug.lifecycle) {
@@ -162,7 +162,7 @@ export const TableWrapper = () => {
 
   const handlePageChange = useCallback((pageIndex) => {
     // console.log(`handlePageChange: ${pageIndex}`);
-    setPage(pageIndex);
+    setPageIndex(pageIndex);
   }, []);
 
   return (
@@ -181,7 +181,7 @@ export const TableWrapper = () => {
           onSelectionChange: handleSelectionUpdate,
           onRTableChange: handleRTableChange,
           onPageChange: handlePageChange,
-          page,
+          pageIndex,
         }}>
           {!data &&
             <div style={{

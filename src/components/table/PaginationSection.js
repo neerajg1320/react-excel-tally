@@ -35,6 +35,7 @@ const PaginationSection = () => {
   } = rTable;
 
   const { pageIndex, pageSize } = state || {};
+  console.log(`pageIndex=${pageIndex}`);
 
   return (
     <>
