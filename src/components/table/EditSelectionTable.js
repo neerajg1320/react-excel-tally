@@ -67,7 +67,8 @@ const EditSelectionTable = () => {
       ),
       Cell: ({ row }) => (
           <RowCheckbox {...row.getToggleRowSelectedProps()} />
-      )
+      ),
+      enableSorting: false
     };
 
     hooks.visibleColumns.push((columns) => {
@@ -187,7 +188,7 @@ const EditSelectionTable = () => {
                 <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", gap:"10px"}}>
                   {column.render('Header')}
                   <div style={{display:"flex", flexDirection:"row", gap:"5px", alignItems:"center"}}>
-                    {featureSorting && <span>{column.isSorted ? (column.isSortedDesc ? ' >' : ' <') : '<>'}</span>}
+                    {(featureSorting && (column.enableSorting !== false)) && <span>{column.isSorted ? (column.isSortedDesc ? ' >' : ' <') : '<>'}</span>}
                     {featureColumnFilter && <span>{column.canFilter ? column.render('Filter') : null}</span>}
                   </div>
                 </div>
