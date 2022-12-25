@@ -1,20 +1,20 @@
 import {useEffect, useState} from "react";
 import {useAsyncDebounce} from "react-table";
 
-export const GlobalFilter = ({ filter, setFilter}) => {
+export const GlobalFilter = ({globalFilter, setGlobalFilter}) => {
   // console.log(`Rendering <GlobalFilter>: filter=${filter}`);
 
-  const [value, setValue] = useState(filter || "");
+  const [value, setValue] = useState(globalFilter || "");
   const onChange = useAsyncDebounce(val => {
     // console.log(`val=${val}`);
-    setFilter(val)
+    setGlobalFilter(val)
   }, 100);
 
   // If the value changes from outside
   useEffect(() => {
     // console.log(`filter=${filter}`);
-    setValue(filter || "");
-  }, [filter]);
+    setValue(globalFilter || "");
+  }, [globalFilter]);
 
   return (
       <div style={{display:"flex", gap:"10px", alignItems:"center"}}>

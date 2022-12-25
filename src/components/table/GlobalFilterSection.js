@@ -38,7 +38,7 @@ const GlobalFilterSection = () => {
   // We need to reset the pageIndex to 0 when we start typing in the filter
   return (
       <>
-        {featureGlobalFilter && <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>}
+        {featureGlobalFilter && <GlobalFilter {...{globalFilter, setGlobalFilter}}/>}
       </>
   )
 
