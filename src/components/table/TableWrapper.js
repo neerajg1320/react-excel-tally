@@ -44,6 +44,8 @@ export const TableWrapper = () => {
   //    When a bulk operation is completed we need to reset the selected rows
   // 2. Filter, Pagination
   //    When we filter data the page numnber needs to be reset to 0.
+  // 3. ColumnFilters, GlobalFilters
+  //    When we clear filters we clear filters on both.
   const {toggleAllRowsSelected, gotoPage} = tableInstanceRef.current;
 
   // Table features:
@@ -213,6 +215,9 @@ export const TableWrapper = () => {
   // TBV: Check if this can be in TableWrapper
   const handleFilterClearClick = () => {
     console.log(`Need to clear filters`);
+    const {setGlobalFilter, setAllFilters} = tableInstanceRef.current;
+    setAllFilters([]);
+    setGlobalFilter("");
   }
 
   const tableContext = {
