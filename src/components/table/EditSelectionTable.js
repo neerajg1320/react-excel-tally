@@ -13,7 +13,7 @@ import React, {useCallback, useContext, useEffect, useMemo, useState} from "reac
 import {debug} from "../config/debugEnabled";
 import TableDataContext from "./TableDataContext";
 import {ColumnFilterWithIcon} from "./filter/ColumnFilterWithIcon";
-import {filterEmptyValues} from "./filter/customFilter";
+import {filterRegexSupport} from "./filter/customFilter";
 
 // Supports:
 //  - Rows Selection
@@ -115,12 +115,16 @@ const EditSelectionTable = () => {
   console.log(`<EditSelectionTable>: currentPageIndex:${currentPageIndex}`);
 
   const defaultColumnAttrs = useMemo(() => {
-    return {
-      Filter: ColumnFilterWithIcon,
-      filter: filterEmptyValues,
+    if (columnFilter) {
+      return {
+        Filter: ColumnFilterWithIcon,
+        filter: filterRegexSupport,
+      }
     }
-  }, []);
-  
+
+    return {};
+  }, [columnFilter]);
+
   const rTable = useTable({
         columns,
         data,
