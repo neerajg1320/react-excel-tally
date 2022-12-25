@@ -140,9 +140,8 @@ export const TableWrapper = () => {
     setUpdates([]);
 
     // Reset the selection of rows
-    // const {toggleAllRowsSelected} = rTable; // TBD Optimize: take definition outside
     toggleAllRowsSelected(false);
-  }, [commitUpdates, rTable]);
+  }, [commitUpdates]);
 
   const handleDataChange = useCallback((action, indices, patch) => {
     // console.log('handleDataChange:', action, indices, patch);
@@ -161,7 +160,7 @@ export const TableWrapper = () => {
         toggleAllRowsSelected(false);
       }
     }
-  }, [commitUpdates, rTable]);
+  }, [commitUpdates]);
 
 
   const handleResetClick = useCallback((updates) => {
@@ -183,9 +182,6 @@ export const TableWrapper = () => {
     setGlobalFilterValue((preValue) => {
       if (!preValue && value) {
         console.log(`Filter active pulse`);
-        // setPageIndex(0);
-        // const {gotoPage} = rTable;
-        // gotoPage(1);
       }
 
       if (preValue && !value) {
@@ -193,7 +189,7 @@ export const TableWrapper = () => {
       }
       return value;
     })
-  }, [rTable])
+  }, [])
 
   const providePageIndex = () => {
     console.log(`providePageIndex: pageIndex=${pageIndex}`)
