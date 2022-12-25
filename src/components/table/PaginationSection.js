@@ -49,7 +49,7 @@ const PaginationSection = () => {
         <span>
           | Go to page: {' '}
           <input type="number"
-                 value={pageIndex + 1}
+                 value={(pageIndex || 0) + 1}
                  onChange={e => {
                    const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
                    gotoPage(pageNumber)
