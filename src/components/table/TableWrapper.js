@@ -210,6 +210,11 @@ export const TableWrapper = () => {
     return pageIndex;
   }
 
+  // TBV: Check if this can be in TableWrapper
+  const handleFilterClearClick = () => {
+    console.log(`Need to clear filters`);
+  }
+
   const tableContext = {
     data,
     columns: rtColumns,
@@ -252,7 +257,15 @@ export const TableWrapper = () => {
                 <div>
                   <BulkOperationsSection edit={featureEdit}/>
                 </div>
-                <div>
+                <div style={{
+                    display: "flex", flexDirection:"row", gap: "20px"
+                  }}>
+                  <Button className="btn-outline-dark bg-transparent"
+                      size="sm"
+                      onClick={handleFilterClearClick}
+                  >
+                    Clear Filters
+                  </Button>
                   <GlobalFilterSection />
                 </div>
               </div>
