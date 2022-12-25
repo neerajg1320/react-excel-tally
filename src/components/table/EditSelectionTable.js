@@ -12,6 +12,8 @@ import SelectableCell from "./parts/selectableCell";
 import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {debug} from "../config/debugEnabled";
 import TableDataContext from "./TableDataContext";
+import {ColumnFilterWithIcon} from "./filter/ColumnFilterWithIcon";
+import {filterEmptyValues} from "./filter/customFilter";
 
 // Supports:
 //  - Rows Selection
@@ -114,6 +116,13 @@ const EditSelectionTable = () => {
   const currentPageIndex = getCurrentPageIndex();
   console.log(`<EditSelectionTable>: currentPageIndex:${currentPageIndex}`);
 
+  const defaultColumn = useMemo(() => {
+    return {
+      Filter: ColumnFilterWithIcon,
+      filter: filterEmptyValues,
+    }
+  }, []);
+
   const tableInstance = useTable({
         columns,
         data,
@@ -168,7 +177,10 @@ const EditSelectionTable = () => {
         <tr {...headerGroup.getHeaderGroupProps()}>
           {
             headerGroup.headers.map(column => (
+              !featureColumnFilter ?
                 <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                  :
+                  <th {...column.getHeaderProps()}>{column.render('Header')}</th>
             ))
           }
         </tr>
