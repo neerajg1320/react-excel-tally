@@ -214,7 +214,7 @@ export const TableWrapper = () => {
     data,
     columns: rtColumns,
     onChange: handleDataChange,
-    
+
     featureSelection,
     featureGlobalFilter,
     featureBulk,

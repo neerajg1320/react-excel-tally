@@ -3,7 +3,8 @@ import {
   useTable,
   useRowSelect,
   useGlobalFilter,
-  usePagination
+  usePagination,
+  useFilters
 } from "react-table";
 import {RowCheckbox} from "./parts/RowCheckbox";
 import EditableCell from "./parts/editableControlledCell";
@@ -21,10 +22,13 @@ const EditSelectionTable = () => {
   const {data,
     columns,
     onChange:updateData,
+
     featureSelection,
     featureGlobalFilter,
     featureEdit,
     featurePagination,
+    featureColumnFilter,
+
     onSelectionChange: updateSelection,
     onRTableChange: updateRTable,
     onPageChange: updatePageIndex,
@@ -92,21 +96,19 @@ const EditSelectionTable = () => {
     if (featureGlobalFilter) {
       hooks.push(useGlobalFilter);
     }
+    if (featureColumnFilter) {
+      hooks.push(useFilters);
+    }
     if (featurePagination) {
       hooks.push(usePagination);
     }
     if (featureSelection) {
       hooks.push(useRowSelect);
     }
+
     hooks.push(usePrepareColumn);
 
     return hooks;
-
-    // const selectionHook = selection ? useRowSelect : () => {};
-    // const globalFilterHook = filter ? useGlobalFilter : () => {};
-    // const paginationHook = pagination ? usePagination : () => {};
-    //
-    // return [globalFilterHook, paginationHook, selectionHook, usePrepareColumn];
   }, [featureSelection, featureGlobalFilter, featureEdit, featurePagination])
 
   const currentPageIndex = getCurrentPageIndex();
