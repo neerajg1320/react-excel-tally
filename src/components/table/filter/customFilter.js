@@ -1,8 +1,8 @@
 import {isString, valToString} from "../../../utils/types";
 
 export const filterRegexSupport = (rows, columnIds, filterValue) => {
-  // console.log(`rows[]=${rows.length} columnsIds=${JSON.stringify(columnIds, null, 2)}`);
-  // console.log(`filterValue=${JSON.stringify(filterValue, null, 2)}`);
+  console.log(`filterRegexSupport: rows[]=${rows.length} columnsIds=${JSON.stringify(columnIds)}`);
+  console.log(`filterValue=${JSON.stringify(filterValue)}`);
 
   const { flagBlank, flagText, filterText, textFlags } = filterValue;
 

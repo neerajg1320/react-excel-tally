@@ -118,7 +118,7 @@ const EditSelectionTable = () => {
     if (columnFilter) {
       return {
         Filter: ColumnFilterWithIcon,
-        filter: filterRegexSupport,
+        filter: filterRegexSupport
       }
     }
 
