@@ -51,7 +51,8 @@ export const TableWrapper = () => {
   const [featureEdit, setFeatureEdit] = useState(true);
   const [featureBulk, setFeatureBulk] = useState(true);
   const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
-  const [featurePagination, setFeaturePagination] = useState(true); // problem with toggle
+  const [featurePagination, setFeaturePagination] = useState(true);
+  const [featureColumnFilter, setFeatureColumnFilter] = useState(true);
 
   const [selectedRows, setSelectedRows] = useState([])
   const [pageIndex, setPageIndex] = useState(0);
@@ -213,12 +214,14 @@ export const TableWrapper = () => {
     data,
     columns: rtColumns,
     onChange: handleDataChange,
+    
     featureSelection,
     featureGlobalFilter,
     featureBulk,
     featureEdit,
     featurePagination,
-    // selectedRows,
+    featureColumnFilter,
+
     tableInstance: tableInstanceRef.current,
     onSelectionChange: handleSelectionUpdate,
     onRTableChange: handleRTableChange,
