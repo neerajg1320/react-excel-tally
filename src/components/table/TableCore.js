@@ -1,5 +1,5 @@
 import './table.css';
-import './table-resizer.css';
+import './table-column-resizer.css';
 import {
   useTable,
   useRowSelect,
