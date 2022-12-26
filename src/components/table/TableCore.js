@@ -139,7 +139,7 @@ const TableCore = () => {
   }, [featureSelection, featureGlobalFilter, featureEdit, featurePagination])
 
   const currentPageIndex = getCurrentPageIndex();
-  console.log(`<TableCore>: currentPageIndex:${currentPageIndex}`);
+  // console.log(`<TableCore>: currentPageIndex:${currentPageIndex}`);
 
   const defaultColumnAttrs = useMemo(() => {
     let attrs = {};
@@ -213,8 +213,6 @@ const TableCore = () => {
     // console.log(`Updated tableInstance`);
     updateRTable(tableInstance);
   }, [tableInstance]);
-
-
 
 
   return (

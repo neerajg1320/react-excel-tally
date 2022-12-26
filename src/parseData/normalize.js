@@ -1,4 +1,5 @@
 import {presetColumns} from "../components/table/presets/presetColumns";
+import {generateKeyFromLabel} from "../schema/core";
 
 const getKeyFromPresets = (label) => {
   const matchingColumns = presetColumns.filter(col => col.label === label)
@@ -16,10 +17,7 @@ const getKeyFromPresets = (label) => {
 export const dataNormalize = (data) => {
   const nData = data.map(row => {
     return Object.fromEntries(Object.entries(row).map(([label, val]) => {
-      const keyName = getKeyFromPresets(label) || label;
-
-      console.log(`keyPreset=`, keyName);
-
+      const keyName = getKeyFromPresets(label) || generateKeyFromLabel(label);
       return [keyName, val];
     }));
   })

@@ -236,7 +236,7 @@ export const TableWrapper = () => {
   }
 
   const handleTableCoreScroll = (e) => {
-    console.log("scrolling!", e.target.scrollLeft)
+    // console.log("scrolling!", e.target.scrollLeft)
     // setTablePosition(e.target.scrollLeft);
     tablePositionRef.current = e.target.scrollLeft;
   }
