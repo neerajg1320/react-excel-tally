@@ -47,20 +47,20 @@ const TableCore = () => {
   } = useContext(TableDataContext);
 
   if (debug.lifecycle) {
-    console.log(`Rendering <EditSelectionTable>`);
+    console.log(`Rendering <TableCore>`);
   }
-  console.log(`<EditSelectionTable>: data.length=${data.length} columns.length=${columns.length}`);
+  console.log(`<TableCore>: data.length=${data.length} columns.length=${columns.length}`);
   // console.log(JSON.stringify(data, null, 2));
 
   // For debugging purpose
   useEffect(() => {
     if (debug.lifecycle) {
-      console.log(`<EditSelectionTable>: First render`);
+      console.log(`<TableCore>: First render`);
     }
 
     return () => {
       if (debug.lifecycle) {
-        console.log(`<EditSelectionTable>: Destroyed`);
+        console.log(`<TableCore>: Destroyed`);
       }
     }
   }, []);
@@ -133,7 +133,7 @@ const TableCore = () => {
   }, [featureSelection, featureGlobalFilter, featureEdit, featurePagination])
 
   const currentPageIndex = getCurrentPageIndex();
-  console.log(`<EditSelectionTable>: currentPageIndex:${currentPageIndex}`);
+  console.log(`<TableCore>: currentPageIndex:${currentPageIndex}`);
 
   const defaultColumnAttrs = useMemo(() => {
     let attrs = {};
@@ -279,7 +279,7 @@ const TableCore = () => {
   );
 }
 
-// export default EditSelectionTable;
+// export default TableCore;
 
 // We use React.memo when we want to render the child only when any props change
 export default React.memo(TableCore);
