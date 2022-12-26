@@ -1,52 +1,52 @@
 export const presetColumns = [
   {
     label: "Sl. No.",
-    key: "Sl. No.",
+    keyName: "serialNum",
     width: 50
   },
   {
     label: "Transaction Date",
-    key: "Transaction Date",
+    keyName: "transactionDate",
     width: 100
   },
   {
     label: "Value Date",
-    key: "Value Date",
+    keyName: "valueDate",
     width: 100
   },
   {
     label: "Description",
-    key: "Description",
+    keyName: "description",
     width: 300
   },
   {
     label: "Chq / Ref number",
-    key: "Chq / Ref number",
+    keyName: "refNumber",
     width: 100
   },
   {
     label: "Debit",
-    key: "Debit",
+    keyName: "debit",
     width: 100
   },
   {
     label: "Credit",
-    key: "Credit",
+    keyName: "credit",
     width: 100
   },
   {
     label: "Balance",
-    key: "Balance",
+    keyName: "balance",
     width: 120
   },
   {
     label: "Dr / Cr",
-    key: "Dr / Cr",
+    keyName: "drCr",
     width: 50
   },
   {
     label: "Category",
-    key: "Category",
+    keyName: "category",
     edit: true,
     bulk: true,
     type: 'select',
@@ -56,13 +56,13 @@ export const presetColumns = [
   },
   {
     label: "VoucherId",
-    key: "VoucherId",
+    keyName: "voucherId",
     edit: false,
     bulk: false,
   },
   {
     label: "Remarks",
-    key: "Remarks",
+    keyName: "remarks",
     edit: true,
     bulk: true,
     type: 'input',
