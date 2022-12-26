@@ -1,7 +1,7 @@
 .resizer {
     display: inline-block;
-    background: lightseagreen;
-    width: 10px;
+    background: green;
+    width: 5px;
     height: 100%;
     position: absolute;
     right: 0;
