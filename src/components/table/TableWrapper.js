@@ -236,7 +236,7 @@ export const TableWrapper = () => {
 
     layoutFooter: false,
     layoutFixed: true,
-    layoutResize: true,
+    layoutResize: true, // dependent of layoutFixed
 
     tableInstance: tableInstanceRef.current,
     onSelectionChange: handleSelectionUpdate,

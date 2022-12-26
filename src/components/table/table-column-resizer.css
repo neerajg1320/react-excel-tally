@@ -1,6 +1,6 @@
 .resizer {
     display: inline-block;
-    background: blue;
+    background: lightseagreen;
     width: 10px;
     height: 100%;
     position: absolute;
@@ -14,5 +14,5 @@
 
 
 .isResizing {
-    background: red;
+    background: darkgreen;
 }
