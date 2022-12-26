@@ -285,9 +285,12 @@ export const TableWrapper = () => {
 
               <div style={{
                 width:"100vw",
-                overflow: "scroll"
+                padding: "10px",
+                overflow: "scroll",
+                background: "darkgray",
+                display: "flex", flexDirection:"row", justifyContent:"flex-start", alignItems:"center"
               }}>
-                <TableCore key={tableKeyRef.current} />
+                  <TableCore key={tableKeyRef.current} />
               </div>
 
               <PaginationSection />
