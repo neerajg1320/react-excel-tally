@@ -29,7 +29,7 @@ export const TableWrapper = () => {
 
   // Data Features:
   // Update with commit
-  const updateWithCommit = useMemo(() => true, []);
+  const updateWithCommit = useMemo(() => false, []);
   const [updates, setUpdates] = useState([]);
 
   // // Table Section
@@ -49,7 +49,7 @@ export const TableWrapper = () => {
   const {toggleAllRowsSelected, gotoPage} = tableInstanceRef.current;
 
   // Table features:
-  const [featureSelection, setFeatureSelection] = useState(false);
+  const [featureSelection, setFeatureSelection] = useState(true);
   const [featureEdit, setFeatureEdit] = useState(true);
   const [featureBulk, setFeatureBulk] = useState(true);
   const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);

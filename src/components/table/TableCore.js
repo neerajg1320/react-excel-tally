@@ -18,9 +18,6 @@ import {debug} from "../config/debugEnabled";
 import TableDataContext from "./TableDataContext";
 import {ColumnFilterWithIcon} from "./filter/ColumnFilterWithIcon";
 import {filterEmptyValues} from "./filter/customFilter";
-import Tooltip from "react-bootstrap/Tooltip";
-import Button from "react-bootstrap/Button";
-import {OverlayTrigger} from "react-bootstrap";
 import TooltipComponent from "../tooltip/TooltipComponent";
 
 // Supports:
