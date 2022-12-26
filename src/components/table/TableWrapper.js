@@ -282,8 +282,8 @@ export const TableWrapper = () => {
               </div>
 
               <div style={{
-                // height:"70vh",
-                // overflow: "scroll"
+                width:"100vw",
+                overflow: "scroll"
               }}>
                 <EditSelectionTable key={tableKeyRef.current} />
               </div>
