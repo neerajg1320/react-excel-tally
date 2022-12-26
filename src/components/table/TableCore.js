@@ -124,21 +124,31 @@ const TableCore = () => {
   const currentPageIndex = getCurrentPageIndex();
   console.log(`<EditSelectionTable>: currentPageIndex:${currentPageIndex}`);
 
-  const defaultColumn = useMemo(() => {
+  const defaultColumnAttrs = useMemo(() => {
     let attrs = {};
 
-    if (featureSelection) {
+    if (featureColumnFilter) {
+      attrs = {
+        Filter: ColumnFilterWithIcon,
+        filter: filterEmptyValues,
+      }
+    }
+
+    const layoutFixed = true;
+    if (layoutFixed) {
       attrs = {
         ...attrs,
         ...{
-          Filter: ColumnFilterWithIcon,
-          filter: filterEmptyValues,
+          maxWidth: 100,
+          minWidth: 100
         }
       }
     }
 
+    console.log(`defaultColumnAttrs=`, attrs);
     return attrs;
   }, [featureSelection]);
+
 
   const tableInstance = useTable({
         columns,
@@ -148,7 +158,7 @@ const TableCore = () => {
         initialState: {
           pageIndex: currentPageIndex,
         },
-        defaultColumn,
+        defaultColumn: defaultColumnAttrs,
       },
       // useRowSelect is causing two renders
       // https://github.com/TanStack/table/issues/1496
