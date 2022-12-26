@@ -189,8 +189,13 @@ const EditSelectionTable = () => {
               //  If we want header to be clickable then modify getHeaderProps call as 
               //  getHeaderProps(featureSorting ? column.getSortByToggleProps() : {})
               <th {...column.getHeaderProps()}>
-                <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", gap:"10px"}}>
-                  {column.render('Header')}
+                <div style={{
+                    display: "flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", gap:"10px"
+                  }}
+                >
+                  <span style={{whiteSpace:"nowrap"}}>
+                    {column.render('Header')}
+                  </span>
                   <div style={{display:"flex", flexDirection:"row", gap:"5px", alignItems:"center"}}>
                     {(featureSorting && (column.enableSorting !== false)) && <span {...column.getSortByToggleProps()}>{column.isSorted ? (column.isSortedDesc ? ' >' : ' <') : '<>'}</span>}
                     {featureColumnFilter && <span>{column.canFilter ? column.render('Filter') : null}</span>}
