@@ -3,10 +3,10 @@ import {getKeyFromLabel} from "../../../schema/schema";
 
 export function colToRTCol (colObj) {
   const reactColObj = {
-    "id": getKeyFromLabel(colObj['label']),
-    "Header": colObj['label'],
+    "id": getKeyFromLabel(colObj["label"]),
+    "Header": colObj["label"],
     // We need accessor as a function when we have . (dot) in the key name
-    "accessor": (row) => {return row[colObj['key']]},
+    "accessor": (row) => {return row[colObj["key"]]},
 
     ...colObj
   }
