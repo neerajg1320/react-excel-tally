@@ -1,4 +1,4 @@
-import {getKeyFromLabel} from "../schema/schema";
+import {generateKeyFromLabel} from "../schema/core";
 import {presetColumns} from "../components/table/presets/presetColumns";
 
 const getKeyFromPresets = (label) => {
@@ -21,7 +21,7 @@ export const dataNormalize = (data) => {
       const keyPreset = getKeyFromPresets(label)
       console.log(`keyPreset=${keyPreset}`);
 
-      const keyName = getKeyFromLabel(label);
+      const keyName = generateKeyFromLabel(label);
 
       return [keyName, val];
     }));

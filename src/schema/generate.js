@@ -1,7 +1,4 @@
-// Input is an array of objects
-export function getKeyFromLabel(label) {
-  return label.toLowerCase().replaceAll(/[\s./]/g, '_')
-}
+import {generateKeyFromLabel} from "./core";
 
 export function getPropObj(prop) {
   return {"label": prop, "key": prop};
