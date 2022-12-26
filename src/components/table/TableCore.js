@@ -43,6 +43,7 @@ const TableCore = () => {
     layoutFooter,
     layoutFixed,
     layoutResize,
+    layoutHeaderTooltip,
 
     onSelectionChange: updateSelection,
     onRTableChange: updateRTable,
@@ -231,7 +232,7 @@ const TableCore = () => {
                     display: "flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", gap:"10px"
                   }}
                 >
-                  <TooltipComponent message={column.Header}>
+                  <TooltipComponent message={column.Header} disabled={!layoutHeaderTooltip}>
                     <span style={{whiteSpace:"nowrap"}}>
                       {column.render('Header')}
                     </span>
