@@ -1,61 +1,61 @@
 export const presetColumns = [
   {
     header: "SNo",
-    label: "Sl. No.",
+    matchLabels: ["Sl. No."],
     keyName: "serialNum",
     width: 50
   },
   {
     header: "Transaction Date",
-    label: "Transaction Date",
+    matchLabels: ["Transaction Date"],
     keyName: "transactionDate",
     width: 100
   },
   {
     header: "Value Date",
-    label: "Value Date",
+    matchLabels: ["Value Date"],
     keyName: "valueDate",
     width: 100
   },
   {
     header: "Description",
-    label: "Description",
+    matchLabels: ["Description"],
     keyName: "description",
     width: 300
   },
   {
     header: "Reference",
-    label: "Chq / Ref number",
+    matchLabels: ["Chq / Ref number"],
     keyName: "refNumber",
     width: 100
   },
   {
     header: "Debit",
-    label: "Debit",
+    matchLabels: ["Debit"],
     keyName: "debit",
     width: 100
   },
   {
     header: "Credit",
-    label: "Credit",
+    matchLabels: ["Credit"],
     keyName: "credit",
     width: 100
   },
   {
     header: "Balance",
-    label: "Balance",
+    matchLabels: ["Balance"],
     keyName: "balance",
     width: 120
   },
   {
     header: "DrCr",
-    label: "Dr / Cr",
+    matchLabels: ["Dr / Cr"],
     keyName: "drCr",
     width: 50
   },
   {
     header: "Category",
-    label: "Category",
+    matchLabels: ["Category"],
     keyName: "category",
     edit: true,
     bulk: true,
@@ -66,14 +66,14 @@ export const presetColumns = [
   },
   {
     header: "Voucher Id",
-    label: "VoucherId",
+    matchLabels: ["VoucherId"],
     keyName: "voucherId",
     edit: false,
     bulk: false,
   },
   {
     header: "Remarks",
-    label: "Remarks",
+    matchLabels: ["Remarks"],
     keyName: "remarks",
     edit: true,
     bulk: true,

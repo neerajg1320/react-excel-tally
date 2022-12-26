@@ -3,7 +3,9 @@ import {generateKeyFromLabel} from "../schema/core";
 
 const getKeyFromPresets = (label) => {
   // TBD: need to update matching algo
-  const matchingColumns = presetColumns.filter(col => col.label === label)
+  const matchingColumns = presetColumns.filter(col => {
+    return col.matchLabels.includes(label)
+  });
 
   if (matchingColumns.length > 0) {
     const matchingCol = matchingColumns[0]
