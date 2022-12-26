@@ -63,35 +63,22 @@ export const TableWrapper = () => {
   const globalFilterValueRef = useRef('');
 
   // Store table position so that we can restore
-  // const [tablePostion, setTablePosition] = useState(0);
-  const tablePositionRef = useRef(0);
+  const tableScrollPositionRef = useRef(0);
 
   useEffect(() => {
     if (debug.lifecycle) {
       console.log(`<TableWrapper>: First render`);
     }
 
-    // const handleScroll = (e) => {
-    //   console.log(`TableWrapper:handleScroll`, e);
-    //   const scrollX = window.scrollX;
-    //   console.log(scrollX);
-    // }
-
-    // window.addEventListener('scroll', handleScroll);
-
     return () => {
-      // Remove listener when component unmounts
-      // window.removeEventListener('scroll', handleScroll);
-
       if (debug.lifecycle) {
         console.log(`<TableWrapper>: Destroyed`);
       }
     }
   }, []);
 
-
+  // col must have keyName property
   const attachPresetProperties = (col, index) => {
-    // Need to change here
     const mPresetCols = presetColumns.filter(pcol=> pcol.keyName === col.keyName);
 
     if (mPresetCols.length) {
@@ -239,7 +226,7 @@ export const TableWrapper = () => {
   const handleTableCoreScroll = (e) => {
     // console.log("scrolling!", e.target.scrollLeft)
     // setTablePosition(e.target.scrollLeft);
-    tablePositionRef.current = e.target.scrollLeft;
+    tableScrollPositionRef.current = e.target.scrollLeft;
   }
 
   const tableContext = {
