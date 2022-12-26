@@ -75,7 +75,8 @@ const TableCore = () => {
       Cell: ({ row }) => (
           <RowCheckbox {...row.getToggleRowSelectedProps()} />
       ),
-      enableSorting: false
+      enableSorting: false,
+      width: 50
     };
 
     hooks.visibleColumns.push((columns) => {
