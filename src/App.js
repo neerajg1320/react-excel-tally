@@ -64,7 +64,15 @@ const Layout = () => {
       </nav>
 
       <main style={{ padding: '1rem 0' }}>
-        <Outlet />
+        <div style={{
+            // border: "1px dashed black",
+            padding: "10px",
+            overflow: "scroll",
+            display: "flex",
+          }}
+        >
+          <Outlet />
+        </div>
       </main>
     </>
   );
