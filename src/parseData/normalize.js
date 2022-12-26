@@ -1,4 +1,4 @@
-import {presetColumns} from "../components/table/presets/presetColumns";
+import {presetColumns} from "../components/presets/presetColumns";
 import {generateKeyFromLabel} from "../schema/core";
 
 const getKeyFromPresets = (label) => {
@@ -9,7 +9,6 @@ const getKeyFromPresets = (label) => {
 
   if (matchingColumns.length > 0) {
     const matchingCol = matchingColumns[0]
-    // console.log(`getKeyFromPresets:`, matchingCol);
     return matchingCol.keyName;
   }
 

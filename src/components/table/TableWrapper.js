@@ -1,7 +1,7 @@
 import {useLocation} from "react-router-dom";
 import {getColumns} from "../../schema/generate";
 import {colToRTCol} from "./adapters/reactTableAdapter";
-import {presetColumns} from "./presets/presetColumns";
+import {presetColumns} from "../presets/presetColumns";
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import Button from "react-bootstrap/Button";
 import {debug} from "../config/debug";
