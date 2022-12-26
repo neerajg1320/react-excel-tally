@@ -91,6 +91,7 @@ export const TableWrapper = () => {
 
 
   const attachPresetProperties = (col, index) => {
+    // Need to change here
     const mPresetCols = presetColumns.filter(pcol=> pcol.keyName === col.keyName);
 
     if (mPresetCols.length) {

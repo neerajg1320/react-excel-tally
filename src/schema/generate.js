@@ -1,10 +1,13 @@
 export function getPropObj(prop) {
-  return {"label": prop, "keyName": prop};
+  return {
+    // "label": prop,
+    "keyName": prop
+  };
 }
 
 export function insertProp(propObj, list, before) {
   if (before) {
-    const index = list.findIndex(item => item.label === before);
+    const index = list.findIndex(item => item.keyName === before);
     // console.log(`Insert at ${index}`);
     list.splice(index, 0, propObj);
 
@@ -35,7 +38,7 @@ export function getColumns(data, sampleSize=0) {
       if (index < 1) {
         missingPropsConsecutive.push(property);
       } else {
-        if (!columns.map(col => col.label).includes(property)) {
+        if (!columns.map(col => col.keyName).includes(property)) {
           missingPropsConsecutive.push(property);
         } else {
           missingPropsConsecutive.forEach(mProp => {
