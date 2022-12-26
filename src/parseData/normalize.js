@@ -1,4 +1,4 @@
-import {presetColumns} from "../components/presets/presetColumns";
+import {presetColumns} from "../presets/presetColumns";
 import {generateKeyFromLabel} from "../schema/core";
 
 const getKeyFromPresets = (label) => {
