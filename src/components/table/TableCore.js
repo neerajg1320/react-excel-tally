@@ -97,6 +97,9 @@ const TableCore = () => {
                 col.Cell = (props) => {
                   return <SelectableCell choices={col.choices} {...props} />
                 }
+              } else {
+                // If not type is specified then input by default
+                col.Cell = EditableCell
               }
             }
             return col;

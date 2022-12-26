@@ -27,6 +27,7 @@ export const presetColumns = [
     header: "Reference",
     matchLabels: ["Chq / Ref number"],
     keyName: "reference",
+    edit: true,
     width: 100
   },
   {
