@@ -1,5 +1,5 @@
 import {presetColumns} from "../presets/presetColumns";
-import {generateKeyFromLabel} from "../schema/core";
+import {generateKeyFromHeader} from "../schema/core";
 
 const getKeyFromPresets = (headerName) => {
   // TBD: need to update matching algo
@@ -21,7 +21,7 @@ const getKeyFromPresets = (headerName) => {
 export const dataNormalize = (data) => {
   const nData = data.map(row => {
     return Object.fromEntries(Object.entries(row).map(([headerName, val]) => {
-      const keyName = getKeyFromPresets(headerName) || generateKeyFromLabel(headerName);
+      const keyName = getKeyFromPresets(headerName) || generateKeyFromHeader(headerName);
       return [keyName, val];
     }));
   })
