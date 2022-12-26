@@ -1,5 +1,5 @@
 import {useLocation} from "react-router-dom";
-import {getColumns} from "../excel/xlsx/schema";
+import {getColumns} from "../../schema/schema";
 import {colToRTCol} from "./adapters/reactTableAdapter";
 import {presetColumns} from "./presets/presetColumns";
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";

@@ -4,6 +4,7 @@ import {Routes, Route, Outlet, NavLink, useNavigate} from 'react-router-dom';
 import {TableWrapper} from "./components/table/TableWrapper";
 import {useEffect} from "react";
 import {debug} from "./components/config/debug";
+import {dataNormalize} from "./parseData/normalize";
 
 const App = () => {
   if (debug.lifecycle) {
@@ -76,6 +77,8 @@ const Layout = () => {
   );
 };
 
+
+
 const Read = () => {
   if (debug.lifecycle) {
     console.log(`Rendering <Read>`);
@@ -84,7 +87,9 @@ const Read = () => {
   const navigate = useNavigate();
 
   const onLoadComplete = ({data}) => {
-    navigate('/table', { state: { id: 9, just:"like", data } });
+    const normalizedData = dataNormalize(data);
+
+    navigate('/table', { state: { id: 9, just:"like", data:normalizedData } });
   };
 
   return (

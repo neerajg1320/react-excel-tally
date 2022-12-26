@@ -1,5 +1,5 @@
 import {valToString} from "../../../utils/types";
-import {getKeyFromLabel} from "../../excel/xlsx/schema";
+import {getKeyFromLabel} from "../../../schema/schema";
 
 export function colToRTCol (colObj) {
   const reactColObj = {

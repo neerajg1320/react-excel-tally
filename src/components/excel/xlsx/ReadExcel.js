@@ -36,8 +36,6 @@ const ReadExcel = ({onComplete}) => {
           });
         }
       })
-
-
     }
   };
 
