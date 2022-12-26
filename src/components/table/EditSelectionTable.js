@@ -33,6 +33,8 @@ const EditSelectionTable = () => {
     featureColumnFilter,
     featureSorting,
 
+    layoutFooter,
+
     onSelectionChange: updateSelection,
     onRTableChange: updateRTable,
     onPageChange: updatePageIndex,
@@ -217,7 +219,7 @@ const EditSelectionTable = () => {
     }
     </tbody>
     <tfoot>
-    {
+    {layoutFooter &&
       footerGroups.map(footerGroup => (
           <tr {...footerGroup.getFooterGroupProps()}>
             {

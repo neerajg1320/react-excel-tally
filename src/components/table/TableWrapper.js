@@ -234,6 +234,8 @@ export const TableWrapper = () => {
     featureColumnFilter,
     featureSorting,
 
+    layoutFooter: false,
+
     tableInstance: tableInstanceRef.current,
     onSelectionChange: handleSelectionUpdate,
     onRTableChange: handleRTableChange,
@@ -280,7 +282,7 @@ export const TableWrapper = () => {
               </div>
 
               <div style={{
-                // height:"60vh",
+                // height:"70vh",
                 // overflow: "scroll"
               }}>
                 <EditSelectionTable key={tableKeyRef.current} />
