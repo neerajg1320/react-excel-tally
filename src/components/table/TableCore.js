@@ -18,6 +18,10 @@ import {debug} from "../config/debugEnabled";
 import TableDataContext from "./TableDataContext";
 import {ColumnFilterWithIcon} from "./filter/ColumnFilterWithIcon";
 import {filterEmptyValues} from "./filter/customFilter";
+import Tooltip from "react-bootstrap/Tooltip";
+import Button from "react-bootstrap/Button";
+import {OverlayTrigger} from "react-bootstrap";
+import TooltipComponent from "../tooltip/TooltipComponent";
 
 // Supports:
 //  - Rows Selection
@@ -209,6 +213,9 @@ const TableCore = () => {
     updateRTable(tableInstance);
   }, [tableInstance]);
 
+
+
+
   return (
   <>
   <table {...getTableProps()}>
@@ -224,9 +231,11 @@ const TableCore = () => {
                     display: "flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", gap:"10px"
                   }}
                 >
-                  <span style={{whiteSpace:"nowrap"}}>
-                    {column.render('Header')}
-                  </span>
+                  <TooltipComponent message={column.Header}>
+                    <span style={{whiteSpace:"nowrap"}}>
+                      {column.render('Header')}
+                    </span>
+                  </TooltipComponent>
                   <div style={{display:"flex", flexDirection:"row", gap:"5px", alignItems:"center"}}>
                     {(featureSorting && (column.enableSorting !== false)) && <span {...column.getSortByToggleProps()}>{column.isSorted ? (column.isSortedDesc ? ' >' : ' <') : '<>'}</span>}
                     {featureColumnFilter && <span>{column.canFilter ? column.render('Filter') : null}</span>}
