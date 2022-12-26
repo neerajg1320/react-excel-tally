@@ -1,4 +1,3 @@
-import {generateKeyFromLabel} from "../schema/core";
 import {presetColumns} from "../components/table/presets/presetColumns";
 
 const getKeyFromPresets = (label) => {
@@ -7,27 +6,25 @@ const getKeyFromPresets = (label) => {
   if (matchingColumns.length > 0) {
     const matchingCol = matchingColumns[0]
     console.log(`getKeyFromPresets:`, matchingCol);
-    return matchingCol;
+    return matchingCol.keyName;
   }
 
-  return label;
+  console.log(`label=${label} not found in presets`);
+  return null;
 }
 
 export const dataNormalize = (data) => {
-  // console.log(`dataNormalize: data=${JSON.stringify(data, null, 2)}`);
-
   const nData = data.map(row => {
     return Object.fromEntries(Object.entries(row).map(([label, val]) => {
-      const keyPreset = getKeyFromPresets(label)
-      console.log(`keyPreset=${keyPreset}`);
+      const keyName = getKeyFromPresets(label) || label;
 
-      const keyName = generateKeyFromLabel(label);
+      console.log(`keyPreset=`, keyName);
 
       return [keyName, val];
     }));
   })
 
-  console.log(`dataNormalize: nData=${JSON.stringify(nData, null, 2)}`);
+  // console.log(`dataNormalize: nData=${JSON.stringify(nData, null, 2)}`);
 
-  return data;
+  return nData;
 }

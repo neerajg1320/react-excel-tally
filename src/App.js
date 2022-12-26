@@ -89,7 +89,7 @@ const Read = () => {
   const onLoadComplete = ({data}) => {
     const normalizedData = dataNormalize(data);
 
-    navigate('/table', { state: { id: 9, just:"like", data:normalizedData } });
+    navigate('/table', { state: { data:normalizedData } });
   };
 
   return (
