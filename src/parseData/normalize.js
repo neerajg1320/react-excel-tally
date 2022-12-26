@@ -23,8 +23,5 @@ export const dataNormalize = (data) => {
       return [keyName, val];
     }));
   })
-
-  // console.log(`dataNormalize: nData=${JSON.stringify(nData, null, 2)}`);
-
   return nData;
 }
