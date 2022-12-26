@@ -65,9 +65,7 @@ const Layout = () => {
 
       <main style={{ padding: '1rem 0' }}>
         <div style={{
-            // border: "1px dashed black",
             padding: "10px",
-            overflow: "scroll",
             display: "flex",
           }}
         >

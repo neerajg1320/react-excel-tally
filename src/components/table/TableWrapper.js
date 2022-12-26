@@ -285,7 +285,7 @@ export const TableWrapper = () => {
 
               <div style={{
                 width:"100vw",
-                padding: "10px",
+                padding: "10px 10px 20px 10px",
                 overflow: "scroll",
                 background: "darkgray",
                 display: "flex", flexDirection:"row", justifyContent:"flex-start", alignItems:"center"
