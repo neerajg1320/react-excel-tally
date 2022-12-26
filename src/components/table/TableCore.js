@@ -21,7 +21,7 @@ import {filterEmptyValues} from "./filter/customFilter";
 //  - Edit cells using input and select
 
 
-const EditSelectionTable = () => {
+const TableCore = () => {
   const {data,
     columns,
     onChange:updateData,
@@ -246,4 +246,4 @@ const EditSelectionTable = () => {
 // export default EditSelectionTable;
 
 // We use React.memo when we want to render the child only when any props change
-export default React.memo(EditSelectionTable);
+export default React.memo(TableCore);

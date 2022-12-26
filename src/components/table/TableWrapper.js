@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import {debug} from "../config/debug";
 import BulkOperationsSection from "./BulkOperationsSection";
 import TableDataContext from "./TableDataContext";
-import EditSelectionTable from "./EditSelectionTable";
+import TableCore from "./TableCore";
 import {DELETE, PATCH} from "./common/operationsTypes";
 import GlobalFilterSection from "./GlobalFilterSection";
 import PaginationSection from "./PaginationSection";
@@ -54,7 +54,7 @@ export const TableWrapper = () => {
   const [featureBulk, setFeatureBulk] = useState(true);
   const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
   const [featurePagination, setFeaturePagination] = useState(true);
-  const [featureColumnFilter, setFeatureColumnFilter] = useState(true);
+  const [featureColumnFilter, setFeatureColumnFilter] = useState(false);
   const [featureSorting, setFeatureSorting] = useState(true);
 
   // We can't change following to ref as we need to rerender BulkSection
@@ -285,7 +285,7 @@ export const TableWrapper = () => {
                 width:"100vw",
                 overflow: "scroll"
               }}>
-                <EditSelectionTable key={tableKeyRef.current} />
+                <TableCore key={tableKeyRef.current} />
               </div>
 
               <PaginationSection />
