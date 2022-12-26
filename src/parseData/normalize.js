@@ -2,6 +2,7 @@ import {presetColumns} from "../components/table/presets/presetColumns";
 import {generateKeyFromLabel} from "../schema/core";
 
 const getKeyFromPresets = (label) => {
+  // TBD: need to update matching algo
   const matchingColumns = presetColumns.filter(col => col.label === label)
 
   if (matchingColumns.length > 0) {
