@@ -1,11 +1,14 @@
 import './table.css';
+import './table-resizer.css';
 import {
   useTable,
   useRowSelect,
   useGlobalFilter,
   usePagination,
   useFilters,
-  useSortBy
+  useSortBy,
+  useBlockLayout,
+  useResizeColumns
 } from "react-table";
 import {RowCheckbox} from "./parts/RowCheckbox";
 import EditableCell from "./parts/editableControlledCell";
@@ -34,6 +37,8 @@ const TableCore = () => {
     featureSorting,
 
     layoutFooter,
+    layoutFixed,
+    layoutResize,
 
     onSelectionChange: updateSelection,
     onRTableChange: updateRTable,
@@ -115,6 +120,12 @@ const TableCore = () => {
     if (featureSelection) {
       hooks.push(useRowSelect);
     }
+    if (layoutFixed) {
+      hooks.push(useBlockLayout);
+    }
+    if (layoutResize) {
+      hooks.push(useResizeColumns);
+    }
 
     hooks.push(usePrepareColumn);
 
@@ -134,13 +145,13 @@ const TableCore = () => {
       }
     }
 
-    const layoutFixed = true;
-    if (layoutFixed) {
+    if (layoutFixed || layoutResize) {
       attrs = {
         ...attrs,
         ...{
-          maxWidth: 100,
-          minWidth: 100
+          // maxWidth: 300,
+          // minWidth: 100,
+          // width: 125,
         }
       }
     }
@@ -218,6 +229,12 @@ const TableCore = () => {
                   <div style={{display:"flex", flexDirection:"row", gap:"5px", alignItems:"center"}}>
                     {(featureSorting && (column.enableSorting !== false)) && <span {...column.getSortByToggleProps()}>{column.isSorted ? (column.isSortedDesc ? ' >' : ' <') : '<>'}</span>}
                     {featureColumnFilter && <span>{column.canFilter ? column.render('Filter') : null}</span>}
+                    {layoutResize &&
+                      <div
+                        {...column.getResizerProps()}
+                        className={`resizer ${column.isResizing ? "isResizing" : ""}`}
+                      />
+                    }
                   </div>
                 </div>
               </th>

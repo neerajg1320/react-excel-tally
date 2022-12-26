@@ -235,6 +235,8 @@ export const TableWrapper = () => {
     featureSorting,
 
     layoutFooter: false,
+    layoutFixed: true,
+    layoutResize: true,
 
     tableInstance: tableInstanceRef.current,
     onSelectionChange: handleSelectionUpdate,
