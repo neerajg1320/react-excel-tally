@@ -289,6 +289,13 @@ export const TableWrapper = () => {
                 <div>
                   <BulkOperationsSection edit={featureEdit}/>
                 </div>
+                <div>
+                  <Button className="btn-outline-info bg-transparent" size="sm"
+                     onClick={e => {console.log(JSON.stringify(data, null, 2))}}
+                  >
+                    Log Data
+                  </Button>
+                </div>
                 <div style={{
                     display: "flex", flexDirection:"row", gap: "20px"
                   }}>
