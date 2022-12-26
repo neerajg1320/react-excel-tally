@@ -44,7 +44,7 @@ const ReadExcel = ({onComplete}) => {
   return (
     <div
         style={{
-          height:"60vh",
+          height:"60vh", width:"100%",
           display:"flex", justifyContent:"center", alignItems:"center",
           border:"1px dashed transparent"
         }}

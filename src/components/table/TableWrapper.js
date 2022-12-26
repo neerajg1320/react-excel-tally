@@ -280,8 +280,8 @@ export const TableWrapper = () => {
               </div>
 
               <div style={{
-                height:"60vh",
-                overflow: "scroll"
+                // height:"60vh",
+                // overflow: "scroll"
               }}>
                 <EditSelectionTable key={tableKeyRef.current} />
               </div>
