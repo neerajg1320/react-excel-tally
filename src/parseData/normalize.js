@@ -16,6 +16,8 @@ const getKeyFromPresets = (headerName) => {
   return null;
 }
 
+// The input data is an object of the form {..., excelHeader: value, ...}
+// The normalized data is an object of the form {..., keyName: value, ...}
 export const dataNormalize = (data) => {
   const nData = data.map(row => {
     return Object.fromEntries(Object.entries(row).map(([headerName, val]) => {

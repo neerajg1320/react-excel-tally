@@ -1,6 +1,5 @@
 export function getPropObj(prop) {
   return {
-    // "label": prop,
     "keyName": prop
   };
 }
