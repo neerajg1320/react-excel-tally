@@ -292,7 +292,7 @@ export const TableWrapper = () => {
 
                 <div style={{display:"flex", flexDirection:"row", gap:"10px"}}>
                   <Button className="btn-outline-info bg-transparent" size="sm"
-                          onClick={e => {console.log(JSON.stringify(rtColumns, null, 2))}}
+                          onClick={e => {rtColumns.forEach(col => console.log(JSON.stringify(col)))}}
                   >
                     Log Columns
                   </Button>

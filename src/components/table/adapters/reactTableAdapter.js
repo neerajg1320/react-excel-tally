@@ -1,5 +1,4 @@
 import {valToString} from "../../../utils/types";
-import {generateKeyFromLabel} from "../../../schema/core";
 
 export function colToRTCol (colObj) {
   const reactColObj = {
