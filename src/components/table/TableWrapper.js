@@ -29,7 +29,7 @@ export const TableWrapper = () => {
 
   // Data Features:
   // Update with commit
-  const updateWithCommit = useMemo(() => false, []);
+  const updateWithCommit = useMemo(() => true, []);
   const [updates, setUpdates] = useState([]);
 
   // // Table Section
@@ -49,7 +49,7 @@ export const TableWrapper = () => {
   const {toggleAllRowsSelected, gotoPage} = tableInstanceRef.current;
 
   // Table features:
-  const [featureSelection, setFeatureSelection] = useState(true);
+  const [featureSelection, setFeatureSelection] = useState(false);
   const [featureEdit, setFeatureEdit] = useState(true);
   const [featureBulk, setFeatureBulk] = useState(true);
   const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
@@ -153,7 +153,9 @@ export const TableWrapper = () => {
     setUpdates([]);
 
     // Reset the selection of rows
-    toggleAllRowsSelected(false);
+    if (toggleAllRowsSelected) {
+      toggleAllRowsSelected(false);
+    }
   }, [commitUpdates, toggleAllRowsSelected]);
 
   const handleDataChange = useCallback((action, indices, patch) => {

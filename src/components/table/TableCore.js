@@ -13,7 +13,7 @@ import {
 import {RowCheckbox} from "./parts/RowCheckbox";
 import EditableCell from "./parts/editableControlledCell";
 import SelectableCell from "./parts/selectableCell";
-import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useContext, useEffect, useMemo} from "react";
 import {debug} from "../config/debugEnabled";
 import TableDataContext from "./TableDataContext";
 import {ColumnFilterWithIcon} from "./filter/ColumnFilterWithIcon";
