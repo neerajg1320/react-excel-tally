@@ -14,10 +14,16 @@ table tr {
     white-space: nowrap;
 }
 
-table tr:nth-child(even) td {background-color: #f2f2f2;}
-table tr:nth-child(odd) td {background-color: #ffffff;}
+/*table tr:nth-child(even) td {background-color: #f2f2f2;}*/
+/*table tr:nth-child(odd) td {background-color: #ffffff;}*/
 
-table tr:hover td {background-color: #ddd;}
+table td {
+    background-color: #ffffff;
+}
+
+table tr:hover td {
+    background-color: #ddd;
+}
 
 /* header, footer */
 table th, tfoot {
