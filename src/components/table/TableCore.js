@@ -125,11 +125,20 @@ const TableCore = () => {
   console.log(`<EditSelectionTable>: currentPageIndex:${currentPageIndex}`);
 
   const defaultColumn = useMemo(() => {
-    return {
-      Filter: ColumnFilterWithIcon,
-      filter: filterEmptyValues,
+    let attrs = {};
+
+    if (featureSelection) {
+      attrs = {
+        ...attrs,
+        ...{
+          Filter: ColumnFilterWithIcon,
+          filter: filterEmptyValues,
+        }
+      }
     }
-  }, []);
+
+    return attrs;
+  }, [featureSelection]);
 
   const tableInstance = useTable({
         columns,
