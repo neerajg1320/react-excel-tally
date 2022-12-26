@@ -254,7 +254,7 @@ export const TableWrapper = () => {
           }
           {data &&
             <div style={{
-              display:"flex", flexDirection:"column", gap:"20px", alignItems:"center",
+              display:"flex", flexDirection:"column", gap:"20px", justifyContent:"space-evenly", alignItems:"center",
             }}>
 
               <div style={{
@@ -279,7 +279,13 @@ export const TableWrapper = () => {
                 </div>
               </div>
 
-              <EditSelectionTable key={tableKeyRef.current} />
+              <div style={{
+                height:"60vh",
+                overflow: "scroll"
+              }}>
+                <EditSelectionTable key={tableKeyRef.current} />
+              </div>
+
               <PaginationSection />
 
               {updateWithCommit &&
