@@ -1,7 +1,7 @@
 import {generateKeyFromLabel} from "./core";
 
 export function getPropObj(prop) {
-  return {"label": prop, "key": prop};
+  return {"label": prop, "keyName": prop};
 }
 
 export function insertProp(propObj, list, before) {

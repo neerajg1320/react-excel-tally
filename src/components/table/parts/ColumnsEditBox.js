@@ -53,7 +53,7 @@ const ColumnsEditBox = ({columns, onSave, onCancel, onButtonClick}) => {
     {columns.map((col, col_idx) => {
       columnValues.push({
         active: false,
-        name: col.key
+        name: col.keyName
       });
 
       return (

@@ -91,14 +91,14 @@ export const TableWrapper = () => {
 
 
   const attachPresetProperties = (col, index) => {
-    const mPresetCols = presetColumns.filter(pcol=> pcol.key === col.key);
+    const mPresetCols = presetColumns.filter(pcol=> pcol.keyName === col.keyName);
 
     if (mPresetCols.length) {
       col = mPresetCols[0];
 
       if (col.type === 'select') {
         // The Column choices have to be updated.
-        // col.choices = choices[col.key.toLowerCase()];
+        // col.choices = choices[col.keyName.toLowerCase()];
         // col.choices = categoryChoices;
       }
     }

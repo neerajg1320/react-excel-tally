@@ -6,12 +6,12 @@ export function colToRTCol (colObj) {
     "id": generateKeyFromLabel(colObj["label"]),
     "Header": colObj["label"],
     // We need accessor as a function when we have . (dot) in the key name
-    "accessor": (row) => {return row[colObj["key"]]},
+    "accessor": (row) => {return row[colObj["keyName"]]},
 
     ...colObj
   }
 
-  if (String(colObj.key).toLowerCase().includes('date')) {
+  if (String(colObj.keyName).toLowerCase().includes('date')) {
     reactColObj.Cell = ({ value }) => {
       return valToString(value);
     }

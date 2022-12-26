@@ -70,7 +70,6 @@ const BulkOperationsSection = ({edit}) => {
     return columns?.length ? columns.filter(col => col.bulk) : [];
   }, [columns]);
 
-  // console.log(`bulkColumns=${JSON.stringify(bulkColumns.map(col => col.key))}`);
 
   return (
       <>
