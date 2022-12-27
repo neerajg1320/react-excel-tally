@@ -26,7 +26,8 @@ import TooltipComponent from "../tooltip/TooltipComponent";
 
 
 const TableCore = () => {
-  const {data,
+  const {
+    data,
     columns,
     onChange:updateData,
 
