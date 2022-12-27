@@ -60,6 +60,7 @@ export const TableWrapper = () => {
   // We can't change following to ref as we need to rerender BulkSection
   const [selectedRows, setSelectedRows] = useState([])
   const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const globalFilterValueRef = useRef('');
 
   // Store table position so that we can restore
@@ -185,11 +186,17 @@ export const TableWrapper = () => {
     setUpdates([]);
   }, []);
 
+  // TBD: we get these so that we can update the sibling component
+  // See if we can avoid the whole re-render
   const handlePageChange = useCallback((pageIndex) => {
     console.log(`handlePageChange: ${pageIndex}`);
     setPageIndex(pageIndex);
   }, []);
 
+  const handlePageSizeChange = useCallback((pageSize) => {
+    console.log(`handlePageChange: ${pageIndex}`);
+    setPageSize(pageSize);
+  }, []);
 
   // We need to fix the pageIndex when filtering starts
   const handleGlobalFilterChange = useCallback((value) => {
@@ -253,6 +260,7 @@ export const TableWrapper = () => {
     onSelectionChange: handleSelectionUpdate,
     onRTableChange: handleRTableChange,
     onPageChange: handlePageChange,
+    onPageSizeChange: handlePageSizeChange,
     getPageIndex: providePageIndex,
     onGlobalFilterChange: handleGlobalFilterChange
   };

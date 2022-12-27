@@ -45,6 +45,7 @@ const TableCore = () => {
     onSelectionChange: updateSelection,
     onRTableChange: updateRTable,
     onPageChange: updatePageIndex,
+    onPageSizeChange: updatePageSize,
     getPageIndex: getCurrentPageIndex,
   } = useContext(TableDataContext);
 
@@ -99,12 +100,14 @@ const TableCore = () => {
                     view = page;
                   }
 
-                  const {pageSize} = state;
-
+                  // const {pageSize} = state;
                   // console.log(`props=`, props);
 
+                  // To take care of the cases where last has lesser number of rows.
+                  const topThreshold = 5;
+
                   const positionInView = view.findIndex(item => item.index === row.index);
-                  const placement = (positionInView > (pageSize-1)/2) ? "top" : "bottom"
+                  const placement = (positionInView > topThreshold) ? "top" : "bottom"
                   return <SelectableCell choices={col.choices} {...props} {...{placement}} />
                 }
               } else {
@@ -214,7 +217,8 @@ const TableCore = () => {
   const { pageIndex, pageSize } = state;
   useEffect(() => {
     updatePageIndex(pageIndex);
-  }, [pageIndex]);
+    updatePageSize(pageSize);
+  }, [pageIndex, pageSize]);
 
   // Note: Causes a rerender
   // Required for rerendering the BulkSelection component
