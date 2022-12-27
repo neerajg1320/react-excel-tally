@@ -5,6 +5,7 @@ import {TableWrapper} from "./components/table/TableWrapper";
 import {useEffect} from "react";
 import {debug} from "./components/config/debug";
 import {dataNormalize} from "./parseData/normalize";
+import {Mappers} from "./components/mappers/Mappers";
 
 const App = () => {
   if (debug.lifecycle) {
@@ -15,6 +16,9 @@ const App = () => {
     if (debug.lifecycle) {
       console.log(`<App>: First render`);
     }
+
+    // Register the Bank mappers
+
 
     return () => {
       if (debug.lifecycle) {
@@ -29,6 +33,7 @@ const App = () => {
           <Route index element={<Read />} />
           <Route path="read" element={<Read />} />
           <Route path="table" element={<TableWrapper />} />
+          <Route path="mappers" element={<Mappers />} />
           <Route path="*" element={<p>There's nothing here: 404!</p>} />
         </Route>
       </Routes>
@@ -61,6 +66,9 @@ const Layout = () => {
         </NavLink>
         <NavLink to="/table" style={style}>
           Table
+        </NavLink>
+        <NavLink to="/mappers" style={style}>
+          Mappers
         </NavLink>
       </nav>
 
