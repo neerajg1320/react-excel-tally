@@ -149,9 +149,10 @@ const Read = () => {
     return nData;
   }, []);
 
-  const getKeyFromMappers = useCallback((headerName) => {
-    // TBD: need to update matching algo
-    const matchingColumns = presetColumns.filter(col => {
+  const getKeyFromMapper = useCallback((headerName, headerKeynameMap) => {
+    console.log(`getKeyFromMapper: headerName=${headerName}`);
+
+    const matchingColumns = headerKeynameMap.filter(col => {
       return col.matchLabels.includes(headerName)
     });
 
@@ -200,14 +201,24 @@ const Read = () => {
       }
     }
 
+    // Then we use the mapper to create data
     if (matchedMapper) {
       const {name, headerKeynameMap} = matchedMapper;
       console.log(`dataNormalizeUsingMapper: Match Found: name=${name} keysMatched=${headerKeynameMap.length}`);
       console.log(matchedMapper);
+      const nData = data.map(row => {
+        return Object.fromEntries(Object.entries(row).map(([headerName, val]) => {
+          const keyName = getKeyFromMapper(headerName, headerKeynameMap) || generateKeyFromHeader(headerName);
+          return [keyName, val];
+        }));
+      });
+
+      console.log(`nData=${JSON.stringify(nData, null, 2)}`);
+
+      return nData;
     }
 
-    // Then we use the mapper to create data
-
+    return data;
   }, [getMappers]);
 
   const onLoadComplete = ({data}) => {
