@@ -53,7 +53,7 @@ const TableCore = () => {
     console.log(`Rendering <TableCore>`);
   }
   console.log(`<TableCore>: data.length=${data.length} columns.length=${columns.length}`);
-  console.log(JSON.stringify(columns, null, 2));
+  // console.log(JSON.stringify(columns, null, 2));
 
   // For debugging purpose
   useEffect(() => {
