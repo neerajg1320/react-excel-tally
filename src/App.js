@@ -4,11 +4,12 @@ import {Routes, Route, Outlet, NavLink, useNavigate} from 'react-router-dom';
 import {TableWrapper} from "./components/table/TableWrapper";
 import {useCallback, useEffect, useMemo} from "react";
 import {debug} from "./components/config/debug";
-import {dataNormalize} from "./parseData/normalize";
 import {Mappers} from "./components/mappers/Mappers";
 import AppContext from "./AppContext";
 import * as hdfc from "./banks/hdfc";
 import * as kotak  from "./banks/kotak";
+import {presetColumns} from "./presets/presetColumns";
+import {generateKeyFromHeader} from "./schema/core";
 
 const App = () => {
   if (debug.lifecycle) {
@@ -113,6 +114,34 @@ const Read = () => {
   }
 
   const navigate = useNavigate();
+
+  const getKeyFromPresets = useCallback((headerName) => {
+    // TBD: need to update matching algo
+    const matchingColumns = presetColumns.filter(col => {
+      return col.matchLabels.includes(headerName)
+    });
+
+    if (matchingColumns.length > 0) {
+      const matchingCol = matchingColumns[0]
+      return matchingCol.keyName;
+    }
+
+    console.log(`headerName=${headerName} not found in presets`);
+    return null;
+  }, []);
+
+
+  // The input data is an object of the form {..., excelHeader: value, ...}
+  // The normalized data is an object of the form {..., keyName: value, ...}
+  const dataNormalize = useCallback((data) => {
+    const nData = data.map(row => {
+      return Object.fromEntries(Object.entries(row).map(([headerName, val]) => {
+        const keyName = getKeyFromPresets(headerName) || generateKeyFromHeader(headerName);
+        return [keyName, val];
+      }));
+    })
+    return nData;
+  }, []);
 
   const onLoadComplete = ({data}) => {
     const normalizedData = dataNormalize(data);
