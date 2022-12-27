@@ -53,7 +53,7 @@ const TableCore = () => {
     console.log(`Rendering <TableCore>`);
   }
   console.log(`<TableCore>: data.length=${data.length} columns.length=${columns.length}`);
-  // console.log(JSON.stringify(data, null, 2));
+  console.log(JSON.stringify(columns, null, 2));
 
   // For debugging purpose
   useEffect(() => {
@@ -82,12 +82,12 @@ const TableCore = () => {
       width: 50
     };
 
-    hooks.visibleColumns.push((columns) => {
+    hooks.visibleColumns.push((paramColumns) => {
       const headColumns = featureSelection ? [selectionColumn] : [];
 
       if (featureEdit) {
         return headColumns.concat([
-          ...columns.map(col => {
+          ...paramColumns.map(col => {
             if (col.edit) {
               if (col.type === 'input') {
                 // The following is equivalent to col.Cell = EditableCell
@@ -121,7 +121,7 @@ const TableCore = () => {
           }),
         ])
       } else {
-        return headColumns.concat([...columns]);
+        return headColumns.concat([...paramColumns]);
       }
     })
   }, [featureSelection, featureEdit]);
@@ -241,26 +241,26 @@ const TableCore = () => {
     {headerGroups.map(headerGroup => (
         <tr {...headerGroup.getHeaderGroupProps()}>
           {
-            headerGroup.headers.map(column => (
+            headerGroup.headers.map((hdrColumn) => (
               //  If we want header to be clickable then modify getHeaderProps call as 
-              //  getHeaderProps(featureSorting ? column.getSortByToggleProps() : {})
-              <th {...column.getHeaderProps()}>
+              //  getHeaderProps(featureSorting ? hdrColumn.getSortByToggleProps() : {})
+              <th {...hdrColumn.getHeaderProps()}>
                 <div style={{
                     display: "flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", gap:"10px"
                   }}
                 >
-                  <TooltipComponent message={column.Header} disabled={!layoutHeaderTooltip}>
+                  <TooltipComponent message={hdrColumn.Header} disabled={!layoutHeaderTooltip}>
                     <span style={{whiteSpace:"nowrap"}}>
-                      {column.render('Header')}
+                      {hdrColumn.render('Header')}
                     </span>
                   </TooltipComponent>
                   <div style={{display:"flex", flexDirection:"row", gap:"5px", alignItems:"center"}}>
-                    {(featureSorting && (column.enableSorting !== false)) && <span {...column.getSortByToggleProps()}>{column.isSorted ? (column.isSortedDesc ? ' >' : ' <') : '<>'}</span>}
-                    {featureColumnFilter && <span>{column.canFilter ? column.render('Filter') : null}</span>}
+                    {(featureSorting && (hdrColumn.enableSorting !== false)) && <span {...hdrColumn.getSortByToggleProps()}>{hdrColumn.isSorted ? (hdrColumn.isSortedDesc ? ' >' : ' <') : '<>'}</span>}
+                    {featureColumnFilter && <span>{hdrColumn.canFilter ? hdrColumn.render('Filter') : null}</span>}
                     {layoutResize &&
                       <div
-                        {...column.getResizerProps()}
-                        className={`resizer ${column.isResizing ? "isResizing" : ""}`}
+                        {...hdrColumn.getResizerProps()}
+                        className={`resizer ${hdrColumn.isResizing ? "isResizing" : ""}`}
                       />
                     }
                   </div>
