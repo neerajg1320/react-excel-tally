@@ -139,7 +139,7 @@ const Read = () => {
 
   // The input data is an object of the form {..., excelHeader: value, ...}
   // The normalized data is an object of the form {..., keyName: value, ...}
-  const dataNormalize = useCallback((data) => {
+  const dataNormalizeUsingCommon = useCallback((data) => {
     const nData = data.map(row => {
       return Object.fromEntries(Object.entries(row).map(([headerName, val]) => {
         const keyName = getKeyFromPresets(headerName) || generateKeyFromHeader(headerName);
@@ -224,8 +224,9 @@ const Read = () => {
   const onLoadComplete = ({data}) => {
     const normalizedData = dataNormalizeUsingMapper(data);
 
-    // const normalizedData = dataNormalize(data);
-    // navigate('/table', { state: { data:normalizedData } });
+    // Kept for future use: Would be used for banks which aren't supported yet
+    // const normalizedData = dataNormalizeUsingCommon(data);
+    navigate('/table', { state: { data:normalizedData } });
   };
 
   return (
