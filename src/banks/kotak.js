@@ -1,4 +1,6 @@
-const kotakHeaderKeynameMap= [
+export const bankName = "Kotak";
+
+export const headerKeynameMap= [
   {
     matchLabels: ["Sl. No."],
     keyName: "serialNum",
@@ -35,12 +37,4 @@ const kotakHeaderKeynameMap= [
     matchLabels: ["Dr / Cr"],
     keyName: "drCr",
   },
-]
-
-const kotakHeaderMapper = {
-  "name": "Kotak",
-  "headerKeynameMap": kotakHeaderKeynameMap
-}
-
-export default kotakHeaderMapper;
-
+];

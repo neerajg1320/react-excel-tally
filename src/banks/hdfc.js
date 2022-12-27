@@ -1,4 +1,6 @@
-const hdfcHeaderKeynameMap= [
+export const bankName = "HDFC";
+
+export const headerKeynameMap= [
   {
     matchLabels: ["Sl. No."],
     keyName: "serialNum",
@@ -35,12 +37,4 @@ const hdfcHeaderKeynameMap= [
     matchLabels: ["Dr / Cr"],
     keyName: "drCr",
   },
-]
-
-const hdfcHeaderMapper = {
-  "name": "HDFC",
-  "headerKeynameMap": hdfcHeaderKeynameMap
-}
-
-export default hdfcHeaderMapper;
-
+];

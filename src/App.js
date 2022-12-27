@@ -2,11 +2,13 @@ import ReadExcel from "./components/excel/xlsx/ReadExcel";
 import * as React from 'react';
 import {Routes, Route, Outlet, NavLink, useNavigate} from 'react-router-dom';
 import {TableWrapper} from "./components/table/TableWrapper";
-import {useEffect} from "react";
+import {useCallback, useEffect, useMemo} from "react";
 import {debug} from "./components/config/debug";
 import {dataNormalize} from "./parseData/normalize";
 import {Mappers} from "./components/mappers/Mappers";
 import AppContext from "./AppContext";
+import * as hdfc from "./banks/hdfc";
+import * as kotak  from "./banks/kotak";
 
 const App = () => {
   if (debug.lifecycle) {
@@ -28,8 +30,19 @@ const App = () => {
     }
   }, []);
 
+  const mappers = useMemo(() => {
+    const mappers = []
+    mappers.push({name: hdfc.bankName, headerKeynameMap: hdfc.headerKeynameMap});
+    mappers.push({name: kotak.bankName, headerKeynameMap: kotak.headerKeynameMap});
+    return mappers;
+  });
+
+  const getMappers = useCallback(() => {
+    return mappers;
+  });
+
   const appContext = {
-    mappers: [],  
+    getMappers,
   };
 
   return (

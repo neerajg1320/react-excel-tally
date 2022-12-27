@@ -1,26 +1,16 @@
-import {debug} from "../config/debug";
-import {useEffect, useRef} from "react";
+import {debug} from "../config/debugEnabled";
+import {useContext, useEffect, useMemo, useRef} from "react";
+import AppContext from "../../AppContext";
 
 export const Mappers = () => {
   if (debug.lifecycle) {
     console.log(`Rendering <Mappers>`);
   }
 
-  const mapperLoadCountRef = useRef(0);
-
   useEffect(() => {
     if (debug.lifecycle) {
       console.log(`<Mappers>: First render`);
     }
-
-    // Register the Bank mappers after one second
-    setTimeout(() => {
-      console.log(`Registering the bank mappers`);
-      mapperLoadCountRef.current += 1;
-      if (mapperLoadCountRef.current > 1) {
-        throw `Mappers loaded more than once`;
-      }
-    }, 1000);
 
     return () => {
       if (debug.lifecycle) {
@@ -29,9 +19,23 @@ export const Mappers = () => {
     }
   }, []);
 
+  const {
+    getMappers,
+  } = useContext(AppContext);
+
+  const mappers = useMemo(() => {
+    return getMappers();
+  });
+
   return (
     <div>
       Bank Mappers
+      {mappers.map((mapper, index) => (
+        <div key={index}>
+          <h3>{mapper.name}</h3>
+          <pre>{JSON.stringify(mapper, null, 2)}</pre>
+        </div>
+      ))}
     </div>
   )
 }
