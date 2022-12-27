@@ -3,7 +3,7 @@ import Select from "react-select";
 import {PATCH} from "../common/operationsTypes";
 
 // https://cloudnweb.dev/2020/08/how-to-build-an-actionable-data-table-with-react-table-and-tailwindcss/
-const SelectableCell = ({value: initialValue, row, column, updateData, choices, positionInView}) => {
+const SelectableCell = ({value: initialValue, row, column, updateData, choices, placement}) => {
   const [value, setValue] = useState(initialValue || "");
   const [options, setOptions] = useState([]);
 
@@ -30,9 +30,8 @@ const SelectableCell = ({value: initialValue, row, column, updateData, choices, 
 
   return (
     <>
-      <span>{positionInView}</span>
       <Select
-          menuPlacement="top"
+          menuPlacement={placement}
           options={choices.map(choice => {
             return {label: choice, value:choice}
           })}

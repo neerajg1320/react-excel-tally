@@ -92,20 +92,20 @@ const TableCore = () => {
                 col.Cell = EditableCell
               } else if (col.type === 'select') {
                 col.Cell = (props) => {
-                  const {rows, page, row} = props;
-
+                  const {rows, page, row, state} = props;
                   // Add a check for featurePagination
                   let view = rows;
                   if (page) {
                     view = page;
                   }
 
-                  console.log(`props=`, props);
-                  console.log(`view=`, view);
-                  console.log(`row=`, row);
+                  const {pageSize} = state;
 
-                  const positionInView = view.findIndex(item => item.index === row.index)
-                  return <SelectableCell choices={col.choices} {...props} {...{positionInView}} />
+                  // console.log(`props=`, props);
+
+                  const positionInView = view.findIndex(item => item.index === row.index);
+                  const placement = (positionInView > (pageSize-1)/2) ? "top" : "bottom"
+                  return <SelectableCell choices={col.choices} {...props} {...{placement}} />
                 }
               } else {
                 // If not type is specified then input by default
