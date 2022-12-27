@@ -119,11 +119,9 @@ const Read = () => {
     getMappers,
   } = useContext(AppContext);
 
-  const mappers = useMemo(() => {
-    return getMappers()
-  }, []);
 
-  console.log(`Read: mappers=${JSON.stringify(mappers, null, 2)}`);
+
+
 
   const getKeyFromPresets = useCallback((headerName) => {
     // TBD: need to update matching algo
@@ -153,9 +151,50 @@ const Read = () => {
     return nData;
   }, []);
 
-  const onLoadComplete = ({data}) => {
-    const normalizedData = dataNormalize(data);
+  const getKeyFromMappers = useCallback((headerName) => {
+    // TBD: need to update matching algo
+    const matchingColumns = presetColumns.filter(col => {
+      return col.matchLabels.includes(headerName)
+    });
 
+    if (matchingColumns.length > 0) {
+      const matchingCol = matchingColumns[0]
+      return matchingCol.keyName;
+    }
+
+    console.log(`headerName=${headerName} not found in presets`);
+    return null;
+  }, []);
+
+  // The input data is an object of the form {..., excelHeader: value, ...}
+  // The normalized data is an object of the form {..., keyName: value, ...}
+  const dataNormalizeUsingMapper = useCallback((data) => {
+    // First we match a mapper from the mapper array
+    const mappers = getMappers();
+
+    // console.log(`Read: mappers=${JSON.stringify(mappers, null, 2)}`);
+
+    let headerKeyMap;
+    for(let idx=0; idx < data.slice(0,1).length; idx++) {
+      const row = data[idx];
+      console.log(`${JSON.stringify(row, null, 2)}`);
+
+      for (let mprIdx=0; mprIdx < mappers.length; mprIdx++) {
+        // Check if all the prop names of the row exist in the mapper
+        Object.keys(row).reduce((prev, current) => {
+          console.log(current);
+        }, [])
+      }
+    }
+
+    // Then we use the mapper to create data
+
+  }, [getMappers]);
+
+  const onLoadComplete = ({data}) => {
+    const normalizedData = dataNormalizeUsingMapper(data);
+
+    // const normalizedData = dataNormalize(data);
     // navigate('/table', { state: { data:normalizedData } });
   };
 
