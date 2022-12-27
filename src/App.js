@@ -33,8 +33,9 @@ const App = () => {
 
   const mappers = useMemo(() => {
     const mappers = []
-    mappers.push({name: hdfc.bankName, headerKeynameMap: hdfc.headerKeynameMap});
-    mappers.push({name: kotak.bankName, headerKeynameMap: kotak.headerKeynameMap});
+    // TBD: Put default mapper attributes
+    mappers.push({name: hdfc.bankName, matchThreshold: 6, headerKeynameMap: hdfc.headerKeynameMap});
+    mappers.push({name: kotak.bankName, matchThreshold: 6, headerKeynameMap: kotak.headerKeynameMap});
     return mappers;
   });
 
@@ -177,23 +178,22 @@ const Read = () => {
       // console.log(`${JSON.stringify(row, null, 2)}`);
 
       for (let mprIdx=0; mprIdx < mappers.length; mprIdx++) {
-        const {headerKeynameMap} = mappers[mprIdx];
+        const {matchThreshold, headerKeynameMap} = mappers[mprIdx];
+        const headers = Object.keys(row);
 
-        // Check if all the prop names of the row exist in the mapper
-
-        const headerKeyMap = Object.keys(row).reduce((prev, hdrName) => {
-          // console.log(hdrName);
+        const hdrKeyMap = headers.reduce((prev, hdrName) => {
           const matchingEntries = headerKeynameMap.filter(item => item.matchLabels.includes(hdrName));
           if (matchingEntries.length) {
-            // console.log(matchingEntries[0]);
-            // console.log(JSON.stringify(prev));
             return [...prev, matchingEntries[0]];
           }
 
           return [...prev];
         }, []);
 
-        if (headerKeyMap.length > 0) {
+        console.log(`headers.length:${headers.length} hdrKeyMap.length:${hdrKeyMap.length} headerKeynameMap.length:${headerKeynameMap.length}`)
+        // If all the keys are matched then declare a match
+        if (hdrKeyMap.length == headerKeynameMap.length || (matchThreshold && hdrKeyMap.length > matchThreshold)) {
+          // console.log(`hdrKeyMap: ${JSON.stringify(hdrKeyMap, null, 2)}`);
           matchedMapper = mappers[mprIdx];
           break;
         }
