@@ -90,18 +90,20 @@ const TableCore = () => {
           ...columns.map(col => {
             if (col.edit) {
               if (col.type === 'input') {
-                col.Cell = EditableCell
+                // The following is equivalent to col.Cell = EditableCell
+                // We have kept it for uniformity
+                col.Cell = (props) => {
+                  return <EditableCell {...props} />
+                };
+
               } else if (col.type === 'select') {
                 col.Cell = (props) => {
-                  const {rows, page, row, state} = props;
+                  const {rows, page, row} = props;
                   // Add a check for featurePagination
                   let view = rows;
                   if (page) {
                     view = page;
                   }
-
-                  // const {pageSize} = state;
-                  // console.log(`props=`, props);
 
                   // To take care of the cases where last has lesser number of rows.
                   const topThreshold = 5;
