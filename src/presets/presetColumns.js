@@ -7,43 +7,43 @@ export const presetColumns = [
   },
   {
     header: "Transaction Date",
-    matchLabels: ["Transaction Date"],
+    matchLabels: ["Transaction Date", "Date"],
     keyName: "transactionDate",
     width: 100
   },
   {
     header: "Value Date",
-    matchLabels: ["Value Date"],
+    matchLabels: ["Value Date", "Value Dt"],
     keyName: "valueDate",
     width: 100
   },
   {
     header: "Description",
-    matchLabels: ["Description"],
+    matchLabels: ["Description", "Narration"],
     keyName: "description",
     width: 300
   },
   {
     header: "Reference",
-    matchLabels: ["Chq / Ref number"],
+    matchLabels: ["Chq / Ref number", "Chq./Ref.No."],
     keyName: "reference",
     width: 100
   },
   {
     header: "Debit",
-    matchLabels: ["Debit"],
+    matchLabels: ["Debit", "Withdrawal Amt."],
     keyName: "debit",
-    width: 100
+    width: 100,
   },
   {
     header: "Credit",
-    matchLabels: ["Credit"],
+    matchLabels: ["Credit", "Deposit Amt."],
     keyName: "credit",
     width: 100
   },
   {
     header: "Balance",
-    matchLabels: ["Balance"],
+    matchLabels: ["Balance", "Closing Balance"],
     keyName: "balance",
     width: 120
   },
