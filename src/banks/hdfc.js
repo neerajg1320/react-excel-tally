@@ -2,39 +2,31 @@ export const bankName = "HDFC";
 
 export const headerKeynameMap= [
   {
-    matchLabels: ["Sl. No."],
-    keyName: "serialNum",
-  },
-  {
-    matchLabels: ["Transaction Date"],
+    matchLabels: ["Date"],
     keyName: "transactionDate",
   },
   {
-    matchLabels: ["Value Date"],
+    matchLabels: ["Value Dt"],
     keyName: "valueDate",
   },
   {
-    matchLabels: ["Description"],
+    matchLabels: ["Narration"],
     keyName: "description",
   },
   {
-    matchLabels: ["Chq / Ref number"],
+    matchLabels: ["Chq./Ref.No."],
     keyName: "reference",
   },
   {
-    matchLabels: ["Debit"],
+    matchLabels: ["Withdrawal Amt."],
     keyName: "debit",
   },
   {
-    matchLabels: ["Credit"],
+    matchLabels: ["Deposit Amt."],
     keyName: "credit",
   },
   {
-    matchLabels: ["Balance"],
+    matchLabels: ["Closing Balance"],
     keyName: "balance",
-  },
-  {
-    matchLabels: ["Dr / Cr"],
-    keyName: "drCr",
   },
 ];

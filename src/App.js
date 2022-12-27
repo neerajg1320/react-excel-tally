@@ -120,9 +120,6 @@ const Read = () => {
   } = useContext(AppContext);
 
 
-
-
-
   const getKeyFromPresets = useCallback((headerName) => {
     // TBD: need to update matching algo
     const matchingColumns = presetColumns.filter(col => {
@@ -174,17 +171,39 @@ const Read = () => {
 
     // console.log(`Read: mappers=${JSON.stringify(mappers, null, 2)}`);
 
-    let headerKeyMap;
+    let matchedMapper;
     for(let idx=0; idx < data.slice(0,1).length; idx++) {
       const row = data[idx];
-      console.log(`${JSON.stringify(row, null, 2)}`);
+      // console.log(`${JSON.stringify(row, null, 2)}`);
 
       for (let mprIdx=0; mprIdx < mappers.length; mprIdx++) {
+        const {headerKeynameMap} = mappers[mprIdx];
+
         // Check if all the prop names of the row exist in the mapper
-        Object.keys(row).reduce((prev, current) => {
-          console.log(current);
-        }, [])
+
+        const headerKeyMap = Object.keys(row).reduce((prev, hdrName) => {
+          // console.log(hdrName);
+          const matchingEntries = headerKeynameMap.filter(item => item.matchLabels.includes(hdrName));
+          if (matchingEntries.length) {
+            // console.log(matchingEntries[0]);
+            // console.log(JSON.stringify(prev));
+            return [...prev, matchingEntries[0]];
+          }
+
+          return [...prev];
+        }, []);
+
+        if (headerKeyMap.length > 0) {
+          matchedMapper = mappers[mprIdx];
+          break;
+        }
       }
+    }
+
+    if (matchedMapper) {
+      const {name, headerKeynameMap} = matchedMapper;
+      console.log(`dataNormalizeUsingMapper: Match Found: name=${name} keysMatched=${headerKeynameMap.length}`);
+      console.log(matchedMapper);
     }
 
     // Then we use the mapper to create data
