@@ -1,4 +1,4 @@
-const kotakMatchLabels = [
+const kotakHeaderKeynameMap= [
   {
     matchLabels: ["Sl. No."],
     keyName: "serialNum",
@@ -36,4 +36,11 @@ const kotakMatchLabels = [
     keyName: "drCr",
   },
 ]
+
+const kotakHeaderMapper = {
+  "name": "Kotak",
+  "headerKeynameMap": kotakHeaderKeynameMap
+}
+
+export default kotakHeaderMapper;
 
