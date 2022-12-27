@@ -2,7 +2,7 @@ import ReadExcel from "./components/excel/xlsx/ReadExcel";
 import * as React from 'react';
 import {Routes, Route, Outlet, NavLink, useNavigate} from 'react-router-dom';
 import {TableWrapper} from "./components/table/TableWrapper";
-import {useCallback, useEffect, useMemo} from "react";
+import {useCallback, useContext, useEffect, useMemo} from "react";
 import {debug} from "./components/config/debug";
 import {Mappers} from "./components/mappers/Mappers";
 import AppContext from "./AppContext";
@@ -115,6 +115,16 @@ const Read = () => {
 
   const navigate = useNavigate();
 
+  const {
+    getMappers,
+  } = useContext(AppContext);
+
+  const mappers = useMemo(() => {
+    return getMappers()
+  }, []);
+
+  console.log(`Read: mappers=${JSON.stringify(mappers, null, 2)}`);
+
   const getKeyFromPresets = useCallback((headerName) => {
     // TBD: need to update matching algo
     const matchingColumns = presetColumns.filter(col => {
@@ -146,7 +156,7 @@ const Read = () => {
   const onLoadComplete = ({data}) => {
     const normalizedData = dataNormalize(data);
 
-    navigate('/table', { state: { data:normalizedData } });
+    // navigate('/table', { state: { data:normalizedData } });
   };
 
   return (
