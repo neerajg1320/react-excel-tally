@@ -6,6 +6,7 @@ import {useEffect} from "react";
 import {debug} from "./components/config/debug";
 import {dataNormalize} from "./parseData/normalize";
 import {Mappers} from "./components/mappers/Mappers";
+import AppContext from "./AppContext";
 
 const App = () => {
   if (debug.lifecycle) {
@@ -27,16 +28,22 @@ const App = () => {
     }
   }, []);
 
+  const appContext = {
+    mappers: [],  
+  };
+
   return (
-      <Routes>
-        <Route element={<Layout />}>
-          <Route index element={<Read />} />
-          <Route path="read" element={<Read />} />
-          <Route path="table" element={<TableWrapper />} />
-          <Route path="mappers" element={<Mappers />} />
-          <Route path="*" element={<p>There's nothing here: 404!</p>} />
-        </Route>
-      </Routes>
+      <AppContext.Provider value={appContext}>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route index element={<Read />} />
+            <Route path="read" element={<Read />} />
+            <Route path="table" element={<TableWrapper />} />
+            <Route path="mappers" element={<Mappers />} />
+            <Route path="*" element={<p>There's nothing here: 404!</p>} />
+          </Route>
+        </Routes>
+      </AppContext.Provider>
   );
 };
 
