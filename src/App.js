@@ -10,6 +10,8 @@ import * as hdfc from "./banks/hdfc";
 import * as kotak  from "./banks/kotak";
 import {accountingColumns, presetColumns, statementColumns} from "./presets/presetColumns";
 import {generateKeyFromHeader} from "./schema/core";
+import {type} from "@testing-library/user-event/dist/type";
+import {isDate} from "./utils/types";
 
 const App = () => {
   if (debug.lifecycle) {
@@ -213,15 +215,22 @@ const Read = () => {
   }, []);
 
 
+  const getType = (val) => {
+    if (isDate(val)) {
+      return 'date';
+    }
+    return typeof(val);
+  }
+
   const getRowSignature = (row, numProps) => {
-    // console.log(`getRowSignature:`, row, numProps);
+    console.log(`getRowSignature:`, row, numProps);
 
     const propNames = Object.keys(row);
     // console.log(`propNames=`, propNames);
 
     const signatureFullRow = [];
     for (let i=0; i < Math.max(propNames.length, numProps); i++) {
-      signatureFullRow.push(typeof(row[propNames[i]]));
+      signatureFullRow.push(getType(row[propNames[i]]));
     }
     console.log(`signatureFullRow=`, signatureFullRow);
 
@@ -300,6 +309,12 @@ const Read = () => {
               const matchingStatementCols = statementColumns.filter(col => col.keyName === propName);
               if (matchingStatementCols.length > 0) {
                 let acceptedTypes = [matchingStatementCols[0].type];
+
+                // We are accepting strings as dates as well
+                if (matchingStatementCols[0].type === "date") {
+                  acceptedTypes.push('string');
+                }
+
                 if (!matchingStatementCols[0].required) {
                   acceptedTypes.push('undefined');
                 }
