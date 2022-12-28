@@ -7,7 +7,7 @@ table {
 table td, table th {
     border: 1px solid #ddd;
     padding: 2px;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 
