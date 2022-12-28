@@ -188,10 +188,7 @@ const TableCore = () => {
   }, [featureSelection]);
 
   const hiddenColumns = useMemo(() => {
-    let hiddenCols = [];
-
-    if (featureColumnVisibility) {
-      hiddenCols = columns.map(col => {
+      return columns.map(col => {
         if (col.hidden === true) {
           // console.log(`empty column = ${JSON.stringify(col, null, 2)}`);
           console.log(`returning ${ col.id}`);
@@ -199,10 +196,7 @@ const TableCore = () => {
           return col.id;
         }
       });
-    }
-
-    return hiddenCols;
-  }, [featureColumnVisibility, columns]);
+  }, [columns]);
 
   const tableInstance = useTable({
         columns,
