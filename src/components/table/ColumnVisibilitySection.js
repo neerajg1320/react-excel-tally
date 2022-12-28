@@ -33,6 +33,10 @@ const ColumnVisibilitySection = () => {
     getToggleHideAllColumnsProps
   } = tableInstance;
 
+  useEffect(() => {
+    console.log(`allColumns: changed`);
+  }, [allColumns]);
+
   return (
     <>
       {(featureColumnVisibility && tableInstance && allColumns) &&
@@ -51,7 +55,7 @@ const ColumnVisibilitySection = () => {
           }}
           >
             <div>
-              <RowCheckbox /> Toggle All
+              <RowCheckbox {...getToggleHideAllColumnsProps()}/> Toggle All
             </div>
             {
               // Individual checkbox for hide/show column
@@ -59,7 +63,7 @@ const ColumnVisibilitySection = () => {
                   <div key={column.id}>
                     <div style={{display:"flex", flexDirection:"row", gap:"10px", alignItems: "center"}}>
                       <input type="checkbox" {...column.getToggleHiddenProps()} />
-                      <span>{column.Header}</span>
+                      <span>{column.render('Header')}</span>
                     </div>
                   </div>
               ))

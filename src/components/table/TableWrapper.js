@@ -64,6 +64,7 @@ export const TableWrapper = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const globalFilterValueRef = useRef('');
+  const [visibleColumns, setVisibleColumns] = useState([]);
 
   // Store table position so that we can restore
   const tableScrollPositionRef = useRef(0);
@@ -240,8 +241,9 @@ export const TableWrapper = () => {
     tableScrollPositionRef.current = e.target.scrollLeft;
   }
 
-  const handleColumnVisibilityChange = () => {
-    console.log(`handleColumnVisibilityChange: called`);
+  const handleVisibleColumnsChange = (visibleColumns) => {
+    console.log(`handleVisibleColumnsChange: called`);
+    setVisibleColumns(visibleColumns);
   }
 
   const tableContext = {
@@ -270,7 +272,7 @@ export const TableWrapper = () => {
     onPageSizeChange: handlePageSizeChange,
     getPageIndex: providePageIndex,
     onGlobalFilterChange: handleGlobalFilterChange,
-    onColumnVisibilityChange: handleColumnVisibilityChange,
+    onVisibleColumnsChange: handleVisibleColumnsChange,
   };
 
   return (

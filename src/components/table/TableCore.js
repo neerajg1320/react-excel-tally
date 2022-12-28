@@ -48,6 +48,7 @@ const TableCore = () => {
     onPageChange: updatePageIndex,
     onPageSizeChange: updatePageSize,
     getPageIndex: getCurrentPageIndex,
+    onVisibleColumnsChange: updateVisibleColumns,
   } = useContext(TableDataContext);
 
   if (debug.lifecycle) {
@@ -212,10 +213,18 @@ const TableCore = () => {
     prepareRow,
     selectedFlatRows,
     page,
-    state
+    state,
+    visibleColumns
   } = tableInstance;
 
   const visibleRows = featurePagination ? page : rows;
+
+  // console.log(`tableInstance=`, tableInstance);
+
+  useEffect(() => {
+    console.log(`visibleColumns=`, visibleColumns);
+    updateVisibleColumns(visibleColumns);
+  }, [visibleColumns]);
 
   const { pageIndex, pageSize } = state;
   useEffect(() => {
@@ -233,7 +242,6 @@ const TableCore = () => {
     // console.log(`Updated tableInstance`);
     updateRTable(tableInstance);
   }, [tableInstance]);
-
 
   return (
   <>
