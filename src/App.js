@@ -8,7 +8,7 @@ import {Mappers} from "./components/mappers/Mappers";
 import AppContext from "./AppContext";
 import * as hdfc from "./banks/hdfc";
 import * as kotak  from "./banks/kotak";
-import {accountingColumns, presetColumns} from "./presets/presetColumns";
+import {accountingColumns, presetColumns, statementColumns} from "./presets/presetColumns";
 import {generateKeyFromHeader} from "./schema/core";
 
 const App = () => {
@@ -280,6 +280,13 @@ const Read = () => {
 
             // Get the type of the keyNames from the statement
             // From the statementColumns create an acceptable signature
+            const propNames = matchedMapper.headerKeynameMap.map(item => (item.keyName));
+            propNames.map(propName => {
+              const matchingStatementCols = statementColumns.filter(col => col.keyName === propName);
+              if (matchingStatementCols.length > 0) {
+                console.log(matchingStatementCols[0]);
+              }
+            });
           }
         }
       }
