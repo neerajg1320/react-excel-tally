@@ -1,4 +1,33 @@
-export const presetColumns = [
+export const accountingColumns = [
+  {
+    header: "Category",
+    matchLabels: ["Category"],
+    keyName: "category",
+    edit: true,
+    bulk: true,
+    type: 'select',
+    choices: [
+      'Conveyance', 'Lodging', 'Stationary', 'Salary', 'Travel'
+    ]
+  },
+  {
+    header: "Voucher Id",
+    matchLabels: ["VoucherId"],
+    keyName: "voucherId",
+    edit: false,
+    bulk: false,
+  },
+  {
+    header: "Remarks",
+    matchLabels: ["Remarks"],
+    keyName: "remarks",
+    edit: true,
+    bulk: true,
+    type: 'input',
+  }
+];
+
+export const statementColumns = [
   {
     header: "SNo",
     matchLabels: ["Sl. No."],
@@ -52,31 +81,7 @@ export const presetColumns = [
     matchLabels: ["Dr / Cr"],
     keyName: "drCr",
     width: 50
-  },
-  {
-    header: "Category",
-    matchLabels: ["Category"],
-    keyName: "category",
-    edit: true,
-    bulk: true,
-    type: 'select',
-    choices: [
-      'Conveyance', 'Lodging', 'Stationary', 'Salary', 'Travel'
-    ]
-  },
-  {
-    header: "Voucher Id",
-    matchLabels: ["VoucherId"],
-    keyName: "voucherId",
-    edit: false,
-    bulk: false,
-  },
-  {
-    header: "Remarks",
-    matchLabels: ["Remarks"],
-    keyName: "remarks",
-    edit: true,
-    bulk: true,
-    type: 'input',
   }
 ];
+
+export const presetColumns = [...statementColumns, ...accountingColumns];

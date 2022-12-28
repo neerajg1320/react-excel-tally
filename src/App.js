@@ -73,7 +73,12 @@ const Layout = () => {
 
   return (
     <>
-      <h1>React Router</h1>
+      <div style={{
+        display:"flex", flexDirection:"row", justifyContent:"center",
+        marginBottom: "20px"
+      }}>
+        <h1>Table For Accounting</h1>
+      </div>
 
       <nav
           style={{
