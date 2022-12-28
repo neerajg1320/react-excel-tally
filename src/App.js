@@ -154,7 +154,7 @@ const Read = () => {
   }, []);
 
   const getKeyFromMapper = useCallback((headerName, headerKeynameMap) => {
-    console.log(`getKeyFromMapper: headerName=${headerName}`);
+    // console.log(`getKeyFromMapper: headerName=${headerName}`);
 
     const matchingColumns = headerKeynameMap.filter(col => {
       return col.matchLabels.includes(headerName)
