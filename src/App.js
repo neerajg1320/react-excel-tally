@@ -8,7 +8,7 @@ import {Mappers} from "./components/mappers/Mappers";
 import AppContext from "./AppContext";
 import * as hdfc from "./banks/hdfc";
 import * as kotak  from "./banks/kotak";
-import {presetColumns} from "./presets/presetColumns";
+import {accountingColumns, presetColumns} from "./presets/presetColumns";
 import {generateKeyFromHeader} from "./schema/core";
 
 const App = () => {
@@ -175,12 +175,9 @@ const Read = () => {
     // First we match a mapper from the mapper array
     const mappers = getMappers();
 
-    // console.log(`Read: mappers=${JSON.stringify(mappers, null, 2)}`);
-
     let matchedMapper;
     for(let idx=0; idx < data.slice(0,1).length; idx++) {
       const row = data[idx];
-      // console.log(`${JSON.stringify(row, null, 2)}`);
 
       for (let mprIdx=0; mprIdx < mappers.length; mprIdx++) {
         const {matchThreshold, headerKeynameMap} = mappers[mprIdx];
@@ -225,12 +222,30 @@ const Read = () => {
     return data;
   }, [getMappers]);
 
+  const addAccountingColumns = useCallback((data) => {
+    return data.map((row) => {
+      const accRow = {...row};
+      const rowProps = Object.keys(accRow);
+
+      accountingColumns.forEach(accCol => {
+        if (!rowProps.includes(accCol.keyName)) {
+          if (accCol.required) {
+            accRow[accCol.keyName] = accCol.defaultValue;
+          }
+        }
+      });
+      return accRow
+    });
+  }, []);
+
   const onLoadComplete = ({data}) => {
     const normalizedData = dataNormalizeUsingMapper(data);
 
+    const accountingData = addAccountingColumns(normalizedData);
+
     // Kept for future use: Would be used for banks which aren't supported yet
     // const normalizedData = dataNormalizeUsingCommon(data);
-    navigate('/table', { state: { data:normalizedData } });
+    navigate('/table', { state: { data:accountingData } });
   };
 
   return (

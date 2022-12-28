@@ -7,8 +7,10 @@ export const accountingColumns = [
     bulk: true,
     type: 'select',
     choices: [
-      'Conveyance', 'Lodging', 'Stationary', 'Salary', 'Travel'
-    ]
+      'Conveyance', 'Lodging', 'Stationary', 'Salary', 'Travel', "Suspense"
+    ],
+    defaultValue: "Suspense",
+    required: true
   },
   {
     header: "Voucher Id",
@@ -16,6 +18,8 @@ export const accountingColumns = [
     keyName: "voucherId",
     edit: false,
     bulk: false,
+    defaultValue: -1,
+    required: true
   },
   {
     header: "Remarks",
@@ -24,6 +28,7 @@ export const accountingColumns = [
     edit: true,
     bulk: true,
     type: 'input',
+    defaultValue: ""
   }
 ];
 
