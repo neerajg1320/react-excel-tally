@@ -231,12 +231,13 @@ const Read = () => {
 
   const getMatchedMapper = (headers) => {
     const mappers = getMappers();
+    // console.log(`mappers=`, mappers);
 
     let matchedMapper;
 
     for (let mprIdx=0; mprIdx < mappers.length; mprIdx++) {
       const {matchThreshold, headerKeynameMap} = mappers[mprIdx];
-      
+
       const hdrKeyMap = headers.reduce((prev, hdrName) => {
         const matchingEntries = headerKeynameMap.filter(item => item.matchLabels.includes(hdrName));
         if (matchingEntries.length) {
@@ -246,7 +247,8 @@ const Read = () => {
         return [...prev];
       }, []);
 
-      console.log(`headers.length:${headers.length} hdrKeyMap.length:${hdrKeyMap.length} headerKeynameMap.length:${headerKeynameMap.length}`)
+      // console.log(`headers.length:${headers.length} hdrKeyMap.length:${hdrKeyMap.length} headerKeynameMap.length:${headerKeynameMap.length}`)
+
       // If all the keys are matched then declare a match
       if (hdrKeyMap.length == headerKeynameMap.length || (matchThreshold && hdrKeyMap.length > matchThreshold)) {
         // console.log(`hdrKeyMap: ${JSON.stringify(hdrKeyMap, null, 2)}`);
@@ -255,6 +257,7 @@ const Read = () => {
       }
     }
 
+    return matchedMapper;
   }
 
   const filterStatement =useCallback((data) => {
@@ -270,7 +273,15 @@ const Read = () => {
         // console.log(`Possible Header: `, signature);
         // console.log(`all string=`, isHeaderSignature(signature));
         if (isHeaderSignature(signature)) {
-          console.log(`${rowIdx}: possible header=`, row, signature);
+          // console.log(`${rowIdx}: possible header=`, row, signature);
+          const headers = Object.entries(row).map(([k, val]) => val);
+          // console.log(`headers=`, headers);
+          const matchedMapper = getMatchedMapper(headers);
+          // console.log(`matchedMapper=`, matchedMapper);
+
+          if (matchedMapper) {
+            console.log(`${rowIdx}: Founder Header Row:`, row)
+          }
         }
       }
 
@@ -287,7 +298,7 @@ const Read = () => {
     // Kept for future use: Would be used for banks which aren't supported yet
     // const normalizedData = dataNormalizeUsingCommon(data);
 
-    navigate('/table', { state: { data:normalizedData } });
+    // navigate('/table', { state: { data:normalizedData } });
   };
 
   return (

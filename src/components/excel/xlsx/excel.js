@@ -1,7 +1,8 @@
 import * as XLSX from 'xlsx';
 import {fixDatesInObject} from "../../../utils/types";
 
-export function excelToJson (file) {
+// headerRow < 0 means no header
+export function excelToJson (file, {headerRow}) {
   // console.log(`excelToJson: ${file}`);
 
   return new Promise((resolve, reject) => {
@@ -20,9 +21,13 @@ export function excelToJson (file) {
       const wb = XLSX.read(bStr, readOptions);
       wb.SheetNames.forEach((sheetName) => {
         const ws = wb.Sheets[sheetName];
+        const sheetOptions = {
+          header: headerRow < 0 ? 1 : 0
+        }
         // We will get dates as string as what is visible
         // {range:n} uses n+1 the as header
-        const data = XLSX.utils.sheet_to_json(ws, {header: 100});
+        // {header:1} for using first row as data
+        const data = XLSX.utils.sheet_to_json(ws, sheetOptions);
         const dataAdjustedDates = data.map(item => fixDatesInObject(item));
         // console.log(JSON.stringify(dataAdjustedDates, null, 2));
 

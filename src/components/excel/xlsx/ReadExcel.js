@@ -28,7 +28,7 @@ const ReadExcel = ({onComplete}) => {
     if (files.length > 0) {
       clearState();
 
-      const sheetJsons = await excelToJson(files[0]);
+      const sheetJsons = await excelToJson(files[0], {headerRow:-1});
       sheetJsons.forEach(sheetJson => {
         if (onComplete) {
           onComplete({
