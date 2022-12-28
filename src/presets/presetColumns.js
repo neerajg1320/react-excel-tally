@@ -1,38 +1,3 @@
-export const accountingColumns = [
-  {
-    header: "Category",
-    matchLabels: ["Category"],
-    keyName: "category",
-    edit: true,
-    bulk: true,
-    type: 'select',
-    choices: [
-      'Conveyance', 'Lodging', 'Stationary', 'Salary', 'Travel', "Suspense"
-    ],
-    defaultValue: "Suspense",
-    required: true
-  },
-  {
-    header: "Voucher Id",
-    matchLabels: ["VoucherId"],
-    keyName: "voucherId",
-    edit: false,
-    bulk: false,
-    defaultValue: -1,
-    required: true,
-    hidden: true
-  },
-  {
-    header: "Remarks",
-    matchLabels: ["Remarks"],
-    keyName: "remarks",
-    edit: true,
-    bulk: true,
-    type: 'input',
-    defaultValue: ""
-  }
-];
-
 export const statementColumns = [
   {
     header: "SNo",
@@ -87,6 +52,41 @@ export const statementColumns = [
     matchLabels: ["Dr / Cr"],
     keyName: "drCr",
     width: 50
+  }
+];
+
+export const accountingColumns = [
+  {
+    header: "Category",
+    matchLabels: ["Category"],
+    keyName: "category",
+    edit: true,
+    bulk: true,
+    type: 'select',
+    choices: [
+      'Conveyance', 'Lodging', 'Stationary', 'Salary', 'Travel', "Suspense"
+    ],
+    defaultValue: "Suspense",
+    required: true
+  },
+  {
+    header: "Voucher Id",
+    matchLabels: ["VoucherId"],
+    keyName: "voucherId",
+    edit: false,
+    bulk: false,
+    defaultValue: -1,
+    required: true,
+    hidden: true
+  },
+  {
+    header: "Remarks",
+    matchLabels: ["Remarks"],
+    keyName: "remarks",
+    edit: true,
+    bulk: true,
+    type: 'input',
+    defaultValue: ""
   }
 ];
 

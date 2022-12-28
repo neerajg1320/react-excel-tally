@@ -217,7 +217,7 @@ const Read = () => {
     return Object.entries(row).map(([k, val]) => typeof(val))
   };
 
-  const isHeaderSignature = (rowSignature) => {
+  const isAllString = (rowSignature) => {
     let result = true;
     for (let i=0; i < rowSignature.length; i++) {
       if (rowSignature[i] !== "string") {
@@ -269,18 +269,17 @@ const Read = () => {
 
       const signature = getRowSignature(row);
       if (signature.length >= headerThreshold) {
-        // console.log(`Possible Header: `, row);
-        // console.log(`Possible Header: `, signature);
-        // console.log(`all string=`, isHeaderSignature(signature));
-        if (isHeaderSignature(signature)) {
-          // console.log(`${rowIdx}: possible header=`, row, signature);
+        // All strings signature is a possible header
+        if (isAllString(signature)) {
           const headers = Object.entries(row).map(([k, val]) => val);
-          // console.log(`headers=`, headers);
           const matchedMapper = getMatchedMapper(headers);
-          // console.log(`matchedMapper=`, matchedMapper);
 
           if (matchedMapper) {
-            console.log(`${rowIdx}: Founder Header Row:`, row)
+            console.log(`${rowIdx}: Founder Header Row:`, row);
+            console.log(`matchedMapper.keyMap:`, matchedMapper.headerKeynameMap);
+
+            // Get the type of the keyNames from the statement
+            // From the statementColumns create an acceptable signature
           }
         }
       }
