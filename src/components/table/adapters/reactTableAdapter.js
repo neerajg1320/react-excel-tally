@@ -10,7 +10,8 @@ export function colToRTCol (colObj) {
     ...colObj
   }
 
-  if (String(colObj.keyName).toLowerCase().includes('date')) {
+  // Convert all objects
+  if (String(colObj.keyName).toLowerCase().includes('date') || true) {
     reactColObj.Cell = ({ value }) => {
       return valToString(value);
     }

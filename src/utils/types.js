@@ -19,7 +19,7 @@ export function valToString(val) {
     return format(val, localDateFormat);
   }
 
-  return val.toString();
+  return val ? val.toString() : "";
 }
 
 // Strangely Sheetjs reads the data and reduces 5:30 hrs and an adiitional 10 seconds
