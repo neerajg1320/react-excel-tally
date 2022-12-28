@@ -80,7 +80,7 @@ export const accountingColumns = [
     keyName: "category",
     edit: true,
     bulk: true,
-    type: 'select',
+    type: 'select', // This needs to be fixed now
     choices: [
       'Conveyance', 'Lodging', 'Stationary', 'Salary', 'Travel', "Suspense"
     ],

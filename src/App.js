@@ -2,7 +2,7 @@ import ReadExcel from "./components/excel/xlsx/ReadExcel";
 import * as React from 'react';
 import {Routes, Route, Outlet, NavLink, useNavigate} from 'react-router-dom';
 import {TableWrapper} from "./components/table/TableWrapper";
-import {useCallback, useContext, useEffect, useMemo} from "react";
+import {useCallback, useContext, useEffect, useMemo, useRef} from "react";
 import {debug} from "./components/config/debug";
 import {Mappers} from "./components/mappers/Mappers";
 import AppContext from "./AppContext";
@@ -213,8 +213,20 @@ const Read = () => {
   }, []);
 
 
-  const getRowSignature = (row) => {
-    return Object.entries(row).map(([k, val]) => typeof(val))
+  const getRowSignature = (row, numProps) => {
+    // console.log(`getRowSignature:`, row, numProps);
+
+    const propNames = Object.keys(row);
+    // console.log(`propNames=`, propNames);
+
+    const signatureFullRow = [];
+    for (let i=0; i < Math.max(propNames.length, numProps); i++) {
+      signatureFullRow.push(typeof(row[propNames[i]]));
+    }
+    console.log(`signatureFullRow=`, signatureFullRow);
+
+    // return Object.entries(row).map(([k, val]) => typeof(val));
+    return signatureFullRow;
   };
 
   const isAllString = (rowSignature) => {
@@ -261,18 +273,21 @@ const Read = () => {
   }
 
   const filterStatement =useCallback((data) => {
-    const headerThreshold = 6;
+    const filterThreshold = 6;
+    let matchedMapper;
+    let matchRowSignature;
 
-    for (let rowIdx=0; rowIdx < data.length; rowIdx++) {
+    for (let rowIdx=0; rowIdx < data.slice(0,20).length; rowIdx++) {
       const row = data[rowIdx];
       // console.log(`row=`, row);
 
-      const signature = getRowSignature(row);
-      if (signature.length >= headerThreshold) {
+      const signature = getRowSignature(row, matchedMapper ? matchedMapper.headerKeynameMap.length : -1);
+      if (signature.length >= filterThreshold) {
+
         // All strings signature is a possible header
         if (isAllString(signature)) {
           const headers = Object.entries(row).map(([k, val]) => val);
-          const matchedMapper = getMatchedMapper(headers);
+          matchedMapper = getMatchedMapper(headers);
 
           if (matchedMapper) {
             console.log(`${rowIdx}: Founder Header Row:`, row);
@@ -281,12 +296,21 @@ const Read = () => {
             // Get the type of the keyNames from the statement
             // From the statementColumns create an acceptable signature
             const propNames = matchedMapper.headerKeynameMap.map(item => (item.keyName));
-            propNames.map(propName => {
+            matchRowSignature = propNames.map(propName => {
               const matchingStatementCols = statementColumns.filter(col => col.keyName === propName);
               if (matchingStatementCols.length > 0) {
-                console.log(matchingStatementCols[0]);
+                let acceptedTypes = [matchingStatementCols[0].type];
+                if (!matchingStatementCols[0].required) {
+                  acceptedTypes.push('undefined');
+                }
+                return acceptedTypes;
               }
             });
+            console.log(`rowSignature=`, matchRowSignature);
+          }
+        } else {
+          if (matchRowSignature) {
+            console.log(`${rowIdx}: signature=`, signature);
           }
         }
       }
