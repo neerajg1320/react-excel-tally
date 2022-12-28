@@ -21,7 +21,8 @@ export function excelToJson (file) {
       wb.SheetNames.forEach((sheetName) => {
         const ws = wb.Sheets[sheetName];
         // We will get dates as string as what is visible
-        const data = XLSX.utils.sheet_to_json(ws, );
+        // {range:n} uses n+1 the as header
+        const data = XLSX.utils.sheet_to_json(ws, {header: 100});
         const dataAdjustedDates = data.map(item => fixDatesInObject(item));
         // console.log(JSON.stringify(dataAdjustedDates, null, 2));
 

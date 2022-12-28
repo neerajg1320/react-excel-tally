@@ -173,34 +173,8 @@ const Read = () => {
   // The normalized data is an object of the form {..., keyName: value, ...}
   const dataNormalizeUsingMapper = useCallback((data) => {
     // First we match a mapper from the mapper array
-    const mappers = getMappers();
 
-    let matchedMapper;
-    for(let idx=0; idx < data.slice(0,1).length; idx++) {
-      const row = data[idx];
-
-      for (let mprIdx=0; mprIdx < mappers.length; mprIdx++) {
-        const {matchThreshold, headerKeynameMap} = mappers[mprIdx];
-        const headers = Object.keys(row);
-
-        const hdrKeyMap = headers.reduce((prev, hdrName) => {
-          const matchingEntries = headerKeynameMap.filter(item => item.matchLabels.includes(hdrName));
-          if (matchingEntries.length) {
-            return [...prev, matchingEntries[0]];
-          }
-
-          return [...prev];
-        }, []);
-
-        console.log(`headers.length:${headers.length} hdrKeyMap.length:${hdrKeyMap.length} headerKeynameMap.length:${headerKeynameMap.length}`)
-        // If all the keys are matched then declare a match
-        if (hdrKeyMap.length == headerKeynameMap.length || (matchThreshold && hdrKeyMap.length > matchThreshold)) {
-          // console.log(`hdrKeyMap: ${JSON.stringify(hdrKeyMap, null, 2)}`);
-          matchedMapper = mappers[mprIdx];
-          break;
-        }
-      }
-    }
+    const matchedMapper = getMatchedMapper(data[0])
 
     // Then we use the mapper to create data
     if (matchedMapper) {
@@ -238,14 +212,83 @@ const Read = () => {
     });
   }, []);
 
+
+  const getRowSignature = (row) => {
+    return Object.entries(row).map(([k, val]) => typeof(val))
+  };
+
+  const isHeaderSignature = (rowSignature) => {
+    let result = true;
+    for (let i=0; i < rowSignature.length; i++) {
+      if (rowSignature[i] !== "string") {
+        result = false;
+        break;
+      }
+    }
+
+    return result;
+  }
+
+  const getMatchedMapper = (headerRow) => {
+    const mappers = getMappers();
+
+    let matchedMapper;
+
+    for (let mprIdx=0; mprIdx < mappers.length; mprIdx++) {
+      const {matchThreshold, headerKeynameMap} = mappers[mprIdx];
+      const headers = Object.keys(headerRow);
+
+      const hdrKeyMap = headers.reduce((prev, hdrName) => {
+        const matchingEntries = headerKeynameMap.filter(item => item.matchLabels.includes(hdrName));
+        if (matchingEntries.length) {
+          return [...prev, matchingEntries[0]];
+        }
+
+        return [...prev];
+      }, []);
+
+      console.log(`headers.length:${headers.length} hdrKeyMap.length:${hdrKeyMap.length} headerKeynameMap.length:${headerKeynameMap.length}`)
+      // If all the keys are matched then declare a match
+      if (hdrKeyMap.length == headerKeynameMap.length || (matchThreshold && hdrKeyMap.length > matchThreshold)) {
+        // console.log(`hdrKeyMap: ${JSON.stringify(hdrKeyMap, null, 2)}`);
+        matchedMapper = mappers[mprIdx];
+        break;
+      }
+    }
+
+  }
+
+  const filterStatement =useCallback((data) => {
+    const headerThreshold = 6;
+
+    for (let rowIdx=0; rowIdx < data.length; rowIdx++) {
+      const row = data[rowIdx];
+      // console.log(`row=`, row);
+
+      const signature = getRowSignature(row);
+      if (signature.length >= headerThreshold) {
+        // console.log(`Possible Header: `, row);
+        // console.log(`Possible Header: `, signature);
+        // console.log(`all string=`, isHeaderSignature(signature));
+        if (isHeaderSignature(signature)) {
+          console.log(`${rowIdx}: possible header=`, row, signature);
+        }
+      }
+
+    }
+
+  }, []);
+
   const onLoadComplete = ({data}) => {
+    const statementData = filterStatement(data);
     const normalizedData = dataNormalizeUsingMapper(data);
 
-    const accountingData = addAccountingColumns(normalizedData);
+    // const accountingData = addAccountingColumns(normalizedData);
 
     // Kept for future use: Would be used for banks which aren't supported yet
     // const normalizedData = dataNormalizeUsingCommon(data);
-    navigate('/table', { state: { data:accountingData } });
+
+    navigate('/table', { state: { data:normalizedData } });
   };
 
   return (
