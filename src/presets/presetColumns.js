@@ -19,7 +19,8 @@ export const accountingColumns = [
     edit: false,
     bulk: false,
     defaultValue: -1,
-    required: true
+    required: true,
+    hidden: true
   },
   {
     header: "Remarks",

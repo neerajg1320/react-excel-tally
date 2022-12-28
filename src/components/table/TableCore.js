@@ -37,6 +37,7 @@ const TableCore = () => {
     featurePagination,
     featureColumnFilter,
     featureSorting,
+    featureColumnVisibility,
 
     layoutFooter,
     layoutFixed,
@@ -186,6 +187,22 @@ const TableCore = () => {
     return attrs;
   }, [featureSelection]);
 
+  const hiddenColumns = useMemo(() => {
+    let hiddenCols = [];
+
+    if (featureColumnVisibility) {
+      hiddenCols = columns.map(col => {
+        if (col.hidden === true) {
+          // console.log(`empty column = ${JSON.stringify(col, null, 2)}`);
+          console.log(`returning ${ col.id}`);
+
+          return col.id;
+        }
+      });
+    }
+
+    return hiddenCols;
+  }, [featureColumnVisibility, columns]);
 
   const tableInstance = useTable({
         columns,
@@ -194,6 +211,7 @@ const TableCore = () => {
         autoResetSelectedRows: false,
         initialState: {
           pageIndex: currentPageIndex,
+          hiddenColumns
         },
         defaultColumn: defaultColumnAttrs,
       },
