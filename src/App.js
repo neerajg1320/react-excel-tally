@@ -174,7 +174,7 @@ const Read = () => {
   const dataNormalizeUsingMapper = useCallback((data) => {
     // First we match a mapper from the mapper array
 
-    const matchedMapper = getMatchedMapper(data[0])
+    const matchedMapper = getMatchedMapper(Object.keys(data[0]));
 
     // Then we use the mapper to create data
     if (matchedMapper) {
@@ -229,15 +229,14 @@ const Read = () => {
     return result;
   }
 
-  const getMatchedMapper = (headerRow) => {
+  const getMatchedMapper = (headers) => {
     const mappers = getMappers();
 
     let matchedMapper;
 
     for (let mprIdx=0; mprIdx < mappers.length; mprIdx++) {
       const {matchThreshold, headerKeynameMap} = mappers[mprIdx];
-      const headers = Object.keys(headerRow);
-
+      
       const hdrKeyMap = headers.reduce((prev, hdrName) => {
         const matchingEntries = headerKeynameMap.filter(item => item.matchLabels.includes(hdrName));
         if (matchingEntries.length) {
