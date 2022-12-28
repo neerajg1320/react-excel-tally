@@ -267,14 +267,10 @@ export const TableWrapper = () => {
 
   return (
       <div style={{
-
         width: "95%",
         padding: "40px 20px",
         display:"flex", flexDirection:"row", alignItems: "flex-start",
         boxShadow: "0 0 3px 0 rgba(0, 0, 0, 0.5)"
-        // border: "1px dashed red",
-        // overflow: "scroll"
-        // margin: "40px"
       }}>
         <TableDataContext.Provider value={tableContext}>
           {!data &&

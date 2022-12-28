@@ -77,10 +77,10 @@ const Layout = () => {
 
       <nav
           style={{
-            borderBottom: 'solid 1px',
+            // borderBottom: 'solid 1px',
             paddingBottom: '1rem',
             paddingLeft: "1rem",
-            display: "flex", flexDirection:"row", gap:"10px"
+            display: "flex", flexDirection:"row", gap:"10px", justifyContent: "center"
           }}
       >
         <NavLink to="/read" style={style}>
