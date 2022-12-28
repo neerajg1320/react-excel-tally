@@ -11,6 +11,7 @@ import TableCore from "./TableCore";
 import {DELETE, PATCH} from "./common/operationsTypes";
 import GlobalFilterSection from "./GlobalFilterSection";
 import PaginationSection from "./PaginationSection";
+import ColumnVisibilitySection from "./ColumnVisibilitySection";
 
 // We derive columns from data
 // We will just convert the columns.
@@ -56,6 +57,7 @@ export const TableWrapper = () => {
   const [featurePagination, setFeaturePagination] = useState(true);
   const [featureColumnFilter, setFeatureColumnFilter] = useState(true);
   const [featureSorting, setFeatureSorting] = useState(true);
+  const [featureColumnVisibility, setFeatureColumnVisibility] = useState(true);
 
   // We can't change following to ref as we need to rerender BulkSection
   const [selectedRows, setSelectedRows] = useState([])
@@ -238,6 +240,10 @@ export const TableWrapper = () => {
     tableScrollPositionRef.current = e.target.scrollLeft;
   }
 
+  const handleColumnVisibilityChange = () => {
+    console.log(`handleColumnVisibilityChange: called`);
+  }
+
   const tableContext = {
     data,
     columns: rtColumns,
@@ -250,6 +256,7 @@ export const TableWrapper = () => {
     featurePagination,
     featureColumnFilter,
     featureSorting,
+    featureColumnVisibility,
 
     layoutFooter: false,
     layoutFixed: true,
@@ -262,7 +269,8 @@ export const TableWrapper = () => {
     onPageChange: handlePageChange,
     onPageSizeChange: handlePageSizeChange,
     getPageIndex: providePageIndex,
-    onGlobalFilterChange: handleGlobalFilterChange
+    onGlobalFilterChange: handleGlobalFilterChange,
+    onColumnVisibilityChange: handleColumnVisibilityChange,
   };
 
   return (
@@ -293,6 +301,8 @@ export const TableWrapper = () => {
                 <div>
                   <BulkOperationsSection edit={featureEdit}/>
                 </div>
+
+                <ColumnVisibilitySection />
 
                 <div style={{display:"flex", flexDirection:"row", gap:"10px"}}>
                   <Button className="btn-outline-info bg-transparent" size="sm"
