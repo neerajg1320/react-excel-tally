@@ -266,7 +266,17 @@ export const TableWrapper = () => {
   };
 
   return (
-      <>
+      <div style={{
+        border: "1px dashed red",
+        width: "95%",
+        display:"flex", flexDirection:"row", alignItems: "center",
+
+
+        // overflow: "scroll"
+
+        // margin: "40px"
+
+      }}>
         <TableDataContext.Provider value={tableContext}>
           {!data &&
             <div style={{
@@ -277,6 +287,7 @@ export const TableWrapper = () => {
           }
           {data &&
             <div style={{
+              width: "100%",
               display:"flex", flexDirection:"column", gap:"20px", justifyContent:"space-evenly", alignItems:"center",
             }}>
 
@@ -318,7 +329,7 @@ export const TableWrapper = () => {
 
               <div style={{
                   height: "60vh",
-                  width:"100vw",
+                  width:"100%",
                   padding: "10px 10px 20px 10px",
                   overflow: "scroll",
                   background: "darkgray",
@@ -352,7 +363,7 @@ export const TableWrapper = () => {
             </div>
           }
         </TableDataContext.Provider>
-      </>
+      </div>
   );
 
 };

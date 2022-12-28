@@ -96,8 +96,7 @@ const Layout = () => {
 
       <main style={{ padding: '1rem 0' }}>
         <div style={{
-            padding: "10px",
-            display: "flex",
+            display: "flex", flexDirection: "column", alignItems: "center"
           }}
         >
           <Outlet />
