@@ -12,7 +12,7 @@ export const statementColumns = [
     header: "Transaction Date",
     matchLabels: ["Transaction Date", "Date"],
     keyName: "transactionDate",
-    width: 100,
+    width: 200,
     type: "date",
     required: true
   },
@@ -20,7 +20,7 @@ export const statementColumns = [
     header: "Value Date",
     matchLabels: ["Value Date", "Value Dt"],
     keyName: "valueDate",
-    width: 100,
+    width: 150,
     type: "date",
     required: false
   },

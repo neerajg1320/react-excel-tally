@@ -15,8 +15,8 @@ export function excelToJson (file, {headerRow}) {
 
       const readOptions = {
         type: 'binary',
-        cellText: false,
-        cellDates: true
+        // cellText: false,
+        // cellDates: true
       };
       const wb = XLSX.read(bStr, readOptions);
       wb.SheetNames.forEach((sheetName) => {
