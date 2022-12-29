@@ -272,7 +272,9 @@ const Read = () => {
       const hdrKeyEntries = headers.reduce((prev, hdrName) => {
         const matchingEntries = headerKeynameMap.filter(item => item.matchLabels.includes(hdrName));
         if (matchingEntries.length) {
-          return [...prev, [hdrName, matchingEntries[0]]];
+          const keyName = matchingEntries[0].keyName;
+          const statementColumn = statementColumns.filter(col => col.keyName === keyName)[0];
+          return [...prev, [hdrName, {...matchingEntries[0], statementColumn}]];
         }
 
         return [...prev];
@@ -333,11 +335,15 @@ const Read = () => {
             matchedPresetMapper = resultMapper;
             exactMapper = resultExactMapper;
 
-            if (debugFiltering || true) {
+            if (debugFiltering) {
               console.log(`${rowIdx}: Found Header Row:`, row);
-              console.log(`matchedMapper.headerKeynameMap:`, matchedPresetMapper.headerKeynameMap);
+
             }
 
+            if (debugFiltering || true) {
+              console.log(`matchedMapper.headerKeynameMap: ${JSON.stringify(matchedPresetMapper.headerKeynameMap, null, 2)}`);
+              console.log(`exactMapper: ${JSON.stringify(exactMapper, null, 2)}`);
+            }
             headerRow = {...row};
 
             // Get the type of the keyNames from the statement
@@ -357,6 +363,11 @@ const Read = () => {
                 if (!statementCol.required) {
                   acceptedTypes.push('undefined');
                 }
+
+                // We will also add statementColumn to exact mapper
+                console.log(`propName=${propName}`);
+                // exactMapper[propName].statementColumn = statementCol;
+
                 return acceptedTypes;
               }
             });
@@ -391,7 +402,7 @@ const Read = () => {
     return rows.map(row => {
       const item = {};
       for (let i=0; i < keyNames.length; i++) {
-        console.log(header[i], exactMapper[header[i]]);
+        // console.log(header[i], exactMapper[header[i]]);
         const keyName =  exactMapper[header[i]].keyName;
 
         if (skipUndefined && row[i] === undefined) {
