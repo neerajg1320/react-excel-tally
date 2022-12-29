@@ -1,6 +1,6 @@
 import {valToString} from "../../../utils/types";
 
-export function colToRTCol (colObj) {
+export function colToRTCol (colObj, {showTypes}) {
   const reactColObj = {
     "id": colObj["keyName"],
     "Header": colObj["header"] || colObj["keyName"],
@@ -22,14 +22,16 @@ export function colToRTCol (colObj) {
             <div style={{height: "1em"}}>
               <span>{valToString(value) || ""}</span>
             </div>
-            <div style={{
-              display: "flex", justifyContent:"flex-end",
-              // border: "1px dashed blue"
-            }}>
-              <span style={{color: "gray", fontSize:"0.7em"}}>
-                {typeof(value)}
-              </span>
-            </div>
+            {showTypes &&
+              <div style={{
+                display: "flex", justifyContent:"flex-end",
+                // border: "1px dashed blue"
+              }}>
+                <span style={{color: "gray", fontSize:"0.7em"}}>
+                  {typeof(value)}
+                </span>
+              </div>
+            }
           </div>
         </>
       );

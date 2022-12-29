@@ -60,6 +60,7 @@ export const TableWrapper = () => {
   const [featureColumnVisibility, setFeatureColumnVisibility] = useState(false);
 
   const [layoutDebug, setLayoutDebug] = useState(false);
+  const [layoutShowTypes, setLayoutShowTypes] = useState(false);
 
   // We can't change following to ref as we need to rerender BulkSection
   const [selectedRows, setSelectedRows] = useState([])
@@ -98,7 +99,7 @@ export const TableWrapper = () => {
     }
 
     col.index = index;
-    return colToRTCol(col);
+    return colToRTCol(col, {showTypes:layoutShowTypes});
   };
   // eslint-disable-next-line
   const [rtColumns, setRTColumns] = useState(getColumns(data).map(attachPresetProperties));
