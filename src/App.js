@@ -120,7 +120,8 @@ const Read = () => {
     console.log(`Rendering <Read>`);
   }
 
-  const debugRowNum = 13;
+  const debugRowIdx = 22000;
+  const debugFiltering = false;
 
   const navigate = useNavigate();
 
@@ -225,18 +226,22 @@ const Read = () => {
   }
 
   const getRowSignature = (row, rowIdx, numProps) => {
-    if (rowIdx === debugRowNum) {
-      console.log(`getRowSignature:`, row, numProps);
-    }
-
     const propNames = Object.keys(row);
-    // console.log(`propNames=`, propNames);
+
+    if (rowIdx === debugRowIdx) {
+      console.log(`getRowSignature:`, row);
+      console.log(`numProps=${numProps}`);
+      console.log(`propNames=`, propNames);
+    }
 
     const signatureFullRow = [];
     for (let i=0; i < Math.max(propNames.length, numProps); i++) {
       signatureFullRow.push(getType(row[i]));
     }
-    // console.log(`signatureFullRow=`, signatureFullRow);
+
+    if (rowIdx === debugRowIdx) {
+      console.log(`signatureFullRow=`, signatureFullRow);
+    }
 
     // return Object.entries(row).map(([k, val]) => typeof(val));
     return signatureFullRow;
@@ -285,13 +290,13 @@ const Read = () => {
     return matchedMapper;
   }
 
-  const isSignatureMatch = (mSignature, signature, matchType) => {
-    // console.log(`mSignature=${JSON.stringify(mSignature, null, 2)}`);
-    // console.log(`signature=${JSON.stringify(signature, null, 2)}`);
+  const isSignatureMatch = (mSignature, signature, rowIdx, matchType) => {
     let match = true;
     for (let i=0; i < mSignature.length; i++) {
       if (!mSignature[i].includes(signature[i])) {
-        // console.log(`i:${i} no match: mSignature[i]=${mSignature[i]}  signature[i]=${signature[i]}`);
+        if (rowIdx === debugRowIdx) {
+          console.log(`i:${i} no match: mSignature[i]=${mSignature[i]}  signature[i]=${signature[i]}`);
+        }
         match = false;
         break;
       }
@@ -299,9 +304,9 @@ const Read = () => {
     return match;
   }
 
-  const filterStatement =useCallback((data) => {
+  const filterStatement = useCallback((data) => {
     const filterThreshold = 6;
-    let matchedMapper;
+    var matchedMapper;
     let matchRowSignature;
 
     let headerRow;
@@ -309,18 +314,26 @@ const Read = () => {
 
     for (let rowIdx=0; rowIdx < data.length; rowIdx++) {
       const row = data[rowIdx];
-      // console.log(`row=`, row);
+
+      if (rowIdx == debugRowIdx) {
+        console.log(`${rowIdx}: matchedMapper=`, matchedMapper);
+      }
 
       const signature = getRowSignature(row, rowIdx, matchedMapper ? matchedMapper.headerKeynameMap.length : -1);
       if (signature.length >= filterThreshold) {
         // All strings signature is a possible header
         if (isAllString(signature)) {
           const headers = Object.entries(row).map(([k, val]) => val);
-          matchedMapper = getMatchedMapper(headers);
+          const resultMapper = getMatchedMapper(headers);
 
-          if (matchedMapper) {
-            console.log(`${rowIdx}: Found Header Row:`, row);
-            console.log(`matchedMapper.keyMap:`, matchedMapper.headerKeynameMap);
+          if (resultMapper) {
+            matchedMapper = resultMapper;
+
+            if (debugFiltering) {
+              console.log(`${rowIdx}: Found Header Row:`, row);
+              console.log(`matchedMapper.headerKeynameMap:`, matchedMapper.headerKeynameMap);
+            }
+
             headerRow = {...row};
 
             // Get the type of the keyNames from the statement
@@ -342,18 +355,18 @@ const Read = () => {
                 return acceptedTypes;
               }
             });
-            // console.log(`matchRowSignature=`, matchRowSignature);
           }
         } else {
           if (matchRowSignature) {
-            const isMatch = isSignatureMatch(matchRowSignature, signature);
+            const isMatch = isSignatureMatch(matchRowSignature, signature, rowIdx);
             if (isMatch) {
               matchedRows.push({...row});
             }
 
-            if (rowIdx === debugRowNum) {
-              // console.log(`${rowIdx}: signature=`, signature);
-              // console.log(`match:${isMatch}`);
+            if (rowIdx === debugRowIdx) {
+              console.log(`${rowIdx}: matchRowSignature=`, matchRowSignature);
+              console.log(`${rowIdx}: signature=`, signature);
+              console.log(`match:${isMatch}`);
             }
 
           }
