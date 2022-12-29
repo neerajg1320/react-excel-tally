@@ -14,7 +14,7 @@ import {RowCheckbox} from "./parts/RowCheckbox";
 import EditableCell from "./parts/editableControlledCell";
 import SelectableCell from "./parts/selectableCell";
 import React, {useCallback, useContext, useEffect, useMemo} from "react";
-import {debug} from "../config/debugEnabled";
+import {debug} from "../config/debug";
 import TableDataContext from "./TableDataContext";
 import {ColumnFilterWithIcon} from "./filter/ColumnFilterWithIcon";
 import {filterEmptyValues} from "./filter/customFilter";
@@ -192,7 +192,7 @@ const TableCore = () => {
       }
     }
 
-    console.log(`defaultColumnAttrs=`, attrs);
+    // console.log(`defaultColumnAttrs=`, attrs);
     return attrs;
   }, [featureSelection]);
 
@@ -200,7 +200,7 @@ const TableCore = () => {
       return columns.map(col => {
         if (col.hidden === true) {
           // console.log(`empty column = ${JSON.stringify(col, null, 2)}`);
-          console.log(`returning ${ col.id}`);
+          // console.log(`returning ${ col.id}`);
 
           return col.id;
         }
@@ -243,7 +243,7 @@ const TableCore = () => {
   // console.log(`tableInstance=`, tableInstance);
 
   useEffect(() => {
-    console.log(`visibleColumns=`, visibleColumns);
+    // console.log(`visibleColumns=`, visibleColumns);
     updateVisibleColumns(visibleColumns);
   }, [visibleColumns]);
 

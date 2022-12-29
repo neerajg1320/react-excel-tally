@@ -342,7 +342,7 @@ const Read = () => {
             }
             headerRow = {...row};
 
-            if (debugFiltering || true) {
+            if (debugFiltering) {
               console.log(headerRow);
             }
 
@@ -376,7 +376,7 @@ const Read = () => {
               matchedRows.push({...row});
             }
 
-            if (rowIdx === debugRowIdx || true) {
+            if (rowIdx === debugRowIdx) {
               console.log(`${rowIdx}: matchRowSignature=`, matchRowSignature);
               console.log(`${rowIdx}: signature=`, signature);
               console.log(`match:${isMatch}`);
@@ -425,7 +425,7 @@ const Read = () => {
   }
 
   const onLoadComplete = ({data}) => {
-    console.log(`data=`, data);
+    // console.log(`data=`, data);
     const {headerRow, matchedRows, matchedPresetMapper, exactMapper} = filterStatement(data);
 
     // Kept for future use: Would be used for banks which aren't supported yet
@@ -436,7 +436,7 @@ const Read = () => {
 
     // This takes excel rows and create data using a mappper
     const filteredData = createDataFromRows(headerRow, matchedRows, matchedPresetMapper, exactMapper, false)
-    console.log(`filteredData:`, filteredData);
+    // console.log(`filteredData:`, filteredData);
 
     const accountingData = addAccountingColumns(filteredData);
 

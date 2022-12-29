@@ -112,7 +112,7 @@ export const TableWrapper = () => {
   }, []);
 
   const handleRTableChange = useCallback((rt) => {
-    console.log(`handleRTableChange: `, rt);
+    // console.log(`handleRTableChange: `, rt);
     tableInstanceRef.current = rt;
   }, []);
 
@@ -195,18 +195,18 @@ export const TableWrapper = () => {
   // TBD: we get these so that we can update the sibling component
   // See if we can avoid the whole re-render
   const handlePageChange = useCallback((pageIndex) => {
-    console.log(`handlePageChange: ${pageIndex}`);
+    // console.log(`handlePageChange: ${pageIndex}`);
     setPageIndex(pageIndex);
   }, []);
 
   const handlePageSizeChange = useCallback((pageSize) => {
-    console.log(`handlePageChange: ${pageIndex}`);
+    // console.log(`handlePageChange: ${pageIndex}`);
     setPageSize(pageSize);
   }, []);
 
   // We need to fix the pageIndex when filtering starts
   const handleGlobalFilterChange = useCallback((value) => {
-    console.log(`handleGlobalFilterChange: value=${value}`);
+    // console.log(`handleGlobalFilterChange: value=${value}`);
 
     if (!globalFilterValueRef.current && value) {
       console.log(`Filter active pulse`);
@@ -245,7 +245,7 @@ export const TableWrapper = () => {
   }
 
   const handleVisibleColumnsChange = (visibleColumns) => {
-    console.log(`handleVisibleColumnsChange: called`);
+    // console.log(`handleVisibleColumnsChange: called`);
     setVisibleColumns(visibleColumns);
   }
 

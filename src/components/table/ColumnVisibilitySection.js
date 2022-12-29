@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import {debug} from "../config/debugEnabled";
+import {debug} from "../config/debug";
 import ExpandableButton from "../expandableButton/ExpandableButton";
 import {RowCheckbox} from "./parts/RowCheckbox";
 import TableDataContext from "./TableDataContext";
@@ -34,7 +34,7 @@ const ColumnVisibilitySection = () => {
   } = tableInstance;
 
   useEffect(() => {
-    console.log(`allColumns: changed`);
+    // console.log(`allColumns: changed`);
   }, [allColumns]);
 
   return (

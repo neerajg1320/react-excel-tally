@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useRef} from "react";
 import TableDataContext from "./TableDataContext";
 import {GlobalFilter} from "./filter/GlobalFilter";
-import {debug} from "../config/debugEnabled";
+import {debug} from "../config/debug";
 
 const GlobalFilterSection = () => {
   if (debug.lifecycle) {
@@ -31,7 +31,7 @@ const GlobalFilterSection = () => {
 
   // const globalFilterActiveRef = useRef(globalFilter && globalFilter.length);
   useEffect(() => {
-    console.log(`Global Filter: ${globalFilter}`)
+    // console.log(`Global Filter: ${globalFilter}`)
     updateGlobalFilter(globalFilter);
   }, [globalFilter]);
 

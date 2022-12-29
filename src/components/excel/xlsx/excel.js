@@ -20,19 +20,21 @@ export function excelToJson (file, {headerRow}) {
       const wb = XLSX.read(bStr, readOptions);
       wb.SheetNames.forEach((sheetName) => {
         const ws = wb.Sheets[sheetName];
-        const sheetOptions = {
-          header: headerRow < 0 ? 1 : 0
-        }
+
         // We will get dates as string as what is visible
         // {range:n} uses n+1 the as header
         // {header:1} for using first row as data
+        const sheetOptions = {
+          header: headerRow < 0 ? 1 : 0
+        }
         const data = XLSX.utils.sheet_to_json(ws, sheetOptions);
-        const dataAdjustedDates = data.map(item => fixDatesInObject(item));
+
+        // const dataAdjustedDates = data.map(item => fixDatesInObject(item));
         // console.log(JSON.stringify(dataAdjustedDates, null, 2));
 
         const sheetObj = {
           sheetName,
-          data:dataAdjustedDates
+          data
         }
 
         sheetJsons.push(sheetObj);
