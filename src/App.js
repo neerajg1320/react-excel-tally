@@ -120,6 +120,8 @@ const Read = () => {
     console.log(`Rendering <Read>`);
   }
 
+  const debugRowNum = 13;
+
   const navigate = useNavigate();
 
   const {
@@ -223,7 +225,7 @@ const Read = () => {
   }
 
   const getRowSignature = (row, rowIdx, numProps) => {
-    if (rowIdx === 13) {
+    if (rowIdx === debugRowNum) {
       console.log(`getRowSignature:`, row, numProps);
     }
 
@@ -283,26 +285,43 @@ const Read = () => {
     return matchedMapper;
   }
 
+  const isSignatureMatch = (mSignature, signature, matchType) => {
+    // console.log(`mSignature=${JSON.stringify(mSignature, null, 2)}`);
+    // console.log(`signature=${JSON.stringify(signature, null, 2)}`);
+    let match = true;
+    for (let i=0; i < mSignature.length; i++) {
+      if (!mSignature[i].includes(signature[i])) {
+        // console.log(`i:${i} no match: mSignature[i]=${mSignature[i]}  signature[i]=${signature[i]}`);
+        match = false;
+        break;
+      }
+    }
+    return match;
+  }
+
   const filterStatement =useCallback((data) => {
     const filterThreshold = 6;
     let matchedMapper;
     let matchRowSignature;
 
-    for (let rowIdx=0; rowIdx < data.slice(0,20).length; rowIdx++) {
+    let headerRow;
+    let matchedRows = [];
+
+    for (let rowIdx=0; rowIdx < data.length; rowIdx++) {
       const row = data[rowIdx];
       // console.log(`row=`, row);
 
       const signature = getRowSignature(row, rowIdx, matchedMapper ? matchedMapper.headerKeynameMap.length : -1);
       if (signature.length >= filterThreshold) {
-
         // All strings signature is a possible header
         if (isAllString(signature)) {
           const headers = Object.entries(row).map(([k, val]) => val);
           matchedMapper = getMatchedMapper(headers);
 
           if (matchedMapper) {
-            console.log(`${rowIdx}: Founder Header Row:`, row);
+            console.log(`${rowIdx}: Found Header Row:`, row);
             console.log(`matchedMapper.keyMap:`, matchedMapper.headerKeynameMap);
+            headerRow = {...row};
 
             // Get the type of the keyNames from the statement
             // From the statementColumns create an acceptable signature
@@ -323,24 +342,35 @@ const Read = () => {
                 return acceptedTypes;
               }
             });
-            console.log(`matchRowSignature=`, matchRowSignature);
+            // console.log(`matchRowSignature=`, matchRowSignature);
           }
         } else {
           if (matchRowSignature) {
-            if (rowIdx === 13) {
-              console.log(`${rowIdx}: signature=`, signature);
+            const isMatch = isSignatureMatch(matchRowSignature, signature);
+            if (isMatch) {
+              matchedRows.push({...row});
+            }
+
+            if (rowIdx === debugRowNum) {
+              // console.log(`${rowIdx}: signature=`, signature);
+              // console.log(`match:${isMatch}`);
             }
 
           }
         }
       }
-
     }
+
+    return {headerRow, matchedRows};
 
   }, []);
 
   const onLoadComplete = ({data}) => {
-    const statementData = filterStatement(data);
+    const {headerRow, matchedRows} = filterStatement(data);
+
+    console.log(`headerRow=`, headerRow);
+    console.log(`matchedRows=`, matchedRows);
+
     const normalizedData = dataNormalizeUsingMapper(data);
 
     // const accountingData = addAccountingColumns(normalizedData);
