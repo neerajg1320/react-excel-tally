@@ -355,6 +355,7 @@ const Read = () => {
               // We are accepting strings as dates as well
               if (statementCol.type === "date") {
                 acceptedTypes.push('string');
+                acceptedTypes.push('number');
               }
 
               if (!statementCol.required) {
@@ -371,7 +372,7 @@ const Read = () => {
               matchedRows.push({...row});
             }
 
-            if (rowIdx === debugRowIdx) {
+            if (rowIdx === debugRowIdx || true) {
               console.log(`${rowIdx}: matchRowSignature=`, matchRowSignature);
               console.log(`${rowIdx}: signature=`, signature);
               console.log(`match:${isMatch}`);
@@ -402,15 +403,16 @@ const Read = () => {
 
         item[keyName] = row[i];
 
-        if (22 === rowIdx) {
+        if (debugRowIdx === rowIdx) {
           // console.log(`statementColumn=${JSON.stringify(statementColumn, null, 2)}`);
           if (statementColumn.type === "date") {
             console.log(`headerName='${headerName}' keyName=${keyName} format=${format}`);
+            // Here now we need to do the conversion
           }
         }
       }
 
-      if (22 == rowIdx) {
+      if (debugRowIdx == rowIdx) {
         console.log(`item=${JSON.stringify(item, null, 2)}`);
       }
 
@@ -419,6 +421,7 @@ const Read = () => {
   }
 
   const onLoadComplete = ({data}) => {
+    console.log(`data=`, data);
     const {headerRow, matchedRows, matchedPresetMapper, exactMapper} = filterStatement(data);
 
     // Kept for future use: Would be used for banks which aren't supported yet
