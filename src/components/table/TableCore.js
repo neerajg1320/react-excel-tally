@@ -76,11 +76,20 @@ const TableCore = () => {
     const selectionColumn = {
       id: "selection",
       Header: ({getToggleAllRowsSelectedProps}) => (
-          <RowCheckbox {...getToggleAllRowsSelectedProps()} />
+          <div>
+            <RowCheckbox {...getToggleAllRowsSelectedProps()} />
+          </div>
+
       ),
       Cell: ({ row }) => (
-          <RowCheckbox {...row.getToggleRowSelectedProps()} />
+          <div style={{
+            height: "100%",
+            display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center"
+          }}>
+            <RowCheckbox {...row.getToggleRowSelectedProps()} />
+          </div>
       ),
+      enableAddons: false,
       enableSorting: false,
       width: 50
     };
@@ -270,21 +279,31 @@ const TableCore = () => {
                     display: "flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", gap:"10px"
                   }}
                 >
-                  <TooltipComponent message={hdrColumn.Header} disabled={!layoutHeaderTooltip}>
-                    <span style={{whiteSpace:"nowrap"}}>
-                      {hdrColumn.render('Header')}
-                    </span>
-                  </TooltipComponent>
-                  <div style={{display:"flex", flexDirection:"row", gap:"5px", alignItems:"center"}}>
-                    {(featureSorting && (hdrColumn.enableSorting !== false)) && <span {...hdrColumn.getSortByToggleProps()}>{hdrColumn.isSorted ? (hdrColumn.isSortedDesc ? ' >' : ' <') : '<>'}</span>}
-                    {featureColumnFilter && <span>{hdrColumn.canFilter ? hdrColumn.render('Filter') : null}</span>}
-                    {layoutResize &&
-                      <div
-                        {...hdrColumn.getResizerProps()}
-                        className={`resizer ${hdrColumn.isResizing ? "isResizing" : ""}`}
-                      />
-                    }
+                  <div style={{
+                    width:"100%",
+                    // border: "1px dashed white"
+                  }}>
+                    <TooltipComponent message={hdrColumn.render('Header')}
+                                      disabled={!layoutHeaderTooltip || (hdrColumn.enableAddons === false) }
+                    >
+                      <span style={{whiteSpace:"nowrap"}}>
+                        {hdrColumn.render('Header')}
+                      </span>
+                    </TooltipComponent>
                   </div>
+                  {hdrColumn.enableAddons !== false &&
+                    <div style={{display: "flex", flexDirection: "row", gap: "5px", alignItems: "center"}}>
+                      {(featureSorting && (hdrColumn.enableSorting !== false)) &&
+                          <span {...hdrColumn.getSortByToggleProps()}>{hdrColumn.isSorted ? (hdrColumn.isSortedDesc ? ' >' : ' <') : '<>'}</span>}
+                      {featureColumnFilter && <span>{hdrColumn.canFilter ? hdrColumn.render('Filter') : null}</span>}
+                      {layoutResize &&
+                          <div
+                              {...hdrColumn.getResizerProps()}
+                              className={`resizer ${hdrColumn.isResizing ? "isResizing" : ""}`}
+                          />
+                      }
+                    </div>
+                  }
                 </div>
               </th>
             ))
