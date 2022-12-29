@@ -23,21 +23,15 @@ export function colToRTCol (colObj, {showTypes}) {
           }}>
             <div style={{
               display: "flex", flexDirection:"row", justifyContent: justification,
-              // border: "1px dashed red"
             }}>
-              <div>
-                <span style={{
-                  // border: "1px dashed blue"
-                }}>
+              <div style={{display:"flex", height:"1em"}}>
                   {valToString(value) || ""}
-                </span>
               </div>
 
             </div>
             {showTypes &&
               <div style={{
-                display: "flex", justifyContent:"flex-end",
-                // border: "1px dashed blue"
+                display: "flex", flexDirection:"row", justifyContent:"flex-end",
               }}>
                 <span style={{color: "gray", fontSize:"0.7em"}}>
                   {valueType}
