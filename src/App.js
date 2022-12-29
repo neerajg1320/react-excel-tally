@@ -358,6 +358,10 @@ const Read = () => {
                 acceptedTypes.push('number');
               }
 
+              if (statementCol.type === "number") {
+                acceptedTypes.push('string');
+              }
+
               if (!statementCol.required) {
                 acceptedTypes.push('undefined');
               }
