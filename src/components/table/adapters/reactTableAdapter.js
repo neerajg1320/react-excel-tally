@@ -9,40 +9,38 @@ export function colToRTCol (colObj, {showTypes}) {
 
     ...colObj
   }
+  
+  reactColObj.Cell = ({ value }) => {
+    const valueType = typeof(value);
+    const alignment = (valueType === "number") ? "flex-end" : "flex-start";
 
-  // Convert all objects
-  if (String(colObj.keyName).toLowerCase().includes('date') || true) {
-    reactColObj.Cell = ({ value }) => {
-      const valueType = typeof(value);
-      const justification = (valueType === "number") ? "flex-end" : "flex-start";
-
-      return (
-        <>
+    return (
+      <>
+        <div style={{
+          display:"flex", flexDirection:"column", gap: "2px"
+        }}>
           <div style={{
-            display:"flex", flexDirection:"column", gap: "2px"
+            display: "flex", flexDirection:"column", alignItems: alignment,
           }}>
-            <div style={{
-              display: "flex", flexDirection:"row", justifyContent: justification,
-            }}>
-              <div style={{display:"flex", height:"1em"}}>
-                  {valToString(value) || ""}
-              </div>
-
+            <div style={{display:"flex", height:"1em"}}>
+                {valToString(value) || ""}
             </div>
-            {showTypes &&
-              <div style={{
-                display: "flex", flexDirection:"row", justifyContent:"flex-end",
-              }}>
-                <span style={{color: "gray", fontSize:"0.7em"}}>
-                  {valueType}
-                </span>
-              </div>
-            }
+
           </div>
-        </>
-      );
-    }
+          {showTypes &&
+            <div style={{
+              display: "flex", flexDirection:"row", justifyContent:"flex-end",
+            }}>
+              <span style={{color: "gray", fontSize:"0.7em"}}>
+                {valueType}
+              </span>
+            </div>
+          }
+        </div>
+      </>
+    );
   }
+
 
   return reactColObj;
 }
