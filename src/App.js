@@ -337,39 +337,31 @@ const Read = () => {
 
             if (debugFiltering) {
               console.log(`${rowIdx}: Found Header Row:`, row);
-
-            }
-
-            if (debugFiltering || true) {
               console.log(`matchedMapper.headerKeynameMap: ${JSON.stringify(matchedPresetMapper.headerKeynameMap, null, 2)}`);
               console.log(`exactMapper: ${JSON.stringify(exactMapper, null, 2)}`);
             }
             headerRow = {...row};
 
+            if (debugFiltering || true) {
+              console.log(headerRow);
+            }
+
             // Get the type of the keyNames from the statement
             // From the statementColumns create an acceptable signature
-            const propNames = matchedPresetMapper.headerKeynameMap.map(item => (item.keyName));
-            matchRowSignature = propNames.map(propName => {
-              const matchingStatementCols = statementColumns.filter(col => col.keyName === propName);
-              if (matchingStatementCols.length > 0) {
-                const statementCol = matchingStatementCols[0];
-                const acceptedTypes = [statementCol.type];
+            matchRowSignature = headers.map(hdrName => {
+              const statementCol = exactMapper[hdrName].statementColumn;
+              const acceptedTypes = [statementCol.type];
 
-                // We are accepting strings as dates as well
-                if (statementCol.type === "date") {
-                  acceptedTypes.push('string');
-                }
-
-                if (!statementCol.required) {
-                  acceptedTypes.push('undefined');
-                }
-
-                // We will also add statementColumn to exact mapper
-                console.log(`propName=${propName}`);
-                // exactMapper[propName].statementColumn = statementCol;
-
-                return acceptedTypes;
+              // We are accepting strings as dates as well
+              if (statementCol.type === "date") {
+                acceptedTypes.push('string');
               }
+
+              if (!statementCol.required) {
+                acceptedTypes.push('undefined');
+              }
+
+              return acceptedTypes;
             });
           }
         } else {
