@@ -346,14 +346,15 @@ const Read = () => {
             matchRowSignature = propNames.map(propName => {
               const matchingStatementCols = statementColumns.filter(col => col.keyName === propName);
               if (matchingStatementCols.length > 0) {
-                let acceptedTypes = [matchingStatementCols[0].type];
+                const statementCol = matchingStatementCols[0];
+                const acceptedTypes = [statementCol.type];
 
                 // We are accepting strings as dates as well
-                if (matchingStatementCols[0].type === "date") {
+                if (statementCol.type === "date") {
                   acceptedTypes.push('string');
                 }
 
-                if (!matchingStatementCols[0].required) {
+                if (!statementCol.required) {
                   acceptedTypes.push('undefined');
                 }
                 return acceptedTypes;
