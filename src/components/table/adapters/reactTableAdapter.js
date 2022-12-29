@@ -9,10 +9,23 @@ export function colToRTCol (colObj, {showTypes}) {
 
     ...colObj
   }
-  
+
   reactColObj.Cell = ({ value }) => {
     const valueType = typeof(value);
-    const alignment = (valueType === "number") ? "flex-end" : "flex-start";
+    let alignment;
+
+    if (reactColObj.alignment) {
+      if (reactColObj.alignment === "left") {
+        alignment = "flex-start"
+      } else if (reactColObj.alignment === "right") {
+        alignment = "flex-end"
+      } else if (reactColObj.alignment === "center") {
+        alignment = "center"
+      }
+
+    } else {
+      alignment = (valueType === "number") ? "flex-end" : "flex-start";
+    }
 
     return (
       <>

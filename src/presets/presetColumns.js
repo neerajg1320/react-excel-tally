@@ -5,7 +5,8 @@ export const statementColumns = [
     keyName: "serialNum",
     width: 50,
     type: "number",
-    required: false
+    required: false,
+    alignment: "center"
   },
   {
     header: "Transaction Date",
@@ -45,7 +46,7 @@ export const statementColumns = [
     keyName: "debit",
     width: 100,
     type: "number",
-    required: false
+    required: false,
   },
   {
     header: "Credit",
@@ -69,7 +70,8 @@ export const statementColumns = [
     keyName: "drCr",
     width: 50,
     type: "string",
-    required: false
+    required: false,
+    alignment: "center"
   }
 ];
 
