@@ -222,17 +222,19 @@ const Read = () => {
     return typeof(val);
   }
 
-  const getRowSignature = (row, numProps) => {
-    console.log(`getRowSignature:`, row, numProps);
+  const getRowSignature = (row, rowIdx, numProps) => {
+    if (rowIdx === 13) {
+      console.log(`getRowSignature:`, row, numProps);
+    }
 
     const propNames = Object.keys(row);
     // console.log(`propNames=`, propNames);
 
     const signatureFullRow = [];
     for (let i=0; i < Math.max(propNames.length, numProps); i++) {
-      signatureFullRow.push(getType(row[propNames[i]]));
+      signatureFullRow.push(getType(row[i]));
     }
-    console.log(`signatureFullRow=`, signatureFullRow);
+    // console.log(`signatureFullRow=`, signatureFullRow);
 
     // return Object.entries(row).map(([k, val]) => typeof(val));
     return signatureFullRow;
@@ -290,7 +292,7 @@ const Read = () => {
       const row = data[rowIdx];
       // console.log(`row=`, row);
 
-      const signature = getRowSignature(row, matchedMapper ? matchedMapper.headerKeynameMap.length : -1);
+      const signature = getRowSignature(row, rowIdx, matchedMapper ? matchedMapper.headerKeynameMap.length : -1);
       if (signature.length >= filterThreshold) {
 
         // All strings signature is a possible header
@@ -321,11 +323,14 @@ const Read = () => {
                 return acceptedTypes;
               }
             });
-            console.log(`rowSignature=`, matchRowSignature);
+            console.log(`matchRowSignature=`, matchRowSignature);
           }
         } else {
           if (matchRowSignature) {
-            console.log(`${rowIdx}: signature=`, signature);
+            if (rowIdx === 13) {
+              console.log(`${rowIdx}: signature=`, signature);
+            }
+
           }
         }
       }
