@@ -179,7 +179,7 @@ const Read = () => {
   const dataNormalizeUsingMapper = useCallback((data) => {
     // First we match a mapper from the mapper array
 
-    const matchedMapper = getMatchedMapper(Object.keys(data[0]));
+    const [matchedMapper, exactMapper] = getMatchedMapper(Object.keys(data[0]));
 
     // Then we use the mapper to create data
     if (matchedMapper) {
@@ -263,31 +263,34 @@ const Read = () => {
     const mappers = getMappers();
     // console.log(`mappers=`, mappers);
 
-    let matchedMapper;
+    let matchedPresetMapper;
+    let exactMapper;
 
     for (let mprIdx=0; mprIdx < mappers.length; mprIdx++) {
       const {matchThreshold, headerKeynameMap} = mappers[mprIdx];
 
-      const hdrKeyMap = headers.reduce((prev, hdrName) => {
+      const hdrKeyEntries = headers.reduce((prev, hdrName) => {
         const matchingEntries = headerKeynameMap.filter(item => item.matchLabels.includes(hdrName));
         if (matchingEntries.length) {
-          return [...prev, matchingEntries[0]];
+          return [...prev, [hdrName, matchingEntries[0]]];
         }
 
         return [...prev];
       }, []);
 
-      // console.log(`headers.length:${headers.length} hdrKeyMap.length:${hdrKeyMap.length} headerKeynameMap.length:${headerKeynameMap.length}`)
+      // console.log(`headers.length:${headers.length} hdrKeyEntries.length:${hdrKeyEntries.length} headerKeynameMap.length:${headerKeynameMap.length}`)
 
       // If all the keys are matched then declare a match
-      if (hdrKeyMap.length == headerKeynameMap.length || (matchThreshold && hdrKeyMap.length > matchThreshold)) {
-        // console.log(`hdrKeyMap: ${JSON.stringify(hdrKeyMap, null, 2)}`);
-        matchedMapper = mappers[mprIdx];
+      if (hdrKeyEntries.length == headerKeynameMap.length || (matchThreshold && hdrKeyEntries.length > matchThreshold)) {
+        // console.log(`hdrKeyMap: ${JSON.stringify(hdrKeyEntries, null, 2)}`);
+        matchedPresetMapper = mappers[mprIdx];
+        exactMapper = Object.fromEntries(hdrKeyEntries);
+        // console.log(`exactMapper: ${JSON.stringify(exactMapper, null, 2)}`);
         break;
       }
     }
 
-    return matchedMapper;
+    return [matchedPresetMapper, exactMapper];
   }
 
   const isSignatureMatch = (mSignature, signature, rowIdx, matchType) => {
@@ -306,7 +309,7 @@ const Read = () => {
 
   const filterStatement = useCallback((data) => {
     const filterThreshold = 6;
-    var matchedMapper;
+    let matchedPresetMapper, exactMapper;
     let matchRowSignature;
 
     let headerRow;
@@ -316,29 +319,30 @@ const Read = () => {
       const row = data[rowIdx];
 
       if (rowIdx == debugRowIdx) {
-        console.log(`${rowIdx}: matchedMapper=`, matchedMapper);
+        console.log(`${rowIdx}: matchedMapper=`, matchedPresetMapper);
       }
 
-      const signature = getRowSignature(row, rowIdx, matchedMapper ? matchedMapper.headerKeynameMap.length : -1);
+      const signature = getRowSignature(row, rowIdx, matchedPresetMapper ? matchedPresetMapper.headerKeynameMap.length : -1);
       if (signature.length >= filterThreshold) {
         // All strings signature is a possible header
         if (isAllString(signature)) {
           const headers = Object.entries(row).map(([k, val]) => val);
-          const resultMapper = getMatchedMapper(headers);
+          const [resultMapper, resultExactMapper] = getMatchedMapper(headers);
 
           if (resultMapper) {
-            matchedMapper = resultMapper;
+            matchedPresetMapper = resultMapper;
+            exactMapper = resultExactMapper;
 
-            if (debugFiltering) {
+            if (debugFiltering || true) {
               console.log(`${rowIdx}: Found Header Row:`, row);
-              console.log(`matchedMapper.headerKeynameMap:`, matchedMapper.headerKeynameMap);
+              console.log(`matchedMapper.headerKeynameMap:`, matchedPresetMapper.headerKeynameMap);
             }
 
             headerRow = {...row};
 
             // Get the type of the keyNames from the statement
             // From the statementColumns create an acceptable signature
-            const propNames = matchedMapper.headerKeynameMap.map(item => (item.keyName));
+            const propNames = matchedPresetMapper.headerKeynameMap.map(item => (item.keyName));
             matchRowSignature = propNames.map(propName => {
               const matchingStatementCols = statementColumns.filter(col => col.keyName === propName);
               if (matchingStatementCols.length > 0) {
@@ -374,30 +378,33 @@ const Read = () => {
       }
     }
 
-    return {headerRow, matchedRows, matchedMapper};
+    return {headerRow, matchedRows, matchedPresetMapper, exactMapper};
 
   }, []);
 
-  const createDataFromRows = (header, rows, mapper, skipUndefined=true) => {
+  const createDataFromRows = (header, rows, matchedPresetMapper, exactMapper, skipUndefined=true) => {
     // header is an array of column names in file. We need to get keyNames
-    const keyNames = mapper.headerKeynameMap.map(item => item.keyName);
-    console.log(`keyNames=${JSON.stringify(keyNames, null, 2)}`);
+    const keyNames = matchedPresetMapper.headerKeynameMap.map(item => [item.keyName]);
+    // console.log(`keyNames=${JSON.stringify(keyNames, null, 2)}`);
 
     return rows.map(row => {
       const item = {};
       for (let i=0; i < keyNames.length; i++) {
+        console.log(header[i], exactMapper[header[i]]);
+        const keyName =  exactMapper[header[i]].keyName;
+
         if (skipUndefined && row[i] === undefined) {
           continue;
         }
 
-        item[keyNames[i]] = row[i];
+        item[keyName] = row[i];
       }
       return item;
     });
   }
 
   const onLoadComplete = ({data}) => {
-    const {headerRow, matchedRows, matchedMapper} = filterStatement(data);
+    const {headerRow, matchedRows, matchedPresetMapper, exactMapper} = filterStatement(data);
 
     // Kept for future use: Would be used for banks which aren't supported yet
     // const normalizedData = dataNormalizeUsingCommon(data);
@@ -406,13 +413,12 @@ const Read = () => {
     // const normalizedData = dataNormalizeUsingMapper(data);
 
     // This takes excel rows and create data using a mappper
-    const filteredData = createDataFromRows(headerRow, matchedRows, matchedMapper, false)
+    const filteredData = createDataFromRows(headerRow, matchedRows, matchedPresetMapper, exactMapper, false)
     console.log(`filteredData:`, filteredData);
 
-    // const accountingData = addAccountingColumns(normalizedData);
+    const accountingData = addAccountingColumns(filteredData);
 
-
-    navigate('/table', { state: { data:filteredData } });
+    navigate('/table', { state: { data:accountingData } });
   };
 
   return (
