@@ -120,8 +120,8 @@ const Read = () => {
     console.log(`Rendering <Read>`);
   }
 
-  const debugRowIdx = 22000;
   const debugFiltering = false;
+  const debugRowIdx = debugFiltering ? 22 : -1;
 
   const navigate = useNavigate();
 
@@ -374,24 +374,45 @@ const Read = () => {
       }
     }
 
-    return {headerRow, matchedRows};
+    return {headerRow, matchedRows, matchedMapper};
 
   }, []);
 
+  const createDataFromRows = (header, rows, mapper, skipUndefined=true) => {
+    // header is an array of column names in file. We need to get keyNames
+    const keyNames = mapper.headerKeynameMap.map(item => item.keyName);
+    console.log(`keyNames=${JSON.stringify(keyNames, null, 2)}`);
+
+    return rows.map(row => {
+      const item = {};
+      for (let i=0; i < keyNames.length; i++) {
+        if (skipUndefined && row[i] === undefined) {
+          continue;
+        }
+
+        item[keyNames[i]] = row[i];
+      }
+      return item;
+    });
+  }
+
   const onLoadComplete = ({data}) => {
-    const {headerRow, matchedRows} = filterStatement(data);
-
-    console.log(`headerRow=`, headerRow);
-    console.log(`matchedRows=`, matchedRows);
-
-    const normalizedData = dataNormalizeUsingMapper(data);
-
-    // const accountingData = addAccountingColumns(normalizedData);
+    const {headerRow, matchedRows, matchedMapper} = filterStatement(data);
 
     // Kept for future use: Would be used for banks which aren't supported yet
     // const normalizedData = dataNormalizeUsingCommon(data);
 
-    // navigate('/table', { state: { data:normalizedData } });
+    // The following is used when we read excel with a header row specified
+    // const normalizedData = dataNormalizeUsingMapper(data);
+
+    // This takes excel rows and create data using a mappper
+    const filteredData = createDataFromRows(headerRow, matchedRows, matchedMapper, false)
+    console.log(`filteredData:`, filteredData);
+
+    // const accountingData = addAccountingColumns(normalizedData);
+
+
+    navigate('/table', { state: { data:filteredData } });
   };
 
   return (
