@@ -13,7 +13,26 @@ export function colToRTCol (colObj) {
   // Convert all objects
   if (String(colObj.keyName).toLowerCase().includes('date') || true) {
     reactColObj.Cell = ({ value }) => {
-      return valToString(value);
+      // return valToString(value);
+      return (
+        <>
+          <div style={{
+            display:"flex", flexDirection:"column", gap: "2px"
+          }}>
+            <div style={{height: "1em"}}>
+              <span>{valToString(value) || ""}</span>
+            </div>
+            <div style={{
+              display: "flex", justifyContent:"flex-end",
+              // border: "1px dashed blue"
+            }}>
+              <span style={{color: "gray", fontSize:"0.7em"}}>
+                {typeof(value)}
+              </span>
+            </div>
+          </div>
+        </>
+      );
     }
   }
 
