@@ -59,6 +59,8 @@ export const TableWrapper = () => {
   const [featureSorting, setFeatureSorting] = useState(true);
   const [featureColumnVisibility, setFeatureColumnVisibility] = useState(false);
 
+  const [layoutDebug, setLayoutDebug] = useState(false);
+
   // We can't change following to ref as we need to rerender BulkSection
   const [selectedRows, setSelectedRows] = useState([])
   const [pageIndex, setPageIndex] = useState(0);
@@ -264,6 +266,7 @@ export const TableWrapper = () => {
     layoutFixed: true,
     layoutResize: true, // dependent of layoutFixed
     layoutHeaderTooltip: true,
+    layoutDebug,
 
     tableInstance: tableInstanceRef.current,
     onSelectionChange: handleSelectionUpdate,
@@ -306,18 +309,24 @@ export const TableWrapper = () => {
 
                 <ColumnVisibilitySection />
 
-                <div style={{display:"flex", flexDirection:"row", gap:"10px"}}>
-                  <Button className="btn-outline-info bg-transparent" size="sm"
-                          onClick={e => {rtColumns.forEach(col => console.log(JSON.stringify(col)))}}
-                  >
-                    Log Columns
-                  </Button>
-                  <Button className="btn-outline-info bg-transparent" size="sm"
-                     onClick={e => {console.log(JSON.stringify(data, null, 2))}}
-                  >
-                    Log Data
-                  </Button>
-                </div>
+                {layoutDebug &&
+                    <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
+                      <Button className="btn-outline-info bg-transparent" size="sm"
+                              onClick={e => {
+                                rtColumns.forEach(col => console.log(JSON.stringify(col)))
+                              }}
+                      >
+                        Log Columns
+                      </Button>
+                      <Button className="btn-outline-info bg-transparent" size="sm"
+                              onClick={e => {
+                                console.log(JSON.stringify(data, null, 2))
+                              }}
+                      >
+                        Log Data
+                      </Button>
+                    </div>
+                }
 
                 <div style={{
                     display: "flex", flexDirection:"row", gap: "20px"
