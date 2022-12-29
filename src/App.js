@@ -389,20 +389,31 @@ const Read = () => {
   const createDataFromRows = (header, rows, matchedPresetMapper, exactMapper, skipUndefined=true) => {
     // header is an array of column names in file. We need to get keyNames
     const keyNames = matchedPresetMapper.headerKeynameMap.map(item => [item.keyName]);
-    // console.log(`keyNames=${JSON.stringify(keyNames, null, 2)}`);
 
-    return rows.map(row => {
+    return rows.map((row, rowIdx) => {
       const item = {};
       for (let i=0; i < keyNames.length; i++) {
-        // console.log(header[i], exactMapper[header[i]]);
-        const keyName =  exactMapper[header[i]].keyName;
+        const headerName = header[i];
+        const {keyName, format, statementColumn} =  exactMapper[headerName];
 
         if (skipUndefined && row[i] === undefined) {
           continue;
         }
 
         item[keyName] = row[i];
+
+        if (22 === rowIdx) {
+          // console.log(`statementColumn=${JSON.stringify(statementColumn, null, 2)}`);
+          if (statementColumn.type === "date") {
+            console.log(`headerName='${headerName}' keyName=${keyName} format=${format}`);
+          }
+        }
       }
+
+      if (22 == rowIdx) {
+        console.log(`item=${JSON.stringify(item, null, 2)}`);
+      }
+
       return item;
     });
   }

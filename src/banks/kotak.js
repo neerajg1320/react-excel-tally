@@ -8,10 +8,12 @@ export const headerKeynameMap= [
   {
     matchLabels: ["Transaction Date"],
     keyName: "transactionDate",
+    format: "dd/MM/yyyy"
   },
   {
     matchLabels: ["Value Date"],
     keyName: "valueDate",
+    format: "dd/MM/yyyy"
   },
   {
     matchLabels: ["Description"],
