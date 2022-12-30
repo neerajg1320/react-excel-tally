@@ -37,7 +37,12 @@ export function dateFromString(dateStr, format) {
 }
 
 export function numberFromString(numberStr) {
-  return numberStr && parseFloat(numberStr.replaceAll(',',''));
+  if (numberStr && isString(numberStr)) {
+    return parseFloat(numberStr.replaceAll(',',''));
+  }
+
+  // console.log(`numberStr=${numberStr} ${typeof(numberStr)}`);
+  return numberStr;
 }
 
 // Strangely Sheetjs reads the data and reduces 5:30 hrs and an adiitional 10 seconds
