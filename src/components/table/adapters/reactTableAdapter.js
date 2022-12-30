@@ -1,4 +1,4 @@
-import {valToString} from "../../../utils/types";
+import {isDate, valToString} from "../../../utils/types";
 
 export function colToRTCol (colObj, {showTypes}) {
   const reactColObj = {
@@ -11,7 +11,13 @@ export function colToRTCol (colObj, {showTypes}) {
   }
 
   reactColObj.Cell = ({ value }) => {
-    const valueType = typeof(value);
+    let valueType = typeof(value);
+    if (valueType === "object") {
+      if (isDate(value)) {
+        valueType = "date";
+      }
+    }
+
     let alignment;
 
     if (reactColObj.alignment) {
