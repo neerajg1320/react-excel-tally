@@ -11,7 +11,7 @@ import * as kotak  from "./banks/kotak";
 import {accountingColumns, presetColumns, statementColumns} from "./presets/presetColumns";
 import {generateKeyFromHeader} from "./schema/core";
 import {type} from "@testing-library/user-event/dist/type";
-import {dateFromString, getValueType, isDate} from "./utils/types";
+import {dateFromString, getValueType, isDate, numberFromString} from "./utils/types";
 
 const App = () => {
   if (debug.lifecycle) {
@@ -428,6 +428,10 @@ const Read = () => {
             item[keyName] = parse(row[i], rowIdx);
           } else if (format) {
             item[keyName] = dateFromString(row[i], format);
+          } else if (statementColumn.type) {
+            if (statementColumn.type === "number") {
+              item[keyName] = numberFromString(row[i]);
+            }
           }
         }
 

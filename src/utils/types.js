@@ -36,6 +36,10 @@ export function dateFromString(dateStr, format) {
   return fnsParse(dateStr, format, new Date());
 }
 
+export function numberFromString(numberStr) {
+  return numberStr && parseFloat(numberStr.replaceAll(',',''));
+}
+
 // Strangely Sheetjs reads the data and reduces 5:30 hrs and an adiitional 10 seconds
 export function fixDatesInObject(obj) {
   const adjustedObj = Object.fromEntries(Object.entries(obj).map(([key, value]) =>{
