@@ -32,17 +32,19 @@ export function getValueType(value) {
   return valueType;
 }
 
-export function dateFromString(dateStr, format) {
-  return fnsParse(dateStr, format, new Date());
+export function dateFromString(value, format) {
+  if (value && isString(value)) {
+    return fnsParse(value, format, new Date());
+  }
+  return value;
 }
 
-export function numberFromString(numberStr) {
-  if (numberStr && isString(numberStr)) {
-    return parseFloat(numberStr.replaceAll(',',''));
+export function numberFromString(value) {
+  if (value && isString(value)) {
+    return parseFloat(value.replaceAll(',',''));
   }
 
-  // console.log(`numberStr=${numberStr} ${typeof(numberStr)}`);
-  return numberStr;
+  return value;
 }
 
 // Strangely Sheetjs reads the data and reduces 5:30 hrs and an adiitional 10 seconds
