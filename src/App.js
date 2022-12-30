@@ -274,7 +274,13 @@ const Read = () => {
         if (matchingEntries.length) {
           const keyName = matchingEntries[0].keyName;
           const statementColumn = statementColumns.filter(col => col.keyName === keyName)[0];
-          return [...prev, [hdrName, {...matchingEntries[0], statementColumn}]];
+          const exactMapperEntry = {
+            ...matchingEntries[0],
+            statementColumn,
+            detectedTypes: [],
+            acceptedTypes: []
+          };
+          return [...prev, [hdrName, exactMapperEntry]];
         }
 
         return [...prev];
@@ -309,7 +315,7 @@ const Read = () => {
     return match;
   }
 
-  const filterStatement = useCallback((data) => {
+  const filterStatementRows = useCallback((data) => {
     const filterThreshold = 6;
     let matchedPresetMapper, exactMapper;
     let matchRowSignature;
@@ -350,7 +356,10 @@ const Read = () => {
             // From the statementColumns create an acceptable signature
             matchRowSignature = headers.map(hdrName => {
               const statementCol = exactMapper[hdrName].statementColumn;
-              const acceptedTypes = [statementCol.type];
+              const acceptedTypes = exactMapper[hdrName].acceptedTypes;
+
+              acceptedTypes.push(statementCol.type)
+              // const acceptedTypes = [statementCol.type];
 
               // We are accepting strings as dates as well
               if (statementCol.type === "date") {
@@ -437,7 +446,7 @@ const Read = () => {
 
   const onLoadComplete = ({data}) => {
     // console.log(`data=`, data);
-    const {headerRow, matchedRows, matchedPresetMapper, exactMapper} = filterStatement(data);
+    const {headerRow, matchedRows, matchedPresetMapper, exactMapper} = filterStatementRows(data);
 
     // Kept for future use: Would be used for banks which aren't supported yet
     // const normalizedData = dataNormalizeUsingCommon(data);
