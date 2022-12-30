@@ -406,7 +406,7 @@ const Read = () => {
     // header is an array of column names in file. We need to get keyNames
     const keyNames = matchedPresetMapper.headerKeynameMap.map(item => [item.keyName]);
 
-    return rows.map((row, rowIdx) => {
+    const data = rows.map((row, rowIdx) => {
       const item = {};
       for (let i=0; i < keyNames.length; i++) {
         const headerName = header[i];
@@ -430,7 +430,7 @@ const Read = () => {
             item[keyName] = dateFromString(row[i], format);
           }
         }
-        
+
         if (debugRowIdx === rowIdx) {
           console.log(`converted=${item[keyName]} ${typeof(item[keyName])}`);
         }
@@ -446,6 +446,8 @@ const Read = () => {
 
       return item;
     });
+
+    return data;
   }
 
   const onLoadComplete = ({data}) => {
@@ -470,6 +472,7 @@ const Read = () => {
           interpretHeaderTypes: true
         }
     )
+    console.log(`onLoadComplete: exactMapper=`, exactMapper);
     // console.log(`filteredData:`, filteredData);
 
     const accountingData = addAccountingColumns(filteredData);
