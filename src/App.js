@@ -432,40 +432,35 @@ const Read = () => {
           console.log(`headerName='${headerName}' keyName='${keyName}' format='${format}' row[${i}]='${row[i]}':${typeof(row[i])}`);
         }
 
-        item[keyName] = row[i];
+        // item[keyName] = row[i];
+        const value = row[i];
 
         if (interpretTypes) {
           let interpretedValue;
 
           if (parse) {
-            interpretedValue = parse(row[i], rowIdx);
+            interpretedValue = parse(value, rowIdx);
           }
 
-          // if (22 === rowIdx) {
-          //   console.log(`interpretedValue=${interpretedValue}`);
-          // }
-
-          if (interpretedValue === undefined && row[i] !== undefined) {
+          if (interpretedValue === undefined && value !== undefined) {
             if (statementColumn.type) {
               if (statementColumn.type === "date") {
-                if (isString(row[i])) {
+                if (isString(value)) {
                   if (22 === rowIdx) { console.log(`got string`);}
-                  interpretedValue = dateFromString(row[i], format);
+                  interpretedValue = dateFromString(value, format);
                 } else {
                   if (22 === rowIdx) { console.log(`got not string`);}
-                  interpretedValue = dateFromNumber(row[i]);
+                  interpretedValue = dateFromNumber(value);
                 }
               } else if (statementColumn.type === "number") {
-                interpretedValue = numberFromString(row[i]);
+                interpretedValue = numberFromString(value);
               } else if (statementColumn.type === "string") {
-                interpretedValue = String(row[i]);
+                interpretedValue = String(value);
               }
             }
           }
 
-          if (interpretedValue !== undefined) {
-            item[keyName] = interpretedValue;
-          }
+          item[keyName] = interpretedValue !== undefined ? interpretedValue : value;
         }
 
         if (debugRowIdx === rowIdx) {
