@@ -432,7 +432,6 @@ const Read = () => {
           console.log(`headerName='${headerName}' keyName='${keyName}' format='${format}' row[${i}]='${row[i]}':${typeof(row[i])}`);
         }
 
-        // item[keyName] = row[i];
         const value = row[i];
 
         if (interpretTypes) {
