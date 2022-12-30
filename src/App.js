@@ -277,8 +277,8 @@ const Read = () => {
           const exactMapperEntry = {
             ...matchingEntries[0],
             statementColumn,
-            detectedTypes: [],
-            acceptedTypes: []
+            detectedTypes: new Set(),
+            acceptedTypes: new Set()
           };
           return [...prev, [hdrName, exactMapperEntry]];
         }
@@ -304,7 +304,7 @@ const Read = () => {
   const isSignatureMatch = (mSignature, signature, rowIdx, matchType) => {
     let match = true;
     for (let i=0; i < mSignature.length; i++) {
-      if (!mSignature[i].includes(signature[i])) {
+      if (!mSignature[i].has(signature[i])) {
         if (rowIdx === debugRowIdx) {
           console.log(`i:${i} no match: mSignature[i]=${mSignature[i]}  signature[i]=${signature[i]}`);
         }
@@ -358,21 +358,21 @@ const Read = () => {
               const statementCol = exactMapper[hdrName].statementColumn;
               const acceptedTypes = exactMapper[hdrName].acceptedTypes;
 
-              acceptedTypes.push(statementCol.type)
+              acceptedTypes.add(statementCol.type)
               // const acceptedTypes = [statementCol.type];
 
               // We are accepting strings as dates as well
               if (statementCol.type === "date") {
-                acceptedTypes.push('string');
-                acceptedTypes.push('number');
+                acceptedTypes.add('string');
+                acceptedTypes.add('number');
               }
 
               if (statementCol.type === "number") {
-                acceptedTypes.push('string');
+                acceptedTypes.add('string');
               }
 
               if (!statementCol.required) {
-                acceptedTypes.push('undefined');
+                acceptedTypes.add('undefined');
               }
 
               return acceptedTypes;
