@@ -277,8 +277,8 @@ const Read = () => {
           const exactMapperEntry = {
             ...matchingEntries[0],
             statementColumn,
-            detectedTypes: new Set(),
-            acceptedTypes: new Set()
+            detectedTypes: [],
+            acceptedTypes: []
           };
           return [...prev, [hdrName, exactMapperEntry]];
         }
@@ -304,7 +304,7 @@ const Read = () => {
   const isSignatureMatch = (mSignature, signature, rowIdx, matchType) => {
     let match = true;
     for (let i=0; i < mSignature.length; i++) {
-      if (!mSignature[i].has(signature[i])) {
+      if (!mSignature[i].includes(signature[i])) {
         if (rowIdx === debugRowIdx) {
           console.log(`i:${i} no match: mSignature[i]=${mSignature[i]}  signature[i]=${signature[i]}`);
         }
@@ -358,21 +358,21 @@ const Read = () => {
               const statementCol = exactMapper[hdrName].statementColumn;
               const acceptedTypes = exactMapper[hdrName].acceptedTypes;
 
-              acceptedTypes.add(statementCol.type)
+              acceptedTypes.push(statementCol.type)
               // const acceptedTypes = [statementCol.type];
 
               // We are accepting strings as dates as well
               if (statementCol.type === "date") {
-                acceptedTypes.add('string');
-                acceptedTypes.add('number');
+                acceptedTypes.push('string');
+                acceptedTypes.push('number');
               }
 
               if (statementCol.type === "number") {
-                acceptedTypes.add('string');
+                acceptedTypes.push('string');
               }
 
               if (!statementCol.required) {
-                acceptedTypes.add('undefined');
+                acceptedTypes.push('undefined');
               }
 
               return acceptedTypes;
@@ -436,7 +436,10 @@ const Read = () => {
         }
 
         if (interpretHeaderTypes) {
-          detectedTypes.add(getValueType(item[keyName]))
+          const valueType = getValueType(item[keyName]);
+          if (!detectedTypes.includes(valueType)) {
+            detectedTypes.push(valueType);
+          }
         }
       }
 
@@ -477,7 +480,7 @@ const Read = () => {
 
     const accountingData = addAccountingColumns(filteredData);
 
-    navigate('/table', { state: { data:accountingData } });
+    navigate('/table', { state: { data:accountingData, headersMap:JSON.stringify(exactMapper) } });
   };
 
   return (

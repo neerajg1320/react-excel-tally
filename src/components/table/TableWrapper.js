@@ -27,6 +27,7 @@ export const TableWrapper = () => {
 
   const {state} = useLocation();
   const [data, setData] = useState(state?.data);
+  const headersMap = useMemo(() => state?.headersMap && JSON.parse(state?.headersMap), []);
 
   // Data Features:
   // Update with commit
@@ -76,6 +77,8 @@ export const TableWrapper = () => {
     if (debug.lifecycle) {
       console.log(`<TableWrapper>: First render`);
     }
+
+    console.log(`headersMap:`, headersMap);
 
     return () => {
       if (debug.lifecycle) {
