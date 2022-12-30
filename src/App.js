@@ -303,9 +303,12 @@ const Read = () => {
 
   const isSignatureMatch = (mSignature, signature, rowIdx, matchType) => {
     let match = true;
+    if (rowIdx === 1) {
+      console.log(`mSignature=${JSON.stringify(mSignature)}  signature=${JSON.stringify(signature)}`);
+    }
     for (let i=0; i < mSignature.length; i++) {
-      if (!mSignature[i].includes(signature[i])) {
-        if (rowIdx === debugRowIdx) {
+      if (mSignature[i] && !mSignature[i].includes(signature[i])) {
+        if (rowIdx === 1) {
           console.log(`i:${i} no match: mSignature[i]=${mSignature[i]}  signature[i]=${signature[i]}`);
         }
         match = false;
@@ -355,27 +358,29 @@ const Read = () => {
             // Get the type of the keyNames from the statement
             // From the statementColumns create an acceptable signature
             matchRowSignature = headers.map(hdrName => {
-              const statementCol = exactMapper[hdrName].statementColumn;
-              const acceptedTypes = exactMapper[hdrName].acceptedTypes;
+              const statementCol = exactMapper[hdrName]?.statementColumn;
+              if (statementCol) {
+                const acceptedTypes = exactMapper[hdrName].acceptedTypes;
 
-              acceptedTypes.push(statementCol.type)
-              // const acceptedTypes = [statementCol.type];
+                acceptedTypes.push(statementCol.type)
+                // const acceptedTypes = [statementCol.type];
 
-              // We are accepting strings as dates as well
-              if (statementCol.type === "date") {
-                acceptedTypes.push('string');
-                acceptedTypes.push('number');
+                // We are accepting strings as dates as well
+                if (statementCol.type === "date") {
+                  acceptedTypes.push('string');
+                  acceptedTypes.push('number');
+                }
+
+                if (statementCol.type === "number") {
+                  acceptedTypes.push('string');
+                }
+
+                if (!statementCol.required) {
+                  acceptedTypes.push('undefined');
+                }
+
+                return acceptedTypes;
               }
-
-              if (statementCol.type === "number") {
-                acceptedTypes.push('string');
-              }
-
-              if (!statementCol.required) {
-                acceptedTypes.push('undefined');
-              }
-
-              return acceptedTypes;
             });
           }
         } else {

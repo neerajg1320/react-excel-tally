@@ -1,4 +1,4 @@
-import {dateFromString} from "../utils/types";
+import {dateFromString, isString} from "../utils/types";
 
 export const bankName = "Kotak";
 
@@ -12,7 +12,7 @@ export const headerKeynameMap= [
     keyName: "transactionDate",
     // format: "dd/MM/yyyy hh:mm a..aaa",
     parse: (val, rowIndex) => {
-      if (val) {
+      if (val && isString(val)) {
         const firstPart = val.split(' ')[0];
         return dateFromString(firstPart, "dd/MM/yyyy");
       }
