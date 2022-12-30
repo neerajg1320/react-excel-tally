@@ -11,7 +11,7 @@ import * as kotak  from "./banks/kotak";
 import {accountingColumns, presetColumns, statementColumns} from "./presets/presetColumns";
 import {generateKeyFromHeader} from "./schema/core";
 import {type} from "@testing-library/user-event/dist/type";
-import {dateFromString, isDate} from "./utils/types";
+import {dateFromString, getValueType, isDate} from "./utils/types";
 
 const App = () => {
   if (debug.lifecycle) {
@@ -289,7 +289,7 @@ const Read = () => {
       // console.log(`headers.length:${headers.length} hdrKeyEntries.length:${hdrKeyEntries.length} headerKeynameMap.length:${headerKeynameMap.length}`)
 
       // If all the keys are matched then declare a match
-      if (hdrKeyEntries.length == headerKeynameMap.length || (matchThreshold && hdrKeyEntries.length > matchThreshold)) {
+      if (hdrKeyEntries.length === headerKeynameMap.length || (matchThreshold && hdrKeyEntries.length > matchThreshold)) {
         // console.log(`hdrKeyMap: ${JSON.stringify(hdrKeyEntries, null, 2)}`);
         matchedPresetMapper = mappers[mprIdx];
         exactMapper = Object.fromEntries(hdrKeyEntries);
@@ -326,7 +326,7 @@ const Read = () => {
     for (let rowIdx=0; rowIdx < data.length; rowIdx++) {
       const row = data[rowIdx];
 
-      if (rowIdx == debugRowIdx) {
+      if (rowIdx === debugRowIdx) {
         console.log(`${rowIdx}: matchedMapper=`, matchedPresetMapper);
       }
 
@@ -410,7 +410,7 @@ const Read = () => {
       const item = {};
       for (let i=0; i < keyNames.length; i++) {
         const headerName = header[i];
-        const {keyName, format, statementColumn, parse} =  exactMapper[headerName];
+        const {keyName, format, statementColumn, parse, detectedTypes} =  exactMapper[headerName];
 
         if (skipUndefined && row[i] === undefined) {
           continue;
@@ -430,13 +430,17 @@ const Read = () => {
             item[keyName] = dateFromString(row[i], format);
           }
         }
-
+        
         if (debugRowIdx === rowIdx) {
           console.log(`converted=${item[keyName]} ${typeof(item[keyName])}`);
         }
+
+        if (interpretHeaderTypes) {
+          detectedTypes.add(getValueType(item[keyName]))
+        }
       }
 
-      if (debugRowIdx == rowIdx) {
+      if (debugRowIdx === rowIdx) {
         console.log(`item=${JSON.stringify(item, null, 2)}`);
       }
 
