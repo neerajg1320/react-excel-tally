@@ -362,7 +362,12 @@ const Read = () => {
               if (statementCol) {
                 const acceptedTypes = exactMapper[hdrName].acceptedTypes;
 
-                acceptedTypes.push(statementCol.type)
+                if (Array.isArray(statementCol.type)) {
+                  statementCol.type.forEach(t => acceptedTypes.push(t));
+                } else {
+                  acceptedTypes.push(statementCol.type)
+                }
+
                 // const acceptedTypes = [statementCol.type];
 
                 // We are accepting strings as dates as well
@@ -436,7 +441,10 @@ const Read = () => {
           } else if (statementColumn.type) {
             if (statementColumn.type === "number") {
               item[keyName] = numberFromString(row[i]);
+            } else if (statementColumn.type === "string") {
+              item[keyName] = String(row[i]);
             }
+
           }
         }
 
