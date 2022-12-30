@@ -37,7 +37,8 @@ export const statementColumns = [
     matchLabels: ["Chq / Ref number", "Chq./Ref.No."],
     keyName: "reference",
     width: 100,
-    type: ["string", "number"],
+    type: "string",
+    acceptedTypes: ["string", "number"],
     required: false
   },
   {

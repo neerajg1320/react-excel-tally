@@ -362,8 +362,8 @@ const Read = () => {
               if (statementCol) {
                 const acceptedTypes = exactMapper[hdrName].acceptedTypes;
 
-                if (Array.isArray(statementCol.type)) {
-                  statementCol.type.forEach(t => acceptedTypes.push(t));
+                if (statementCol.acceptedTypes) {
+                  statementCol.acceptedTypes.forEach(t => acceptedTypes.push(t));
                 } else {
                   acceptedTypes.push(statementCol.type)
                 }
