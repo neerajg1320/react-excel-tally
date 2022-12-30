@@ -391,7 +391,9 @@ const Read = () => {
 
   }, []);
 
-  const createDataFromRows = (header, rows, matchedPresetMapper, exactMapper, skipUndefined=true) => {
+  const createDataFromRows = (header, rows, matchedPresetMapper, exactMapper,
+                              {skipUndefined, interpretTypes, interpretHeaderTypes}
+  ) => {
     // header is an array of column names in file. We need to get keyNames
     const keyNames = matchedPresetMapper.headerKeynameMap.map(item => [item.keyName]);
 
@@ -411,12 +413,13 @@ const Read = () => {
           console.log(`headerName='${headerName}' keyName='${keyName}' format='${format}' row[${i}]='${row[i]}'`);
         }
 
-        if (parse) {
-          item[keyName] = parse(row[i], rowIdx);
-        } else if (format) {
-          item[keyName] = dateFromString(row[i], format);
-        } else {
-          item[keyName] = row[i];
+        item[keyName] = row[i];
+        if (interpretTypes) {
+          if (parse) {
+            item[keyName] = parse(row[i], rowIdx);
+          } else if (format) {
+            item[keyName] = dateFromString(row[i], format);
+          }
         }
 
         if (debugRowIdx === rowIdx) {
@@ -443,7 +446,17 @@ const Read = () => {
     // const normalizedData = dataNormalizeUsingMapper(data);
 
     // This takes excel rows and create data using a mappper
-    const filteredData = createDataFromRows(headerRow, matchedRows, matchedPresetMapper, exactMapper, false)
+    const filteredData = createDataFromRows(
+        headerRow,
+        matchedRows,
+        matchedPresetMapper,
+        exactMapper,
+        {
+          skipUndefined: false,
+          interpretTypes: true,
+          interpretHeaderTypes: true
+        }
+    )
     // console.log(`filteredData:`, filteredData);
 
     const accountingData = addAccountingColumns(filteredData);
