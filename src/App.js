@@ -475,7 +475,7 @@ const Read = () => {
           interpretHeaderTypes: true
         }
     )
-    console.log(`onLoadComplete: exactMapper=`, exactMapper);
+    // console.log(`onLoadComplete: exactMapper=`, exactMapper);
     // console.log(`filteredData:`, filteredData);
 
     const accountingData = addAccountingColumns(filteredData);

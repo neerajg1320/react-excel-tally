@@ -62,6 +62,7 @@ export const TableWrapper = () => {
 
   const [layoutDebug, setLayoutDebug] = useState(false);
   const [layoutShowTypes, setLayoutShowTypes] = useState(true);
+  const [layoutShowHeaderTypes, setLayoutShowHeaderTypes] = useState(false);
 
   // We can't change following to ref as we need to rerender BulkSection
   const [selectedRows, setSelectedRows] = useState([])
@@ -255,6 +256,7 @@ export const TableWrapper = () => {
   const tableContext = {
     data,
     columns: rtColumns,
+    headersMap, // header(column in excel file) info
     onChange: handleDataChange,
 
     featureSelection,
@@ -270,6 +272,7 @@ export const TableWrapper = () => {
     layoutFixed: true,
     layoutResize: true, // dependent of layoutFixed
     layoutHeaderTooltip: true,
+    layoutShowHeaderTypes,
     layoutDebug,
 
     tableInstance: tableInstanceRef.current,

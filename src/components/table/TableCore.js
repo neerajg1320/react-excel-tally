@@ -29,6 +29,7 @@ const TableCore = () => {
   const {
     data,
     columns,
+    headersMap,
     onChange:updateData,
 
     featureSelection,
@@ -43,6 +44,7 @@ const TableCore = () => {
     layoutFixed,
     layoutResize,
     layoutHeaderTooltip,
+    layoutShowHeaderTypes,
 
     onSelectionChange: updateSelection,
     onRTableChange: updateRTable,
@@ -276,32 +278,41 @@ const TableCore = () => {
               //  getHeaderProps(featureSorting ? hdrColumn.getSortByToggleProps() : {})
               <th {...hdrColumn.getHeaderProps()}>
                 <div style={{
-                    display: "flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", gap:"10px"
-                  }}
-                >
+                  display:"flex", flexDirection:"column"
+                }}>
                   <div style={{
-                    width:"100%",
-                    // border: "1px dashed white"
-                  }}>
-                    <TooltipComponent message={hdrColumn.render('Header')}
-                                      disabled={!layoutHeaderTooltip || (hdrColumn.enableAddons === false) }
-                    >
-                      <span style={{whiteSpace:"nowrap"}}>
-                        {hdrColumn.render('Header')}
-                      </span>
-                    </TooltipComponent>
+                      display: "flex", flexDirection:"row", justifyContent: "space-between", alignItems: "center", gap:"10px"
+                    }}
+                  >
+                    <div style={{
+                      width:"100%",
+                      // border: "1px dashed white"
+                    }}>
+                      <TooltipComponent message={hdrColumn.render('Header')}
+                                        disabled={!layoutHeaderTooltip || (hdrColumn.enableAddons === false) }
+                      >
+                        <span style={{whiteSpace:"nowrap"}}>
+                          {hdrColumn.render('Header')}
+                        </span>
+                      </TooltipComponent>
+                    </div>
+                    {hdrColumn.enableAddons !== false &&
+                      <div style={{display: "flex", flexDirection: "row", gap: "5px", alignItems: "center"}}>
+                        {(featureSorting && (hdrColumn.enableSorting !== false)) &&
+                            <span {...hdrColumn.getSortByToggleProps()}>{hdrColumn.isSorted ? (hdrColumn.isSortedDesc ? ' >' : ' <') : '<>'}</span>}
+                        {featureColumnFilter && <span>{hdrColumn.canFilter ? hdrColumn.render('Filter') : null}</span>}
+                        {layoutResize &&
+                            <div
+                                {...hdrColumn.getResizerProps()}
+                                className={`resizer ${hdrColumn.isResizing ? "isResizing" : ""}`}
+                            />
+                        }
+                      </div>
+                    }
                   </div>
-                  {hdrColumn.enableAddons !== false &&
-                    <div style={{display: "flex", flexDirection: "row", gap: "5px", alignItems: "center"}}>
-                      {(featureSorting && (hdrColumn.enableSorting !== false)) &&
-                          <span {...hdrColumn.getSortByToggleProps()}>{hdrColumn.isSorted ? (hdrColumn.isSortedDesc ? ' >' : ' <') : '<>'}</span>}
-                      {featureColumnFilter && <span>{hdrColumn.canFilter ? hdrColumn.render('Filter') : null}</span>}
-                      {layoutResize &&
-                          <div
-                              {...hdrColumn.getResizerProps()}
-                              className={`resizer ${hdrColumn.isResizing ? "isResizing" : ""}`}
-                          />
-                      }
+                  {layoutShowHeaderTypes &&
+                    <div style={{fontSize:"0.7em", "fontWeight": "normal"}}>
+                      {(JSON.stringify(headersMap[hdrColumn.header]?.detectedTypes)?.replaceAll('"', ''))}
                     </div>
                   }
                 </div>
