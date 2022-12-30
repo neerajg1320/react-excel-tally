@@ -61,7 +61,7 @@ export const TableWrapper = () => {
   const [featureColumnVisibility, setFeatureColumnVisibility] = useState(false);
 
   const [layoutDebug, setLayoutDebug] = useState(false);
-  const [layoutShowTypes, setLayoutShowTypes] = useState(true);
+  const [layoutShowTypes, setLayoutShowTypes] = useState(false);
   const [layoutShowHeaderTypes, setLayoutShowHeaderTypes] = useState(false);
 
   // We can't change following to ref as we need to rerender BulkSection
