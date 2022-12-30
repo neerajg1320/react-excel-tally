@@ -445,20 +445,20 @@ const Read = () => {
           //   console.log(`interpretedValue=${interpretedValue}`);
           // }
 
-          if (interpretedValue === undefined) {
+          if (interpretedValue === undefined && row[i] !== undefined) {
             if (statementColumn.type) {
               if (statementColumn.type === "date") {
                 if (isString(row[i])) {
                   if (22 === rowIdx) { console.log(`got string`);}
-                  item[keyName] = dateFromString(row[i], format);
+                  interpretedValue = dateFromString(row[i], format);
                 } else {
                   if (22 === rowIdx) { console.log(`got not string`);}
-                  item[keyName] = dateFromNumber(row[i]);
+                  interpretedValue = dateFromNumber(row[i]);
                 }
               } else if (statementColumn.type === "number") {
-                item[keyName] = numberFromString(row[i]);
+                interpretedValue = numberFromString(row[i]);
               } else if (statementColumn.type === "string") {
-                item[keyName] = String(row[i]);
+                interpretedValue = String(row[i]);
               }
             }
           }
