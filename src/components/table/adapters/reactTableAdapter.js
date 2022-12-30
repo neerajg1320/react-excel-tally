@@ -28,9 +28,8 @@ export function colToRTCol (colObj, {showTypes}) {
       } else if (reactColObj.alignment === "center") {
         alignment = "center"
       }
-
     } else {
-      alignment = (valueType === "number") ? "flex-end" : "flex-start";
+      alignment = (valueType === "number") ? "flex-end" : (valueType === "date") ? "center" : "flex-start";
     }
 
     return (
