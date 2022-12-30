@@ -11,7 +11,7 @@ import * as kotak  from "./banks/kotak";
 import {accountingColumns, presetColumns, statementColumns} from "./presets/presetColumns";
 import {generateKeyFromHeader} from "./schema/core";
 import {type} from "@testing-library/user-event/dist/type";
-import {dateFromString, getValueType, isDate, numberFromString} from "./utils/types";
+import {dateFromString, dateFromNumber, getValueType, isDate, isString, numberFromString} from "./utils/types";
 
 const App = () => {
   if (debug.lifecycle) {
@@ -428,22 +428,43 @@ const Read = () => {
 
         // console.log(`statementColumn=${JSON.stringify(statementColumn, null, 2)}`);
 
-        if (debugRowIdx === rowIdx) {
-          console.log(`headerName='${headerName}' keyName='${keyName}' format='${format}' row[${i}]='${row[i]}'`);
+        if (22 === rowIdx) {
+          console.log(`headerName='${headerName}' keyName='${keyName}' format='${format}' row[${i}]='${row[i]}':${typeof(row[i])}`);
         }
 
         item[keyName] = row[i];
+
         if (interpretTypes) {
+          let interpretedValue;
+
           if (parse) {
-            item[keyName] = parse(row[i], rowIdx);
-          } else if (format) {
-            item[keyName] = dateFromString(row[i], format);
-          } else if (statementColumn.type) {
-            if (statementColumn.type === "number") {
-              item[keyName] = numberFromString(row[i]);
-            } else if (statementColumn.type === "string") {
-              item[keyName] = String(row[i]);
+            interpretedValue = parse(row[i], rowIdx);
+          }
+
+          // if (22 === rowIdx) {
+          //   console.log(`interpretedValue=${interpretedValue}`);
+          // }
+
+          if (interpretedValue === undefined) {
+            if (statementColumn.type) {
+              if (statementColumn.type === "date") {
+                if (isString(row[i])) {
+                  if (22 === rowIdx) { console.log(`got string`);}
+                  item[keyName] = dateFromString(row[i], format);
+                } else {
+                  if (22 === rowIdx) { console.log(`got not string`);}
+                  item[keyName] = dateFromNumber(row[i]);
+                }
+              } else if (statementColumn.type === "number") {
+                item[keyName] = numberFromString(row[i]);
+              } else if (statementColumn.type === "string") {
+                item[keyName] = String(row[i]);
+              }
             }
+          }
+
+          if (interpretedValue !== undefined) {
+            item[keyName] = interpretedValue;
           }
         }
 
