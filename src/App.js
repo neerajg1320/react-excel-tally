@@ -444,7 +444,6 @@ const Read = () => {
             } else if (statementColumn.type === "string") {
               item[keyName] = String(row[i]);
             }
-
           }
         }
 
