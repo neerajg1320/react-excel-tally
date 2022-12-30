@@ -1,4 +1,4 @@
-import {format, isDate as fnsIsDate, addHours, addMinutes, addSeconds} from "date-fns";
+import {format as fnsFormat, parse as fnsParse, isDate as fnsIsDate, addHours, addMinutes, addSeconds} from "date-fns";
 
 const isoDateFormat = "yyyy-MM-dd";
 const localDateFormat = "dd/MM/yyyy";
@@ -16,10 +16,14 @@ export function isDate(val) {
 
 export function valToString(val) {
   if (isDate(val)) {
-    return format(val, localDateFormat);
+    return fnsFormat(val, localDateFormat);
   }
 
   return val ? val.toString() : "";
+}
+
+export function dateFromString(dateStr, format) {
+  return fnsParse(dateStr, format, new Date());
 }
 
 // Strangely Sheetjs reads the data and reduces 5:30 hrs and an adiitional 10 seconds

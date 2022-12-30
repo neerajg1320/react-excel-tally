@@ -11,7 +11,7 @@ import * as kotak  from "./banks/kotak";
 import {accountingColumns, presetColumns, statementColumns} from "./presets/presetColumns";
 import {generateKeyFromHeader} from "./schema/core";
 import {type} from "@testing-library/user-event/dist/type";
-import {isDate} from "./utils/types";
+import {dateFromString, isDate} from "./utils/types";
 
 const App = () => {
   if (debug.lifecycle) {
@@ -399,20 +399,28 @@ const Read = () => {
       const item = {};
       for (let i=0; i < keyNames.length; i++) {
         const headerName = header[i];
-        const {keyName, format, statementColumn} =  exactMapper[headerName];
+        const {keyName, format, statementColumn, parse} =  exactMapper[headerName];
 
         if (skipUndefined && row[i] === undefined) {
           continue;
         }
 
-        item[keyName] = row[i];
+        // console.log(`statementColumn=${JSON.stringify(statementColumn, null, 2)}`);
 
         if (debugRowIdx === rowIdx) {
-          // console.log(`statementColumn=${JSON.stringify(statementColumn, null, 2)}`);
-          if (statementColumn.type === "date") {
-            console.log(`headerName='${headerName}' keyName=${keyName} format=${format}`);
-            // Here now we need to do the conversion
-          }
+          console.log(`headerName='${headerName}' keyName='${keyName}' format='${format}' row[${i}]='${row[i]}'`);
+        }
+
+        if (parse) {
+          item[keyName] = parse(row[i], rowIdx);
+        } else if (format) {
+          item[keyName] = dateFromString(row[i], format);
+        } else {
+          item[keyName] = row[i];
+        }
+
+        if (debugRowIdx === rowIdx) {
+          console.log(`converted=${item[keyName]} ${typeof(item[keyName])}`);
         }
       }
 

@@ -1,3 +1,5 @@
+import {dateFromString} from "../utils/types";
+
 export const bankName = "Kotak";
 
 export const headerKeynameMap= [
@@ -8,7 +10,17 @@ export const headerKeynameMap= [
   {
     matchLabels: ["Transaction Date"],
     keyName: "transactionDate",
-    format: "dd/MM/yyyy"
+    // format: "dd/MM/yyyy hh:mm a..aaa",
+    parse: (val, rowIndex) => {
+      if (val) {
+        const firstPart = val.split(' ')[0];
+        // if (rowIndex == 22) {
+        //   console.log(`${rowIndex} firstPart=${firstPart}`);
+        // }
+        return dateFromString(firstPart, "dd/MM/yyyy");
+      }
+      return val;
+    }
   },
   {
     matchLabels: ["Value Date"],
