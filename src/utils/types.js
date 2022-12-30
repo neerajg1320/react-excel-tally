@@ -22,6 +22,16 @@ export function valToString(val) {
   return val ? val.toString() : "";
 }
 
+export function getValueType(value) {
+  let valueType = typeof(value);
+  if (valueType === "object") {
+    if (isDate(value)) {
+      valueType = "date";
+    }
+  }
+  return valueType;
+}
+
 export function dateFromString(dateStr, format) {
   return fnsParse(dateStr, format, new Date());
 }
