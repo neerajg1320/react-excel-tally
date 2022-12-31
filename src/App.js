@@ -433,10 +433,8 @@ const Read = () => {
         }
 
         const value = row[i];
-
+        let interpretedValue;
         if (interpretTypes) {
-          let interpretedValue;
-
           if (parse) {
             interpretedValue = parse(value, rowIdx);
           }
@@ -458,9 +456,8 @@ const Read = () => {
               }
             }
           }
-
-          item[keyName] = interpretedValue !== undefined ? interpretedValue : value;
         }
+        item[keyName] = interpretedValue !== undefined ? interpretedValue : value;
 
         if (debugRowIdx === rowIdx) {
           console.log(`converted=${item[keyName]} ${typeof(item[keyName])}`);
@@ -502,7 +499,7 @@ const Read = () => {
         exactMapper,
         {
           skipUndefined: false,
-          interpretTypes: true,
+          interpretTypes: false,
           interpretHeaderTypes: true
         }
     )
