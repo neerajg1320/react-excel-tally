@@ -7,7 +7,6 @@ table {
 table td, table th {
     border: 1px solid #ddd;
     padding: 2px;
-    /*overflow: hidden;*/
 }
 
 
@@ -19,9 +18,10 @@ table tr {
 /*table tr:nth-child(odd) td {background-color: #ffffff;}*/
 
 table td {
-    background-color: #ffffff;
-    /*overflow-x: visible;*/
-    /*overflow-y: hidden;*/
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 table tr:hover td {
