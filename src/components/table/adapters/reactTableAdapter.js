@@ -10,6 +10,7 @@ export function colToRTCol (colObj, {showTypes}) {
     ...colObj
   }
 
+  console.log(`colToRTCol: ${JSON.stringify(reactColObj, null, 2)}`);
 
   reactColObj.Cell = ({ value }) => {
     let valueType = getValueType(value);
@@ -37,7 +38,7 @@ export function colToRTCol (colObj, {showTypes}) {
             display: "flex", flexDirection:"column", alignItems: alignment,
           }}>
             <div style={{display:"flex", height:"1em"}}>
-                {valToString(value) || ""}
+                {valToString(value, reactColObj.format) || ""}
             </div>
 
           </div>

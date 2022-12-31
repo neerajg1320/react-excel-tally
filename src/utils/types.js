@@ -1,7 +1,7 @@
 import {format as fnsFormat, parse as fnsParse, isDate as fnsIsDate, addHours, addMinutes, addSeconds} from "date-fns";
 
-const isoDateFormat = "yyyy-MM-dd";
-const localDateFormat = "dd/MM/yyyy";
+export const isoDateFormat = "yyyy-MM-dd";
+export const indiaDateFormat = "dd/MM/yyyy";
 
 export function isString(val) {
   return (typeof val === 'string' || val instanceof String)
@@ -14,9 +14,9 @@ export function isDate(val) {
   return fnsIsDate(val);
 }
 
-export function valToString(val) {
+export function valToString(val, format) {
   if (isDate(val)) {
-    return fnsFormat(val, localDateFormat);
+    return fnsFormat(val, format ? format : indiaDateFormat);
   }
 
   return val ? val.toString() : "";

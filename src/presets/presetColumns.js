@@ -1,3 +1,5 @@
+import {indiaDateFormat} from "../utils/types";
+
 export const statementColumns = [
   {
     header: "SNo",
@@ -14,6 +16,7 @@ export const statementColumns = [
     keyName: "transactionDate",
     width: 120,
     type: "date",
+    // format: `${indiaDateFormat} HH:mm`,
     required: true
   },
   {
@@ -22,6 +25,7 @@ export const statementColumns = [
     keyName: "valueDate",
     width: 120,
     type: "date",
+    format: indiaDateFormat,
     required: false
   },
   {
@@ -30,7 +34,8 @@ export const statementColumns = [
     keyName: "description",
     width: 300,
     type: "string",
-    required: true
+    required: true,
+    format: "yyyy-MM-dd",
   },
   {
     header: "Reference",
