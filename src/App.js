@@ -2,7 +2,7 @@ import ReadExcel from "./components/excel/xlsx/ReadExcel";
 import * as React from 'react';
 import {Routes, Route, Outlet, NavLink, useNavigate} from 'react-router-dom';
 import {TableWrapper} from "./components/table/TableWrapper";
-import {useCallback, useContext, useEffect, useMemo, useRef} from "react";
+import {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {debug} from "./components/config/debug";
 import {Mappers} from "./components/mappers/Mappers";
 import AppContext from "./AppContext";
@@ -33,6 +33,8 @@ const App = () => {
     }
   }, []);
 
+  const [interpretValues, setInterpretValues] = useState(false);
+
   const mappers = useMemo(() => {
     const mappers = []
     // TBD: Put default mapper attributes
@@ -47,6 +49,7 @@ const App = () => {
 
   const appContext = {
     getMappers,
+    interpretValues
   };
 
   return (
@@ -127,6 +130,7 @@ const Read = () => {
 
   const {
     getMappers,
+    interpretValues
   } = useContext(AppContext);
 
 
@@ -411,7 +415,7 @@ const Read = () => {
   }, []);
 
   const createDataFromRows = (header, rows, matchedPresetMapper, exactMapper,
-                              {skipUndefined, interpretTypes, interpretHeaderTypes}
+                              {skipUndefined, interpretValues, interpretHeaderTypes}
   ) => {
     // header is an array of column names in file. We need to get keyNames
     const keyNames = matchedPresetMapper.headerKeynameMap.map(item => [item.keyName]);
@@ -434,7 +438,7 @@ const Read = () => {
 
         const value = row[i];
         let interpretedValue;
-        if (interpretTypes) {
+        if (interpretValues) {
           if (parse) {
             interpretedValue = parse(value, rowIdx);
           }
@@ -499,7 +503,7 @@ const Read = () => {
         exactMapper,
         {
           skipUndefined: false,
-          interpretTypes: false,
+          interpretValues,
           interpretHeaderTypes: true
         }
     )
