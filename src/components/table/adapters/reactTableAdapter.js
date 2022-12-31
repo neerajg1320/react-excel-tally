@@ -32,12 +32,18 @@ export function colToRTCol (colObj, {showTypes}) {
     return (
       <>
         <div style={{
+          overflow: "hidden",
           display:"flex", flexDirection:"column", gap: "2px"
         }}>
           <div style={{
             display: "flex", flexDirection:"column", alignItems: alignment,
+            // height:"1em",
+            // border: "1px dashed red"
           }}>
-            <div style={{display:"flex", height:"1em"}}>
+            <div style={{height:"1em",
+              display:"flex", flexDirection: "row", alignItems:"center",
+              // border: "1px dashed blue"
+            }}>
                 {valToString(value, reactColObj.format) || ""}
             </div>
 
@@ -45,6 +51,7 @@ export function colToRTCol (colObj, {showTypes}) {
           {showTypes &&
             <div style={{
               display: "flex", flexDirection:"row", justifyContent:"flex-end",
+              // border: "1px dashed green"
             }}>
               <span style={{color: "gray", fontSize:"0.7em"}}>
                 {valueType}

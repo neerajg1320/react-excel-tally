@@ -330,7 +330,11 @@ const TableCore = () => {
             <tr {...row.getRowProps()}>
               {
                 row.cells.map(cell => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  return (
+                    <td {...cell.getCellProps()}>
+                      {cell.render('Cell')}
+                    </td>
+                  );
                 })
               }
             </tr>

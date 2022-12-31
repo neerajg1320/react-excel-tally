@@ -30,14 +30,16 @@ const SelectableCell = ({value: initialValue, row, column, updateData, choices, 
 
   return (
     <>
-      <Select
-          menuPlacement={placement}
-          options={choices.map(choice => {
-            return {label: choice, value:choice}
-          })}
-          value = {options.filter(opt => opt.label === value)}
-          onChange={handleSelect}
-      />
+      <div style={{overflow:"visible"}}>
+        <Select
+            menuPlacement={placement}
+            options={choices.map(choice => {
+              return {label: choice, value:choice}
+            })}
+            value = {options.filter(opt => opt.label === value)}
+            onChange={handleSelect}
+        />
+      </div>
     </>
   );
 }
