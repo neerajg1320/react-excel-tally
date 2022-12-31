@@ -15,7 +15,7 @@ export function excelToJson (file, {headerRow}) {
 
       const readOptions = {
         type: 'binary',
-        raw: true,          // when true every cell is read as a string
+        raw: true,          // every cell is read in store value
       };
       const wb = XLSX.read(bStr, readOptions);
       wb.SheetNames.forEach((sheetName) => {

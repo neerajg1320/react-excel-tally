@@ -33,7 +33,7 @@ const App = () => {
     }
   }, []);
 
-  const [interpretValues, setInterpretValues] = useState(false);
+  const [interpretValues, setInterpretValues] = useState(true);
 
   const mappers = useMemo(() => {
     const mappers = []
