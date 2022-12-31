@@ -20,6 +20,7 @@ table tr {
 
 table td {
     background-color: #ffffff;
+    overflow: hidden;
 }
 
 table tr:hover td {
