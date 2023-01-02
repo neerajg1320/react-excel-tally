@@ -34,6 +34,9 @@ export const HomeLayout = () => {
           <NavLink to="/table" style={style}>
             Table
           </NavLink>
+          <NavLink to="/tally" style={style}>
+            Tally
+          </NavLink>
           <NavLink to="/mappers" style={style}>
             Mappers
           </NavLink>

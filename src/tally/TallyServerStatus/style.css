@@ -1,0 +1,50 @@
+.server-container {
+    height: 100%;
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.server-status-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    width: 40%;
+}
+
+.server-info-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 40%;
+    align-items: flex-end;
+}
+
+.server-company-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.server-company-label {
+    font-size: .8em;
+    padding: 2px;
+}
+
+.server-company-name {
+    font-size: 1.15em;
+    font-weight: bold;
+    padding: 2px;
+}
+.server-command-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.server-command-button {
+    margin-left: 10px;
+}

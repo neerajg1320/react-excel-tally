@@ -24,13 +24,15 @@ export const Mappers = () => {
   } = useContext(AppContext);
 
   const mappers = useMemo(() => {
-    return getMappers();
+    if (getMappers) {
+      return getMappers();
+    }
   });
 
   return (
     <div>
       Bank Mappers
-      {mappers.map((mapper, index) => (
+      {mappers && mappers.map((mapper, index) => (
         <div key={index}>
           <h3>{mapper.name}</h3>
           <pre>{JSON.stringify(mapper, null, 2)}</pre>

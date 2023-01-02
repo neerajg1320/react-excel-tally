@@ -6,6 +6,7 @@ import {useEffect} from "react";
 import {debug} from "./components/config/debug";
 import {Mappers} from "./components/mappers/Mappers";
 import {HomeLayout} from "./components/HomeLayout";
+import {TallyWrapper} from "./tally/TallyWrapper";
 
 const App = () => {
   if (debug.lifecycle) {
@@ -25,11 +26,13 @@ const App = () => {
   }, []);
 
   return (
+
     <Routes>
       <Route element={<HomeLayout />}>
         <Route index element={<ReadWrapper />} />
         <Route path="read" element={<ReadWrapper />} />
         <Route path="table" element={<TableWrapper />} />
+        {/*<Route path="tally" element={<TallyWrapper />} />*/}
         <Route path="mappers" element={<Mappers />} />
         <Route path="*" element={<p>There's nothing here: 404!</p>} />
       </Route>

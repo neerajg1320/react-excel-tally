@@ -6,6 +6,7 @@ import {accountingColumns, presetColumns, statementColumns} from "../../presets/
 import {generateKeyFromHeader} from "../../schema/core";
 import {dateFromNumber, dateFromString, getValueType, isDate, isString, numberFromString} from "../../utils/types";
 import ReadExcel from "./xlsx/ReadExcel";
+import {Mappers} from "../mappers/Mappers";
 import * as React from "react";
 import * as hdfc from "../../banks/hdfc";
 import * as kotak from "../../banks/kotak";
@@ -423,6 +424,7 @@ export const ReadWrapper = () => {
   return (
     <AppContext.Provider value={appContext}>
       <ReadExcel onComplete={onLoadComplete}/>
+      <Mappers />
     </AppContext.Provider>
   );
 };
