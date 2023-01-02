@@ -1,14 +1,11 @@
-import ReadExcel from "./components/excel/xlsx/ReadExcel";
 import * as React from 'react';
-import {Routes, Route, Outlet, NavLink, useNavigate} from 'react-router-dom';
+import {Routes, Route, Outlet, NavLink} from 'react-router-dom';
 import {TableWrapper} from "./components/table/TableWrapper";
 import {ReadWrapper} from "./components/excel/ReadWrapper";
-import {useCallback, useEffect, useMemo, useState} from "react";
+import {useEffect} from "react";
 import {debug} from "./components/config/debug";
 import {Mappers} from "./components/mappers/Mappers";
-import AppContext from "./AppContext";
-import * as hdfc from "./banks/hdfc";
-import * as kotak  from "./banks/kotak";
+
 
 const App = () => {
   if (debug.lifecycle) {
@@ -30,27 +27,9 @@ const App = () => {
     }
   }, []);
 
-  const [interpretValues, setInterpretValues] = useState(true);
-
-  const mappers = useMemo(() => {
-    const mappers = []
-    // TBD: Put default mapper attributes
-    mappers.push({name: hdfc.bankName, matchThreshold: 6, headerKeynameMap: hdfc.headerKeynameMap});
-    mappers.push({name: kotak.bankName, matchThreshold: 6, headerKeynameMap: kotak.headerKeynameMap});
-    return mappers;
-  });
-
-  const getMappers = useCallback(() => {
-    return mappers;
-  });
-
-  const appContext = {
-    getMappers,
-    interpretValues
-  };
 
   return (
-      <AppContext.Provider value={appContext}>
+
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<ReadWrapper />} />
@@ -60,7 +39,7 @@ const App = () => {
             <Route path="*" element={<p>There's nothing here: 404!</p>} />
           </Route>
         </Routes>
-      </AppContext.Provider>
+
   );
 };
 

@@ -1,12 +1,14 @@
 import {debug} from "../config/debug";
 import {useNavigate} from "react-router-dom";
-import {useCallback, useContext} from "react";
-import AppContext from "../../AppContext";
+import {useCallback, useContext, useMemo, useState} from "react";
+import AppContext from "./AppContext";
 import {accountingColumns, presetColumns, statementColumns} from "../../presets/presetColumns";
 import {generateKeyFromHeader} from "../../schema/core";
 import {dateFromNumber, dateFromString, getValueType, isDate, isString, numberFromString} from "../../utils/types";
 import ReadExcel from "./xlsx/ReadExcel";
 import * as React from "react";
+import * as hdfc from "../../banks/hdfc";
+import * as kotak from "../../banks/kotak";
 
 export const ReadWrapper = () => {
   if (debug.lifecycle) {
@@ -18,11 +20,24 @@ export const ReadWrapper = () => {
 
   const navigate = useNavigate();
 
-  const {
+  const [interpretValues, setInterpretValues] = useState(true);
+
+  const mappers = useMemo(() => {
+    const mappers = []
+    // TBD: Put default mapper attributes
+    mappers.push({name: hdfc.bankName, matchThreshold: 6, headerKeynameMap: hdfc.headerKeynameMap});
+    mappers.push({name: kotak.bankName, matchThreshold: 6, headerKeynameMap: kotak.headerKeynameMap});
+    return mappers;
+  });
+
+  const getMappers = useCallback(() => {
+    return mappers;
+  });
+
+  const appContext = {
     getMappers,
     interpretValues
-  } = useContext(AppContext);
-
+  };
 
   const getKeyFromPresets = useCallback((headerName) => {
     // TBD: need to update matching algo
@@ -406,8 +421,8 @@ export const ReadWrapper = () => {
   };
 
   return (
-      <>
-        <ReadExcel onComplete={onLoadComplete}/>
-      </>
+    <AppContext.Provider value={appContext}>
+      <ReadExcel onComplete={onLoadComplete}/>
+    </AppContext.Provider>
   );
 };
