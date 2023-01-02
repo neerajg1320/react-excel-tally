@@ -17,29 +17,23 @@ const App = () => {
       console.log(`<App>: First render`);
     }
 
-    // Register the Bank mappers
-
-
     return () => {
       if (debug.lifecycle) {
         console.log(`<App>: Destroyed`);
       }
     }
   }, []);
-
-
+  
   return (
-
-        <Routes>
-          <Route element={<Layout />}>
-            <Route index element={<ReadWrapper />} />
-            <Route path="read" element={<ReadWrapper />} />
-            <Route path="table" element={<TableWrapper />} />
-            <Route path="mappers" element={<Mappers />} />
-            <Route path="*" element={<p>There's nothing here: 404!</p>} />
-          </Route>
-        </Routes>
-
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<ReadWrapper />} />
+        <Route path="read" element={<ReadWrapper />} />
+        <Route path="table" element={<TableWrapper />} />
+        <Route path="mappers" element={<Mappers />} />
+        <Route path="*" element={<p>There's nothing here: 404!</p>} />
+      </Route>
+    </Routes>
   );
 };
 
@@ -53,7 +47,10 @@ const Layout = () => {
   });
 
   return (
-    <>
+    <div style={{
+      border:"1px dashed blue",
+    }}>
+      {/* title */}
       <div style={{
         display:"flex", flexDirection:"row", justifyContent:"center",
         marginBottom: "20px"
@@ -61,11 +58,8 @@ const Layout = () => {
         <h1>Table For Accounting</h1>
       </div>
 
-      <nav
-          style={{
-            // borderBottom: 'solid 1px',
-            paddingBottom: '1rem',
-            paddingLeft: "1rem",
+      {/* nav bar */}
+      <nav style={{paddingBottom: '1rem', paddingLeft: "1rem",
             display: "flex", flexDirection:"row", gap:"10px", justifyContent: "center"
           }}
       >
@@ -80,6 +74,7 @@ const Layout = () => {
         </NavLink>
       </nav>
 
+      {/* Contents for selected nav*/}
       <main style={{ padding: '1rem 0' }}>
         <div style={{
             display: "flex", flexDirection: "column", alignItems: "center"
@@ -88,7 +83,7 @@ const Layout = () => {
           <Outlet />
         </div>
       </main>
-    </>
+    </div>
   );
 };
 
