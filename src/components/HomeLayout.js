@@ -37,9 +37,6 @@ export const HomeLayout = () => {
           <NavLink to="/tally" style={style}>
             Tally
           </NavLink>
-          <NavLink to="/mappers" style={style}>
-            Mappers
-          </NavLink>
         </nav>
 
         {/* Contents for selected nav*/}
