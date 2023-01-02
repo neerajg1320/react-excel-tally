@@ -10,7 +10,7 @@ export function colToRTCol (colObj, {showTypes}) {
     ...colObj
   }
 
-  console.log(`colToRTCol: ${JSON.stringify(reactColObj, null, 2)}`);
+  // console.log(`colToRTCol: ${JSON.stringify(reactColObj, null, 2)}`);
 
   reactColObj.Cell = ({ value }) => {
     let valueType = getValueType(value);

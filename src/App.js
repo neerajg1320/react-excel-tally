@@ -307,7 +307,7 @@ const Read = () => {
 
   const isSignatureMatch = (mSignature, signature, rowIdx, matchType) => {
     let match = true;
-    if (rowIdx === 1) {
+    if (rowIdx === debugRowIdx) {
       console.log(`mSignature=${JSON.stringify(mSignature)}  signature=${JSON.stringify(signature)}`);
     }
     for (let i=0; i < mSignature.length; i++) {
@@ -432,7 +432,7 @@ const Read = () => {
 
         // console.log(`statementColumn=${JSON.stringify(statementColumn, null, 2)}`);
 
-        if (22 === rowIdx) {
+        if (debugRowIdx === rowIdx) {
           console.log(`headerName='${headerName}' keyName='${keyName}' format='${format}' row[${i}]='${row[i]}':${typeof(row[i])}`);
         }
 
@@ -447,10 +447,10 @@ const Read = () => {
             if (statementColumn.type) {
               if (statementColumn.type === "date") {
                 if (isString(value)) {
-                  if (22 === rowIdx) { console.log(`got string`);}
+                  if (debugRowIdx === rowIdx) { console.log(`got string`);}
                   interpretedValue = dateFromString(value, format);
                 } else {
-                  if (22 === rowIdx) { console.log(`got not string`);}
+                  if (debugRowIdx === rowIdx) { console.log(`got not string`);}
                   interpretedValue = dateFromNumber(value);
                 }
               } else if (statementColumn.type === "number") {
