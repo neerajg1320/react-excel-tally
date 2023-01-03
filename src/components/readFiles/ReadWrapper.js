@@ -11,7 +11,7 @@ import * as React from "react";
 import * as hdfc from "../../banks/hdfc";
 import * as kotak from "../../banks/kotak";
 
-export const ReadWrapper = () => {
+export const ReadWrapper = ({onDataChange}) => {
   if (debug.lifecycle) {
     console.log(`Rendering <Read>`);
   }
@@ -36,7 +36,7 @@ export const ReadWrapper = () => {
     return mappers;
   });
 
-  const appContext = {
+  const readContext = {
     getMappers,
     interpretValues
   };
@@ -419,11 +419,15 @@ export const ReadWrapper = () => {
 
     const accountingData = addAccountingColumns(filteredData);
 
+    if (onDataChange) {
+      onDataChange(accountingData);
+    }
+
     navigate('/table', { state: { data:accountingData, headersMap:JSON.stringify(exactMapper) } });
   };
 
   return (
-    <ReadContext.Provider value={appContext}>
+    <ReadContext.Provider value={readContext}>
       <ReadExcel onComplete={onLoadComplete}/>
       {showMappers && <Mappers />}
     </ReadContext.Provider>

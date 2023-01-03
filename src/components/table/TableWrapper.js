@@ -18,7 +18,7 @@ import ColumnVisibilitySection from "./ColumnVisibilitySection";
 // Any modification of columns should be handled above this.
 
 
-export const TableWrapper = () => {
+export const TableWrapper = ({onDataChange}) => {
   if (debug.lifecycle) {
     console.log(`Rendering <TableWrapper>`);
   }
@@ -60,7 +60,7 @@ export const TableWrapper = () => {
   const [featureSorting, setFeatureSorting] = useState(true);
   const [featureColumnVisibility, setFeatureColumnVisibility] = useState(false);
 
-  const [layoutDebug, setLayoutDebug] = useState(false);
+  const [layoutDebug, setLayoutDebug] = useState(true);
   const [layoutShowTypes, setLayoutShowTypes] = useState(false);
   const [layoutShowHeaderTypes, setLayoutShowHeaderTypes] = useState(false);
 
@@ -152,6 +152,13 @@ export const TableWrapper = () => {
       }, prevData);
     });
   }, [applyUpdate]);
+
+  useEffect(() => {
+    // console.log(`data has changed`);
+    if (onDataChange) {
+      onDataChange(data);
+    }
+  }, [data]);
 
   const handleCommitClick = useCallback((updates) => {
     // console.log(`updates count: ${updates.length}`);

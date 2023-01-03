@@ -2,12 +2,26 @@ import TallyServerStatus from "./TallyServerStatus/TallyServerStatus";
 import TallySubmitBar from "./TallySubmitBar/TallySubmitBar";
 import {Provider} from "react-redux";
 import store from "./state/store";
-import Tabs from "react-bootstrap/Tabs";
-import Tab from "react-bootstrap/Tab";
-import {useState} from "react";
-import {TableWrapper} from "../components/table/TableWrapper";
+import {useEffect, useState} from "react";
+import {debug} from "../components/config/debugEnabled";
 
 export const TallyWrapper = ({children, data}) => {
+  if (debug.lifecycle) {
+    console.log(`Rendering <TallyWrapper>`);
+  }
+
+  useEffect(() => {
+    if (debug.lifecycle) {
+      console.log(`<TallyWrapper>: First render`);
+    }
+
+    return () => {
+      if (debug.lifecycle) {
+        console.log(`<TallyWrapper>: Destroyed`);
+      }
+    }
+  }, []);
+
   const boxShadow = "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px";
   const [tabKey, setTabKey] = useState("columnsTable");
 
