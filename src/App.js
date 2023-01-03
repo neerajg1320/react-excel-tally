@@ -25,14 +25,16 @@ const App = () => {
     }
   }, []);
 
+  // The App keeps a copy of data
   const [data, setData] = useState([]);
 
   const handleDataChange = useCallback((data) => {
     console.log(`handleDataChange:`, data);
+    setData(data);
   }, []);
 
+  // Currently we are not using the AppContext
   const appContext = {
-    data
   }
 
   return (

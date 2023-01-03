@@ -28,7 +28,7 @@ const TallySubmitBar = ({data}) => {
   }, []);
 
   const handleSubmitClick = useCallback((data) => {
-
+    console.log(`handleSubmitClick: data=${JSON.stringify(data, null, 2)}`);
   }, []);
 
   return (
