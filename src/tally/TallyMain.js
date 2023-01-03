@@ -80,10 +80,6 @@ export const TallyMain = ({children, data}) => {
     }
   }, [serverAddr]);
 
-  const handleServerChange = (host, port) => {
-
-  }
-
   return (
     <div
         style={{
@@ -113,7 +109,7 @@ export const TallyMain = ({children, data}) => {
       }}
       >
         <div style={{width:"30%"}}>
-          <Connection title={"Tally Server"} status={tallyStatus} onServerChange={handleServerChange}/>
+          <Connection title={"Tally Server"} status={tallyStatus} />
         </div>
         <div style={{width:"30%"}}>
           <TallySubmitBar data={data}/>

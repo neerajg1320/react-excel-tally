@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {setServer} from "../state/tallyActions";
 
-function Connection({title, status, onServerChange}) {
+function Connection({title, status}) {
   const [active, setActive] = useState(false);
   const [host, setHost] = useState('');
   const [port, setPort] = useState('');
