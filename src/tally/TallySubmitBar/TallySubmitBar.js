@@ -2,33 +2,17 @@ import Button from "react-bootstrap/Button";
 import ConditionalTooltipButton from "../TooltipButton/ConditionalTooltipButton";
 import {useCallback} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {addVouchers} from "../state/actionCreators";
 
 
-const TallySubmitBar = ({data}) => {
+const TallySubmitBar = ({data, bank}) => {
   const dispatch = useDispatch();
   const tallyStatus = useSelector((state) => state.tally.status);
   const tallyTargetCompany = useSelector((state) => state.tally.targetCompany);
-  const tallyLedgers = useSelector((state) => state.tally.ledgers);
-  const currentBank='None';
-
-  const handleAddCategoryClick = useCallback((columns) => {
-    // console.log(`Need to add a new column`);
-    const tableCategoryColumn = columns.filter(col => col.key === "Category");
-
-    if (tableCategoryColumn.length < 1) {
-      // const categoryColumn = presetColumns.filter(col => col.key === 'Category');
-      // if (categoryColumn.length) {
-      //   const categoryRTColumn = colToRTCol(categoryColumn[0]);
-      //   dispatch(addColumn(categoryRTColumn));
-      // }
-    } else {
-      alert("Category is already present");
-    }
-
-  }, []);
 
   const handleSubmitClick = useCallback((data) => {
     console.log(`handleSubmitClick: data=${JSON.stringify(data, null, 2)}`);
+    dispatch(addVouchers(data, tallyTargetCompany, bank))
   }, []);
 
   return (

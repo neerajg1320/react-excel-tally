@@ -8,6 +8,8 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.3",
     "date-fns": "^2.29.3",
+    "electron": "^22.0.0",
+    "electron-is-dev": "^2.0.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
@@ -22,11 +24,18 @@
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },
+  "main": "public/electron/main.js",
+  "homepage": "./",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eject": "react-scripts eject",
+
+    "electron:app": "electron .",
+    "app:client:nobrowser": "cross-env BROWSER=none npm run start",
+    "app:server": "wait-on tcp:3000 && npm run electron:app",
+    "app": "concurrently -k \"npm run app:client:nobrowser\" \"npm run app:server\""
   },
   "eslintConfig": {
     "extends": [
