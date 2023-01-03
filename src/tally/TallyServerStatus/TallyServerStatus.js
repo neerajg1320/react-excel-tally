@@ -31,8 +31,8 @@ function TallyServerStatus({ onLedgersChange }) {
 
   const dispatch = useDispatch();
   // const config = useSelector((state) => state.config);
-  const serverAddr = useSelector((state) => state.tally.serverAddr);
-  const channelServerHealth = 'tally:server:status:health';
+
+
   const config = {debug:false};
   const rows = useSelector(state => state.rows);
   // const currentBank = useSelector(state => state.banks.current);
@@ -50,52 +50,8 @@ function TallyServerStatus({ onLedgersChange }) {
         });
   }, [])
 
-  const tallyServerSetup = () => {
-    if (config.debug) {
-      remoteCall('command:list', {})
-          .then(commands => {
-            setCommandOptions(listToOptions(commands, 'Command'));
-          });
-    }
-
-    const channelStatus = 'tally:server:status';
-    remoteCall(channelStatus)
-        .then(status => {
-          if (tallyDebug) {
-            console.log(`${channelStatus}=${status}`);
-          }
-          dispatch(setStatus(status));
-        })
-        .catch(error => {
-          console.log(`TallyServerStatus:useEffect[] error=${error}`);
-        });
 
 
-    remoteMonitorStart(channelServerHealth, (event, status) => {
-      dispatch(setStatus(status));
-    });
-  }
-
-  // dep: serverAddr
-  useEffect(() => {
-    if (serverAddr.host !== "") {
-      const serverInit = 'tally:server:set';
-      remoteCall(serverInit, {serverAddr})
-          .then(response => {
-            console.log(`serverInit: response=${response}`);
-            tallyServerSetup();
-          })
-          .catch(error => {
-            console.error(`serverInit: error=${error}`);
-          })
-    }
-
-    return () => {
-      remoteMonitorStop(channelServerHealth, (event, response) => {
-        console.log("Health Listener closed");
-      });
-    }
-  }, [serverAddr]);
 
   // dep: tallyStatus
   useEffect(() => {
