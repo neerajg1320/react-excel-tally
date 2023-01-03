@@ -1,7 +1,7 @@
 import {debug} from "../config/debug";
 import {useNavigate} from "react-router-dom";
 import {useCallback, useContext, useMemo, useState} from "react";
-import AppContext from "./AppContext";
+import ReadContext from "./ReadContext";
 import {accountingColumns, presetColumns, statementColumns} from "../../presets/presetColumns";
 import {generateKeyFromHeader} from "../../schema/core";
 import {dateFromNumber, dateFromString, getValueType, isDate, isString, numberFromString} from "../../utils/types";
@@ -423,9 +423,9 @@ export const ReadWrapper = () => {
   };
 
   return (
-    <AppContext.Provider value={appContext}>
+    <ReadContext.Provider value={appContext}>
       <ReadExcel onComplete={onLoadComplete}/>
       {showMappers && <Mappers />}
-    </AppContext.Provider>
+    </ReadContext.Provider>
   );
 };

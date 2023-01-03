@@ -14,7 +14,7 @@ function ConditionalTooltipButton({children, condition, message}) {
             <span></span>
         )
         }
-        placement="bottom"
+        placement="top"
     >
       {children}
     </OverlayTrigger>

@@ -4,8 +4,8 @@ import {TableWrapper} from "./components/table/TableWrapper";
 import {ReadWrapper} from "./components/readFiles/ReadWrapper";
 import {useEffect} from "react";
 import {debug} from "./components/config/debug";
-import {Mappers} from "./components/readFiles/mappers/Mappers";
 import {HomeLayout} from "./components/HomeLayout";
+import {TallyWrapper} from "./tally/TallyWrapper";
 
 
 const App = () => {
@@ -26,15 +26,17 @@ const App = () => {
   }, []);
 
   return (
+    <TallyWrapper>
+      <Routes>
+        <Route element={<HomeLayout />}>
+          <Route index element={<ReadWrapper />} />
+          <Route path="read" element={<ReadWrapper />} />
+          <Route path="table" element={<TableWrapper />} />
+          <Route path="*" element={<p>There's nothing here: 404!</p>} />
+        </Route>
+      </Routes>
+    </TallyWrapper>
 
-    <Routes>
-      <Route element={<HomeLayout />}>
-        <Route index element={<ReadWrapper />} />
-        <Route path="read" element={<ReadWrapper />} />
-        <Route path="table" element={<TableWrapper />} />
-        <Route path="*" element={<p>There's nothing here: 404!</p>} />
-      </Route>
-    </Routes>
   );
 };
 

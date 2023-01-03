@@ -15,14 +15,6 @@ export const HomeLayout = () => {
       <div style={{
         // border:"1px dashed blue",
       }}>
-        {/* title */}
-        <div style={{
-          display:"flex", flexDirection:"row", justifyContent:"center",
-          marginBottom: "20px"
-        }}>
-          <h1>Table For Accounting</h1>
-        </div>
-
         {/* nav bar */}
         <nav style={{paddingBottom: '1rem', paddingLeft: "1rem",
           display: "flex", flexDirection:"row", gap:"10px", justifyContent: "center"
@@ -33,9 +25,6 @@ export const HomeLayout = () => {
           </NavLink>
           <NavLink to="/table" style={style}>
             Table
-          </NavLink>
-          <NavLink to="/tally" style={style}>
-            Tally
           </NavLink>
         </nav>
 

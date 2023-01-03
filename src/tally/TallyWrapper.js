@@ -7,7 +7,7 @@ import Tab from "react-bootstrap/Tab";
 import {useState} from "react";
 import {TableWrapper} from "../components/table/TableWrapper";
 
-export const TallyWrapper = ({children}) => {
+export const TallyWrapper = ({children, data}) => {
   const boxShadow = "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px";
   const [tabKey, setTabKey] = useState("columnsTable");
 
@@ -25,33 +25,16 @@ export const TallyWrapper = ({children}) => {
           }}
       >
         <div style={{
-          height: "100px", width: "100%",
-          position: "fixed", top: 0,
-          display: "flex", flexDirection: "row", justifyContent:"center",
-          boxShadow: "0 0 3px 0 rgba(0,0,0,0.2)",
-        }}
-        >
-          <TallyServerStatus onLedgersChange={handleLedgersChange}/>
-        </div>
-
-        <div style={{
-          marginTop: "150px",
-          marginBottom: "100px",
+          marginTop: "40px",
+          marginBottom: "10px",
           width: "90%",
           borderRadius: "4px",
           minHeight: "60vh",
-          border: "1px dashed blue",
+          // border: "1px dashed blue",
           boxShadow
         }}
         >
-          <Tabs className="mb-3"
-                activeKey={tabKey}
-                onSelect={k => setTabKey(k)}
-          >
-            <Tab eventKey="columnsTable" title="Columns">
-              <TableWrapper />
-            </Tab>
-          </Tabs>
+          {children}
         </div>
 
         <div style={{
@@ -59,7 +42,7 @@ export const TallyWrapper = ({children}) => {
           position: "fixed", bottom: "0",
         }}
         >
-          <TallySubmitBar />
+          <TallySubmitBar data={data}/>
         </div>
       </div>
     </Provider>

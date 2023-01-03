@@ -1,17 +1,14 @@
 import Button from "react-bootstrap/Button";
 import ConditionalTooltipButton from "../TooltipButton/ConditionalTooltipButton";
-import {useCallback, useEffect} from "react";
-import {DateToStringDate} from "../../utils/date";
+import {useCallback} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {exportJsonToExcel} from "../../components/excel/xlsx/excel";
 
-const TallySubmitBar = () => {
+
+const TallySubmitBar = ({data}) => {
   const dispatch = useDispatch();
   const tallyStatus = useSelector((state) => state.tally.status);
   const tallyTargetCompany = useSelector((state) => state.tally.targetCompany);
-  const columns = useSelector(state => state.columns);
-  const rows = useSelector(state => state.rows);
-  // const currentBank = useSelector(state => state.banks.current);
+  const tallyLedgers = useSelector((state) => state.tally.ledgers);
   const currentBank='None';
 
   const handleAddCategoryClick = useCallback((columns) => {
@@ -30,26 +27,9 @@ const TallySubmitBar = () => {
 
   }, []);
 
-  const handleSubmitClick = useCallback((data, company, bank) => {
-    const tData = data.map(item => {return {
-      ...item,
-      ["Transaction Date"]: DateToStringDate(item["Transaction Date"]),
-      ["Value Date"]: DateToStringDate(item["Value Date"])
-    }});
+  const handleSubmitClick = useCallback((data) => {
 
-    // dispatch(addVouchers(tData, company, bank));
   }, []);
-
-  const handleSaveClick = useCallback((e) => {
-    const header = columns.map(col => col.label).filter(col => !!col);
-
-    const data = rows.map(row => {
-      const rowCopy = {...row};
-      delete rowCopy.id;
-      return rowCopy;
-    });
-    exportJsonToExcel(data, "file.xlsx", header);
-  }, [rows, columns]);
 
   return (
       <div
@@ -67,32 +47,14 @@ const TallySubmitBar = () => {
               display: "flex", justifyContent:"flex-end", alignItems:"center", gap:"60px"
             }}
         >
-          <div
-              style={{
-                display: "flex", flexDirection: "row", gap:"20px"
-              }}
-          >
-            <Button
-                className="btn-outline-primary bg-transparent"
-                size="sm"
-                onClick={handleSaveClick}
-            >
-              Save Table
-            </Button>
-
-            <Button
-                className="btn-outline-primary bg-transparent"
-                size="sm"
-                onClick={e => handleAddCategoryClick(columns)}
-            >
-              Add Category
-            </Button>
-          </div>
 
           <ConditionalTooltipButton
               condition={!tallyStatus} message="No connection to Tally"
           >
-            <Button onClick={e => handleSubmitClick(rows, tallyTargetCompany, currentBank)}>
+            <Button
+                disabled={false}
+                onClick={e => handleSubmitClick(data)}
+            >
               Submit To Tally
             </Button>
           </ConditionalTooltipButton>

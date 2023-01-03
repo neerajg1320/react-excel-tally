@@ -14,6 +14,7 @@ import {
 import ConditionalTooltipButton from "../TooltipButton/ConditionalTooltipButton";
 import {remoteCall, remoteMonitorStart, remoteMonitorStop} from "../../communication/electron";
 import {listToOptions} from "../../utils/options";
+import {DateToStringDate} from "../../utils/date";
 
 function TallyServerStatus({ onLedgersChange }) {
   const [commandOptions, setCommandOptions] = useState([]);
@@ -33,6 +34,10 @@ function TallyServerStatus({ onLedgersChange }) {
   const serverAddr = useSelector((state) => state.tally.serverAddr);
   const channelServerHealth = 'tally:server:status:health';
   const config = {debug:false};
+  const rows = useSelector(state => state.rows);
+  // const currentBank = useSelector(state => state.banks.current);
+  const currentBank='None';
+
 
   // dep: []
   useEffect(() => {
@@ -169,6 +174,15 @@ function TallyServerStatus({ onLedgersChange }) {
     }
   }
 
+  const handleSubmitClick = useCallback((data, company, bank) => {
+    const tData = data.map(item => {return {
+      ...item,
+      ["Transaction Date"]: DateToStringDate(item["Transaction Date"]),
+      ["Value Date"]: DateToStringDate(item["Value Date"])
+    }});
+
+    // dispatch(addVouchers(tData, company, bank));
+  }, []);
 
   return (
     <div className="server-container">
@@ -190,7 +204,7 @@ function TallyServerStatus({ onLedgersChange }) {
             </div>)
         }
       </div>
-
+      
       <div className="server-status-box">
         <Connection title={"Tally Server"} status={tallyStatus}/>
       </div>

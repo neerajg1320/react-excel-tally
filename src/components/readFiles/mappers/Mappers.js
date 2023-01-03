@@ -1,6 +1,6 @@
 import {debug} from "../../config/debugEnabled";
 import {useContext, useEffect, useMemo} from "react";
-import AppContext from "../AppContext";
+import ReadContext from "../ReadContext";
 
 export const Mappers = () => {
   if (debug.lifecycle) {
@@ -21,7 +21,7 @@ export const Mappers = () => {
 
   const {
     getMappers,
-  } = useContext(AppContext);
+  } = useContext(ReadContext);
 
   const mappers = useMemo(() => {
     if (getMappers) {
