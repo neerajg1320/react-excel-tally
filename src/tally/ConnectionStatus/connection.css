@@ -56,7 +56,7 @@
     gap: 10px;
     align-items: flex-end;
     position: absolute;
-    top: 30px;
+    bottom: 30px;
     right: 30px;
 }
 

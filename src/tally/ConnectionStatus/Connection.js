@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {setServer} from "../state/tallyActions";
 
-function Connection({title, status}) {
+function Connection({title, status, onServerChange}) {
   const [active, setActive] = useState(false);
   const [host, setHost] = useState('');
   const [port, setPort] = useState('');
@@ -37,13 +37,9 @@ function Connection({title, status}) {
 
   return (
     <div className="connection-status-wrapper" style={{display:"flex", flexDirection:"column"}}>
-      <div className="connection-status-box">
-        <span>{title} connection is {status ? "On" : "Off"}</span>
-        {status ?
-          <span className="connection-indicator connection-active"></span> :
-          <span className="connection-indicator connection-inactive"></span>
-        }
-      </div>
+
+
+      {/* Settings icon and container box */}
       <div style={{display: "flex", gap: "20px"}}>
         <div className="settings-container">
             <div className="settings-input-trigger">
@@ -87,6 +83,14 @@ function Connection({title, status}) {
               </div>
             </div>
           </div>
+      </div>
+
+      <div className="connection-status-box">
+        <span>{title} connection is {status ? "On" : "Off"}</span>
+        {status ?
+            <span className="connection-indicator connection-active"></span> :
+            <span className="connection-indicator connection-inactive"></span>
+        }
       </div>
     </div>
   );

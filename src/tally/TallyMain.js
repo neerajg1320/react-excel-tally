@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {remoteCall, remoteMonitorStart, remoteMonitorStop} from "../communication/electron";
 import {setStatus} from "./state/tallyActions";
 import TallySubmitBar from "./TallySubmitBar/TallySubmitBar";
+import Connection from "./ConnectionStatus/Connection";
 
 export const TallyMain = ({children, data}) => {
   if (debug.lifecycle) {
@@ -25,8 +26,10 @@ export const TallyMain = ({children, data}) => {
   const boxShadow = "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px";
   const dispatch = useDispatch();
   const serverAddr = useSelector((state) => state.tally.serverAddr);
+  const tallyStatus = useSelector((state) => state.tally.status);
+  console.log(`serverAddr:${JSON.stringify(serverAddr)}`);
 
-  const tallyDebug = false;
+  const tallyDebug = true;
   const channelServerHealth = 'tally:server:status:health';
 
   const tallyServerSetup = useCallback(() => {
@@ -51,6 +54,7 @@ export const TallyMain = ({children, data}) => {
 
   // dep: serverAddr
   useEffect(() => {
+    console.log(`TallyMain: useEffect[${JSON.stringify(serverAddr)}]`)
     if (serverAddr.host !== "") {
       const serverInit = 'tally:server:set';
       remoteCall(serverInit, {serverAddr})
@@ -69,7 +73,11 @@ export const TallyMain = ({children, data}) => {
       });
     }
   }, [serverAddr]);
-  
+
+  const handleServerChange = (host, port) => {
+
+  }
+
   return (
     <div
         style={{
@@ -94,9 +102,16 @@ export const TallyMain = ({children, data}) => {
       <div style={{
         height: "70px", width:"100%",
         position: "fixed", bottom: "0",
+        border: "1px dashed blue",
+        display: "flex", flexDirection:"row", justifyContent:"space-between"
       }}
       >
-        <TallySubmitBar data={data}/>
+        <div style={{width:"30%"}}>
+          <Connection title={"Tally Server"} status={tallyStatus} onServerChange={handleServerChange}/>
+        </div>
+        <div style={{width:"30%"}}>
+          <TallySubmitBar data={data}/>
+        </div>
       </div>
     </div>
   );

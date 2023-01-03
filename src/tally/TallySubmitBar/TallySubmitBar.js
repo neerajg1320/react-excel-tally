@@ -20,7 +20,7 @@ const TallySubmitBar = ({data, bank}) => {
           style={{
             height: "100%",
             backgroundColor: "white",
-            boxShadow: "0 0 3px rgba(0,0,0,0.2)",
+            // boxShadow: "0 0 3px rgba(0,0,0,0.2)",
             display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"
           }}
       >
