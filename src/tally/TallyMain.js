@@ -69,12 +69,7 @@ export const TallyMain = ({children, data}) => {
       });
     }
   }, [serverAddr]);
-
-
-  const handleLedgersChange = (ledgers) => {
-    console.log(`ledgers=`, ledgers);
-  }
-
+  
   return (
     <div
         style={{
