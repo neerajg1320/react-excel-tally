@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain} = require("electron");
 const isDev = require('electron-is-dev');
 const path = require("path");
 
@@ -7,7 +7,8 @@ const loadMainWindow = () => {
     width : 1200,
     height: 800,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      contextIsolation: false // to make ipcRenderer available
     }
   });
 
@@ -37,4 +38,8 @@ app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     loadMainWindow();
   }
+});
+
+ipcMain.on('tally:command:vouchers:add', (event, {targetCompany, vouchers, bank}) => {
+  console.log(JSON.stringify(vouchers, null, 2));
 });
