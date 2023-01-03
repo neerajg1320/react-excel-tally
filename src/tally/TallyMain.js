@@ -2,7 +2,7 @@ import {debug} from "../components/config/debugEnabled";
 import {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {remoteCall, remoteMonitorStart, remoteMonitorStop} from "../communication/electron";
-import {setStatus} from "./state/tallyActions";
+import {setServer, setStatus} from "./state/tallyActions";
 import TallySubmitBar from "./TallySubmitBar/TallySubmitBar";
 import Connection from "./ConnectionStatus/Connection";
 
@@ -15,6 +15,12 @@ export const TallyMain = ({children, data}) => {
     if (debug.lifecycle) {
       console.log(`<TallyMain>: First render`);
     }
+
+    remoteCall('tally:server:get', {})
+        .then((config) => {
+          console.log(`config=${JSON.stringify(config)}`);
+          dispatch(setServer(config));
+        });
 
     return () => {
       if (debug.lifecycle) {
