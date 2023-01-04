@@ -6,8 +6,9 @@ import {setServer, setStatus} from "./state/tallyActions";
 import TallySubmitBar from "./TallySubmitBar/TallySubmitBar";
 import Connection from "./ConnectionStatus/Connection";
 import {setCompanies, setCurrentCompany, setTargetCompany} from "./state/tallyActions";
+import {addVouchers} from "./state/actionCreators";
 
-export const TallyMain = ({children, data}) => {
+export const TallyMain = ({children, data, onDataChange}) => {
   if (debug.lifecycle) {
     console.log(`Rendering <TallyMain>`);
   }
@@ -115,9 +116,10 @@ export const TallyMain = ({children, data}) => {
     dispatch(setTargetCompany(tallyCurrentCompany))
   }, [tallyCurrentCompany]);
 
-  // useEffect(() => {
-  //   console.log(`tallyTargetCompany:${tallyTargetCompany}`);
-  // }, [tallyTargetCompany]);
+  const handleSubmit = useCallback(() => {
+    console.log(`handleSubmitClick: data=${JSON.stringify(data, null, 2)}`);
+    dispatch(addVouchers(data, tallyTargetCompany, bank))
+  }, [data, bank, tallyTargetCompany]);
 
   return (
     <div
@@ -143,7 +145,7 @@ export const TallyMain = ({children, data}) => {
       <div style={{
         height: "70px", width:"100%",
         position: "fixed", bottom: "0",
-        // border: "1px dashed blue",
+        boxShadow: "0 0 3px rgba(0,0,0,0.2)",
         display: "flex", flexDirection:"row", justifyContent:"space-between"
       }}
       >
@@ -151,7 +153,7 @@ export const TallyMain = ({children, data}) => {
           <Connection title={"Tally Server"} status={tallyStatus} />
         </div>
         <div style={{width:"30%"}}>
-          <TallySubmitBar {...{data, bank, targetCompany: tallyTargetCompany, disabled:!tallyStatus}}/>
+          <TallySubmitBar disabled={!tallyStatus} onSubmit={handleSubmit}/>
         </div>
       </div>
     </div>
