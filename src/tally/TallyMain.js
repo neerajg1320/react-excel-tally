@@ -38,6 +38,7 @@ export const TallyMain = ({children, data, onDataChange}) => {
   const tallyCompanies = useSelector((state) => state.tally.companies);
   const tallyCurrentCompany = useSelector((state) => state.tally.currentCompany);
   const tallyTargetCompany = useSelector((state) => state.tally.targetCompany);
+  const responseIds = useSelector((state) => state.tally.responseIds);
 
   const bank = "ICICIBank";
 
@@ -120,6 +121,10 @@ export const TallyMain = ({children, data, onDataChange}) => {
     console.log(`handleSubmitClick: data=${JSON.stringify(data, null, 2)}`);
     dispatch(addVouchers(data, tallyTargetCompany, bank))
   }, [data, bank, tallyTargetCompany]);
+
+  useEffect(() => {
+    console.log(`responseIds:`, responseIds);
+  }, [responseIds]);
 
   return (
     <div

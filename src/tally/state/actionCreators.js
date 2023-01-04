@@ -1,4 +1,5 @@
 import {remoteCall} from "../../communication/electron";
+import {setResponseIds} from "./tallyActions";
 
 export const addVouchers = (vouchers, targetCompany, bank) => {
   console.log(`targetCompany=${targetCompany}`);
@@ -8,21 +9,10 @@ export const addVouchers = (vouchers, targetCompany, bank) => {
         .then((response) => {
           // console.log(`handleResponse: response=${JSON.stringify(response, null, 2)}`);
 
-          const resultIds = response.map(res => res.voucherId);
-          console.log(`resultIds=${JSON.stringify(resultIds)}`);
+          const resultIds = Object.fromEntries(response.map(res => [res.index, res.voucherId]));
+          // console.log(`resultIds=`, resultIds);
 
-
-          // Add voucherId
-          // const data = getState().rows;
-          // const newData = data.map(row => {
-          //   // console.log(`row=${JSON.stringify(row, null, 2)}`);
-          //   return {
-          //     ...row,
-          //     'VoucherId': resultMap[row.id]
-          //   }
-          // });
-          // console.log(`Saved to Tally: newData=${JSON.stringify(newData, null, 2)}`)
-          // dispatch(setRows(newData));
+          dispatch(setResponseIds(resultIds));
 
         })
         .catch(error => {
