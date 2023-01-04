@@ -84,7 +84,7 @@ export const TallyMain = ({children, data}) => {
     <div
         style={{
           display:"flex", flexDirection:"column", alignItems:"center", gap: "10px", justifyContent:"flex-start",
-          border: "2px dashed red"
+          // border: "2px dashed red"
 
         }}
     >
@@ -104,7 +104,7 @@ export const TallyMain = ({children, data}) => {
       <div style={{
         height: "70px", width:"100%",
         position: "fixed", bottom: "0",
-        border: "1px dashed blue",
+        // border: "1px dashed blue",
         display: "flex", flexDirection:"row", justifyContent:"space-between"
       }}
       >
