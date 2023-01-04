@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Routes, Route, Outlet, NavLink} from 'react-router-dom';
+import {Routes, Route, redirect} from 'react-router-dom';
 import {TableWrapper} from "./components/table/TableWrapper";
 import {ReadWrapper} from "./components/readFiles/ReadWrapper";
 import {useCallback, useEffect, useState} from "react";
@@ -43,9 +43,9 @@ const App = () => {
       <TallyWrapper data={data} onDataChange={handleDataChange}>
         <Routes>
           <Route element={<HomeLayout />}>
-            <Route index element={<ReadWrapper />} />
+
             {/* Data read from excel file */}
-            <Route path="read" element={<ReadWrapper onDataChange={handleDataChange}/>} />
+            <Route index element={<ReadWrapper onDataChange={handleDataChange}/>} />
 
             {/* Category information added by user */}
             <Route path="table" element={<TableWrapper onDataChange={handleDataChange}/>} />

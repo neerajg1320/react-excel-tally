@@ -20,7 +20,7 @@ export const HomeLayout = () => {
           display: "flex", flexDirection:"row", gap:"10px", justifyContent: "center"
         }}
         >
-          <NavLink to="/read" style={style}>
+          <NavLink to="/" style={style}>
             Read
           </NavLink>
           <NavLink to="/table" style={style}>

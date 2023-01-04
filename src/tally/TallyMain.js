@@ -123,7 +123,17 @@ export const TallyMain = ({children, data, onDataChange}) => {
   }, [data, bank, tallyTargetCompany]);
 
   useEffect(() => {
-    console.log(`responseIds:`, responseIds);
+    const newData = data.map((item, index) => {
+      return {
+        ...item,
+        voucherId: responseIds[index]
+      }
+    });
+
+    // console.log(newData);
+    if (onDataChange) {
+      onDataChange(newData);
+    }
   }, [responseIds]);
 
   return (
