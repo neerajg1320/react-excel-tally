@@ -126,7 +126,6 @@ export const TallyMain = ({children, data, onDataChange}) => {
         style={{
           display:"flex", flexDirection:"column", alignItems:"center", gap: "10px", justifyContent:"flex-start",
           // border: "2px dashed red"
-
         }}
     >
       <div style={{
