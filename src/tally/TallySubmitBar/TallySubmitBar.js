@@ -1,18 +1,20 @@
 import Button from "react-bootstrap/Button";
 import ConditionalTooltipButton from "../TooltipButton/ConditionalTooltipButton";
-import {useCallback} from "react";
+import {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {addVouchers} from "../state/actionCreators";
 
 
-const TallySubmitBar = ({data, bank}) => {
+const TallySubmitBar = ({data, bank, targetCompany, disabled}) => {
   const dispatch = useDispatch();
-  const tallyStatus = useSelector((state) => state.tally.status);
-  const tallyTargetCompany = useSelector((state) => state.tally.targetCompany);
 
-  const handleSubmitClick = useCallback((data) => {
+  useEffect(() => {
+    console.log(`TallySubmitBar: tallyTargetCompany:${targetCompany}`);
+  }, [targetCompany]);
+
+  const handleSubmitClick = useCallback((data, bank, targetCompany) => {
     console.log(`handleSubmitClick: data=${JSON.stringify(data, null, 2)}`);
-    dispatch(addVouchers(data, tallyTargetCompany, bank))
+    dispatch(addVouchers(data, targetCompany, bank))
   }, []);
 
   return (
@@ -33,11 +35,11 @@ const TallySubmitBar = ({data, bank}) => {
         >
 
           <ConditionalTooltipButton
-              condition={!tallyStatus} message="No connection to Tally"
+              condition={disabled} message="No connection to Tally"
           >
             <Button
                 disabled={false}
-                onClick={e => handleSubmitClick(data)}
+                onClick={e => handleSubmitClick(data, bank, targetCompany)}
             >
               Submit To Tally
             </Button>

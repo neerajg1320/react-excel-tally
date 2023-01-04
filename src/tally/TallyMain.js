@@ -5,6 +5,7 @@ import {remoteCall, remoteMonitorStart, remoteMonitorStop} from "../communicatio
 import {setServer, setStatus} from "./state/tallyActions";
 import TallySubmitBar from "./TallySubmitBar/TallySubmitBar";
 import Connection from "./ConnectionStatus/Connection";
+import {setCompanies, setCurrentCompany, setTargetCompany} from "./state/tallyActions";
 
 export const TallyMain = ({children, data}) => {
   if (debug.lifecycle) {
@@ -33,6 +34,10 @@ export const TallyMain = ({children, data}) => {
   const dispatch = useDispatch();
   const serverAddr = useSelector((state) => state.tally.serverAddr);
   const tallyStatus = useSelector((state) => state.tally.status);
+  const tallyCompanies = useSelector((state) => state.tally.companies);
+  const tallyCurrentCompany = useSelector((state) => state.tally.currentCompany);
+  const tallyTargetCompany = useSelector((state) => state.tally.targetCompany);
+
   const bank = "ICICIBank";
 
   const tallyDebug = true;
@@ -80,6 +85,40 @@ export const TallyMain = ({children, data}) => {
     }
   }, [serverAddr]);
 
+  // dep: tallyStatus
+  useEffect(() => {
+    if (tallyStatus) {
+      console.log('The Tally Server is ON');
+      remoteCall('tally:command:companies:list', {})
+          .then(({request, response}) => {
+            console.log(`useEffect[tallyStatus] companies=${JSON.stringify(response, null, 2)}`);
+            dispatch(setCompanies(response));
+          });
+
+    }
+  }, [tallyStatus])
+
+  // dep: tallyCompanies
+  useEffect(() => {
+    if (tallyCompanies.length) {
+      remoteCall('tally:command:companies:current', {})
+          .then(({request, response}) => {
+            console.log(`currentCompany: ${JSON.stringify(response.value, null, 2)}`);
+            // setCurrentCompany(response);
+            dispatch(setCurrentCompany(response.value));
+          })
+    }
+  }, [tallyCompanies])
+
+  // dep: tallyCurrentCompany
+  useEffect(() => {
+    dispatch(setTargetCompany(tallyCurrentCompany))
+  }, [tallyCurrentCompany]);
+
+  // useEffect(() => {
+  //   console.log(`tallyTargetCompany:${tallyTargetCompany}`);
+  // }, [tallyTargetCompany]);
+
   return (
     <div
         style={{
@@ -112,7 +151,7 @@ export const TallyMain = ({children, data}) => {
           <Connection title={"Tally Server"} status={tallyStatus} />
         </div>
         <div style={{width:"30%"}}>
-          <TallySubmitBar {...{data, bank}}/>
+          <TallySubmitBar {...{data, bank, targetCompany: tallyTargetCompany, disabled:!tallyStatus}}/>
         </div>
       </div>
     </div>
