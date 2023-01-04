@@ -18,7 +18,7 @@ import ColumnVisibilitySection from "./ColumnVisibilitySection";
 // Any modification of columns should be handled above this.
 
 
-export const TableWrapper = ({onDataChange}) => {
+export const TableWrapper = ({appData, onDataChange}) => {
   if (debug.lifecycle) {
     console.log(`Rendering <TableWrapper>`);
   }
@@ -26,8 +26,15 @@ export const TableWrapper = ({onDataChange}) => {
   // // Data Section
 
   const {state} = useLocation();
-  const [data, setData] = useState(state?.data);
+  // const [data, setData] = useState(state?.data);
+  const [data, setData] = useState(appData);
   const headersMap = useMemo(() => state?.headersMap && JSON.parse(state?.headersMap), []);
+
+  useEffect(() => {
+    console.log(`TableWrapper: initialData changed`);
+    console.log(appData);
+    setData(appData);
+  }, [appData]);
 
   // Data Features:
   // Update with commit
@@ -147,18 +154,26 @@ export const TableWrapper = ({onDataChange}) => {
   const commitUpdates = useCallback((updates) => {
     // Since data is updated on the previous state
     setData((prevData) => {
-      return updates.reduce((pData, update, index) => {
+      const newData = updates.reduce((pData, update, index) => {
         return applyUpdate(pData, update);
       }, prevData);
+
+      if (onDataChange) {
+        setTimeout(() => {
+          onDataChange(newData);
+        })
+      }
+      return newData;
     });
+
   }, [applyUpdate]);
 
-  useEffect(() => {
-    // console.log(`data has changed`);
-    if (onDataChange) {
-      onDataChange(data);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   // console.log(`data has changed`);
+  //   if (onDataChange) {
+  //     onDataChange(data);
+  //   }
+  // }, [data]);
 
   const handleCommitClick = useCallback((updates) => {
     // console.log(`updates count: ${updates.length}`);
