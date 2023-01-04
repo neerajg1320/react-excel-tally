@@ -33,7 +33,7 @@ export const TallyMain = ({children, data}) => {
   const dispatch = useDispatch();
   const serverAddr = useSelector((state) => state.tally.serverAddr);
   const tallyStatus = useSelector((state) => state.tally.status);
-  console.log(`serverAddr:${JSON.stringify(serverAddr)}`);
+  const bank = "ICICIBank";
 
   const tallyDebug = true;
   const channelServerHealth = 'tally:server:status:health';
@@ -112,7 +112,7 @@ export const TallyMain = ({children, data}) => {
           <Connection title={"Tally Server"} status={tallyStatus} />
         </div>
         <div style={{width:"30%"}}>
-          <TallySubmitBar data={data}/>
+          <TallySubmitBar {...{data, bank}}/>
         </div>
       </div>
     </div>
