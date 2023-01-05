@@ -40,7 +40,7 @@ const BulkOperationsSection = ({edit}) => {
 
   const handleBulkDeleteClick = useCallback(() => {
     const indices = getRowIndices(selectedFlatRows);
-    // console.log(`handleBulkDeleteClick: ids=${JSON.stringify(indices)}`);
+    console.log(`handleBulkDeleteClick: ids=${JSON.stringify(indices)}`);
 
     updateData(DELETE, indices);
     setBulkEditExpanded(false);
@@ -49,7 +49,7 @@ const BulkOperationsSection = ({edit}) => {
   const handleBulkEditSaveClick = useCallback((patch) => {
     const indices = getRowIndices(selectedFlatRows);
 
-    // console.log(`handleBulkEditSaveClick: indices=${JSON.stringify(indices)} patch=${JSON.stringify(patch)}`);
+    console.log(`handleBulkEditSaveClick: indices=${JSON.stringify(indices)} patch=${JSON.stringify(patch)}`);
     updateData(PATCH, indices, patch);
 
     setBulkEditExpanded(false);
@@ -86,18 +86,18 @@ const BulkOperationsSection = ({edit}) => {
 
             {/* We should try and replace below */}
               <ExpandableButton
-              title="Bulk Edit"
-              disabled={!bulkColumns.length || !bulkEnabled}
-              value={bulkEditExpanded}
-              onChange={exp => setBulkEditExpanded(exp)}
-              popupPosition={{left: "60px", top: "25px"}}
+                  title="Bulk Edit"
+                  disabled={!bulkColumns.length || !bulkEnabled}
+                  value={bulkEditExpanded}
+                  onChange={exp => setBulkEditExpanded(exp)}
+                  popupPosition={{left: "60px", top: "25px"}}
               >
-              <ColumnsEditBox
-              columns={bulkColumns}
-              onSave={handleBulkEditSaveClick}
-              onCancel={handleBulkEditCancelClick}
-              disabled={!bulkEnabled}
-              />
+                <ColumnsEditBox
+                    columns={bulkColumns}
+                    onSave={handleBulkEditSaveClick}
+                    onCancel={handleBulkEditCancelClick}
+                    disabled={!bulkEnabled}
+                />
               </ExpandableButton>
             </>
           }

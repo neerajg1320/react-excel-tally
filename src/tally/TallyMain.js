@@ -3,7 +3,7 @@ import {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import Select from "react-select";
 import {remoteCall, remoteMonitorStart, remoteMonitorStop} from "../communication/electron";
-import {setServer, setStatus, setLedgers} from "./state/tallyActions";
+import {setServer, setStatus, setLedgers, setResponseIds} from "./state/tallyActions";
 import TallySubmitBar from "./TallySubmitBar/TallySubmitBar";
 import Connection from "./ConnectionStatus/Connection";
 import {setCompanies, setCurrentCompany, setTargetCompany} from "./state/tallyActions";
@@ -155,10 +155,27 @@ export const TallyMain = ({children}) => {
     setBankLedgers(tallyLedgers.filter(ledger => ledger.parent === "Bank Accounts"));
   }, [tallyLedgers]);
 
+  const addVouchers = useCallback((data, bankLedger, targetCompany) => {
+    // console.log(`targetCompany=${targetCompany}`);
+
+    remoteCall('tally:command:vouchers:add', {vouchers:data, bank:bankLedger, targetCompany})
+        .then((response) => {
+          // console.log(`handleResponse: response=${JSON.stringify(response, null, 2)}`);
+
+          const resultIds = Object.fromEntries(response.map(res => [res.index, res.voucherId]));
+          // console.log(`resultIds=`, resultIds);
+
+          dispatch(setResponseIds(resultIds));
+        })
+        .catch(error => {
+          alert(error.reason || error);
+          // alert(JSON.stringify(error));
+        });
+  }, [])
 
   const handleSubmit = useCallback((data, bankLedger, targetCompany) => {
     console.log(`handleSubmitClick: data=${JSON.stringify(data, null, 2)}`);
-    dispatch(addVouchers(data, bankLedger, targetCompany))
+    addVouchers(data, bankLedger, targetCompany);
   }, []);
 
   useEffect(() => {
