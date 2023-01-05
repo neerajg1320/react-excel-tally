@@ -4,7 +4,6 @@ import {useEffect} from "react";
 import {debug} from "../components/config/debugEnabled";
 import {TallyMain} from "./TallyMain";
 
-
 export const TallyWrapper = (props) => {
   if (debug.lifecycle) {
     console.log(`Rendering <TallyWrapper>`);
@@ -21,7 +20,6 @@ export const TallyWrapper = (props) => {
       }
     }
   }, []);
-
 
 
   return (

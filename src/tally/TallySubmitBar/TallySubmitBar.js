@@ -25,7 +25,7 @@ const TallySubmitBar = ({disabled, onSubmit}) => {
           >
             <Button
                 disabled={false}
-                onClick={e => {if (onSubmit) {onSubmit()}}}
+                onClick={e => {if (onSubmit) {onSubmit(e)}}}
             >
               Submit To Tally
             </Button>

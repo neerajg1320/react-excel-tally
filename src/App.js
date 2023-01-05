@@ -58,7 +58,7 @@ const App = () => {
             <Route index element={<ReadWrapper />} />
 
             {/* Category information added by user */}
-            <Route path="table" element={<TableWrapper data={data} onDataChange={handleDataChange}/>} />
+            <Route path="table" element={<TableWrapper />} />
 
             <Route path="*" element={<p>There's nothing here: 404!</p>} />
           </Route>

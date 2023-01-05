@@ -2,7 +2,7 @@ import {useLocation} from "react-router-dom";
 import {getColumns} from "../../schema/generate";
 import {colToRTCol} from "./adapters/reactTableAdapter";
 import {presetColumns} from "../../presets/presetColumns";
-import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import React, {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import Button from "react-bootstrap/Button";
 import {debug} from "../config/debug";
 import BulkOperationsSection from "./BulkOperationsSection";
@@ -12,22 +12,29 @@ import {DELETE, PATCH} from "./common/operationsTypes";
 import GlobalFilterSection from "./GlobalFilterSection";
 import PaginationSection from "./PaginationSection";
 import ColumnVisibilitySection from "./ColumnVisibilitySection";
+import AppContext from "../../AppContext";
 
 // We derive columns from data
 // We will just convert the columns.
 // Any modification of columns should be handled above this.
 
 
-export const TableWrapper = ({data:initialData, onDataChange}) => {
+export const TableWrapper = () => {
   if (debug.lifecycle) {
     console.log(`Rendering <TableWrapper>`);
   }
 
-  // // Data Section
+  const {
+    data:initialData,
+    onDataChange: updateData,
+    ledgers
+  } = useContext(AppContext);
+
+  const [data, setData] = useState(initialData);
 
   const {state} = useLocation();
-  // const [data, setData] = useState(state?.data);
-  const [data, setData] = useState(initialData);
+
+  // TBD: We should put this in the context as well
   const headersMap = useMemo(() => state?.headersMap && JSON.parse(state?.headersMap), []);
 
   useEffect(() => {
@@ -160,22 +167,15 @@ export const TableWrapper = ({data:initialData, onDataChange}) => {
         return applyUpdate(pData, update);
       }, prevData);
 
-      if (onDataChange) {
+      if (updateData) {
         setTimeout(() => {
-          onDataChange(newData);
+          updateData(newData);
         })
       }
       return newData;
     });
 
   }, [applyUpdate]);
-
-  // useEffect(() => {
-  //   // console.log(`data has changed`);
-  //   if (onDataChange) {
-  //     onDataChange(data);
-  //   }
-  // }, [data]);
 
   const handleCommitClick = useCallback((updates) => {
     // console.log(`updates count: ${updates.length}`);

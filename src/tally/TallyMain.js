@@ -1,14 +1,16 @@
 import {debug} from "../components/config/debugEnabled";
-import {useCallback, useEffect} from "react";
+import {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import Select from "react-select";
 import {remoteCall, remoteMonitorStart, remoteMonitorStop} from "../communication/electron";
 import {setServer, setStatus, setLedgers} from "./state/tallyActions";
 import TallySubmitBar from "./TallySubmitBar/TallySubmitBar";
 import Connection from "./ConnectionStatus/Connection";
 import {setCompanies, setCurrentCompany, setTargetCompany} from "./state/tallyActions";
 import {addVouchers} from "./state/actionCreators";
+import AppContext from "../AppContext";
 
-export const TallyMain = ({children, data, onDataChange, onLedgersChange}) => {
+export const TallyMain = ({children}) => {
   if (debug.lifecycle) {
     console.log(`Rendering <TallyMain>`);
   }
@@ -31,6 +33,12 @@ export const TallyMain = ({children, data, onDataChange, onLedgersChange}) => {
     }
   }, []);
 
+  const {
+    data,
+    onDataChange: updateData,
+    onLedgersChange: updateLedgers
+  } = useContext(AppContext);
+
   const boxShadow = "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px";
   const dispatch = useDispatch();
   const serverAddr = useSelector((state) => state.tally.serverAddr);
@@ -41,7 +49,13 @@ export const TallyMain = ({children, data, onDataChange, onLedgersChange}) => {
   const tallyLedgers = useSelector((state) => state.tally.ledgers);
   const responseIds = useSelector((state) => state.tally.responseIds);
 
-  const bank = "ICICIBank";
+  const [banksLedgers, setBankLedgers] = useState([]);
+
+  const bankOptions = useMemo(() => {
+    return banksLedgers.map((ledger) => {return {label: ledger.name, value: ledger.name}});
+  }, [banksLedgers])
+
+  const [currentBank, setCurrentBank] = useState('');
 
   const tallyDebug = true;
   const channelServerHealth = 'tally:server:status:health';
@@ -135,15 +149,17 @@ export const TallyMain = ({children, data, onDataChange, onLedgersChange}) => {
   }, [tallyTargetCompany]);
 
   useEffect(() => {
-    if (onLedgersChange) {
-      onLedgersChange(tallyLedgers);
+    if (updateLedgers) {
+      updateLedgers(tallyLedgers);
     }
+    setBankLedgers(tallyLedgers.filter(ledger => ledger.parent === "Bank Accounts"));
   }, [tallyLedgers]);
 
-  const handleSubmit = useCallback(() => {
+
+  const handleSubmit = useCallback((data, bankLedger, targetCompany) => {
     console.log(`handleSubmitClick: data=${JSON.stringify(data, null, 2)}`);
-    dispatch(addVouchers(data, tallyTargetCompany, bank))
-  }, [data, bank, tallyTargetCompany]);
+    dispatch(addVouchers(data, bankLedger, targetCompany))
+  }, []);
 
   useEffect(() => {
     const newData = data.map((item, index) => {
@@ -153,9 +169,8 @@ export const TallyMain = ({children, data, onDataChange, onLedgersChange}) => {
       }
     });
 
-    // console.log(newData);
-    if (onDataChange) {
-      onDataChange(newData);
+    if (updateData) {
+      updateData(newData);
     }
   }, [responseIds]);
 
@@ -183,14 +198,38 @@ export const TallyMain = ({children, data, onDataChange, onLedgersChange}) => {
         height: "70px", width:"100%",
         position: "fixed", bottom: "0",
         boxShadow: "0 0 3px rgba(0,0,0,0.2)",
-        display: "flex", flexDirection:"row", justifyContent:"space-between"
+        display: "flex", flexDirection:"row", justifyContent:"space-between",
+        background:"white"
       }}
       >
         <div style={{width:"30%"}}>
           <Connection title={"Tally Server"} status={tallyStatus} />
         </div>
+        <div style={{
+          // width:"10%",
+          minWidth:"200px",
+          // border:"1px dashed blue",
+          display: "flex", flexDirection:"column", alignItems: "flex-end"
+
+        }}
+        >
+          <label>
+            Bank
+          </label>
+          <div style={{width:"100%"}}>
+          <Select
+              menuPlacement="top"
+              options={bankOptions}
+              value={bankOptions.filter(opt => opt.value === currentBank)}
+              onChange={opt => setCurrentBank(opt.value)}
+          />
+          </div>
+        </div>
         <div style={{width:"30%"}}>
-          <TallySubmitBar disabled={!tallyStatus} onSubmit={handleSubmit}/>
+          <TallySubmitBar
+              disabled={!tallyStatus}
+              onSubmit={e => handleSubmit(data, currentBank, tallyTargetCompany)}
+          />
         </div>
       </div>
     </div>

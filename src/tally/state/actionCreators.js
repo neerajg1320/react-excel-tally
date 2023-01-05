@@ -1,7 +1,7 @@
 import {remoteCall} from "../../communication/electron";
 import {setResponseIds} from "./tallyActions";
 
-export const addVouchers = (vouchers, targetCompany, bank) => {
+export const addVouchers = (vouchers, bank, targetCompany) => {
   console.log(`targetCompany=${targetCompany}`);
 
   return async (dispatch, getState) => {
@@ -16,7 +16,8 @@ export const addVouchers = (vouchers, targetCompany, bank) => {
 
         })
         .catch(error => {
-          alert(error.reason);
+          alert(error.reason || error);
+          // alert(JSON.stringify(error));
         });
   }
 }
