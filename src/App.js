@@ -59,7 +59,7 @@ const App = () => {
       }
     } else if (source === "table") {
       if (updates) {
-        console.log(`App:handleDataChange ${JSON.stringify(updates, null, 2)}`);
+        console.log(`App:handleDataChange ${JSON.stringify(updates, null, 2)}`, data);
         const indices = updates.reduce((prev, update) => {
           const newIds = update.payload.indices.filter(index => !prev.includes(index));
           return [...prev, ...newIds];

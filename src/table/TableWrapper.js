@@ -152,8 +152,14 @@ export const TableWrapper = () => {
         return updatedData;
 
       case DELETE:
-        // Here we should marked for delete
-        return prevData.filter((item, index) => !indices.includes(index))
+        // return prevData.filter((item, index) => !indices.includes(index))
+        // Here we should mark for delete
+        return prevData.map((item, item_idx) => {
+          if (indices.includes(item_idx)) {
+            return {...item, deleteMarker:true};
+          }
+          return {...item};
+        });
 
       default:
         return prevData;
