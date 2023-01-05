@@ -35,7 +35,9 @@ export const TallyMain = ({children}) => {
   const {
     data,
     onDataChange: updateData,
-    onLedgersChange: updateLedgers
+    onLedgersChange: updateLedgers,
+    tallySaved,
+    modifiedRows,
   } = useContext(AppContext);
 
   const boxShadow = "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px";
@@ -168,10 +170,10 @@ export const TallyMain = ({children}) => {
           });
   }, []);
 
-  const modifyVouchers = useCallback((data, ids, values, targetCompany, bank) => {
-    const vouchers = data.filter(item => ids.includes(item.id));
+  const modifyVouchers = useCallback((vouchers, bankLedger, targetCompany) => {
+    console.log(`modifyVouchers: `, vouchers);
 
-    remoteCall('tally:command:vouchers:modify', {targetCompany, vouchers, bank, values})
+    remoteCall('tally:command:vouchers:modify', {vouchers, bank:bankLedger, targetCompany})
         .then((response) => {
           console.log(response);
           // dispatch(editRows(ids, values));
@@ -181,8 +183,8 @@ export const TallyMain = ({children}) => {
         });
   }, []);
 
-  const addVouchers = useCallback((data, bankLedger, targetCompany) => {
-    remoteCall('tally:command:vouchers:add', {vouchers:data, bank:bankLedger, targetCompany})
+  const addVouchers = useCallback((vouchers, bankLedger, targetCompany) => {
+    remoteCall('tally:command:vouchers:add', {vouchers, bank:bankLedger, targetCompany})
         .then((response) => {
           // console.log(`handleResponse: response=${JSON.stringify(response, null, 2)}`);
           const resultIds = Object.fromEntries(response.map(res => [res.index, res.voucherId]));
@@ -193,8 +195,12 @@ export const TallyMain = ({children}) => {
         });
   }, [])
 
+  const handleSync = useCallback((data, bankLedger, targetCompany, modifiedRows) => {
+    const vouchers = data.filter((item, index) => modifiedRows.includes(index));
+    modifyVouchers(vouchers, bankLedger, targetCompany);
+  }, []);
+
   const handleSubmit = useCallback((data, bankLedger, targetCompany) => {
-    // console.log(`handleSubmitClick: data=${JSON.stringify(data, null, 2)}`);
     addVouchers(data, bankLedger, targetCompany);
   }, []);
 
@@ -264,8 +270,13 @@ export const TallyMain = ({children}) => {
 
         <div style={{width:"30%"}}>
           <TallySubmitBar
-              disabled={false}
-              onSubmit={e => handleSubmit(data, currentBank, tallyTargetCompany)}
+              title={tallySaved ? "Sync To Tally" : "Submit To Tally"}
+              disabled={modifiedRows.length < 1}
+              onSubmit={e => {
+                tallySaved ?
+                handleSync(data, currentBank, tallyTargetCompany, modifiedRows) :
+                handleSubmit(data, currentBank, tallyTargetCompany)
+              }}
           />
         </div>
       </div>

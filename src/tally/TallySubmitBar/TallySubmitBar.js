@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import ConditionalTooltipButton from "../TooltipButton/ConditionalTooltipButton";
 
 
-const TallySubmitBar = ({disabled, onSubmit}) => {
+const TallySubmitBar = ({title, disabled, onSubmit}) => {
 
   return (
       <div
@@ -27,7 +27,7 @@ const TallySubmitBar = ({disabled, onSubmit}) => {
                 disabled={disabled}
                 onClick={e => {if (onSubmit) {onSubmit(e)}}}
             >
-              Submit To Tally
+              {title}
             </Button>
           </ConditionalTooltipButton>
         </div>

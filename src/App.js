@@ -29,6 +29,7 @@ const App = () => {
   const [data, setData] = useState([]);
   const [ledgers, setLedgers] = useState([]);
   const [modifiedRows, setModifiedRows] = useState([]);
+  const [tallySaved, setTallySaved] = useState(false);
 
   const updateModifiedRows = useCallback((indices) => {
     setModifiedRows((prev) => {
@@ -54,6 +55,7 @@ const App = () => {
       const indices = data.map((item,index) => index);
       if (indices.length > 0) {
         setModifiedRows(indices);
+        setTallySaved(false);
       }
     } else if (source === "table") {
       if (updates) {
@@ -68,6 +70,7 @@ const App = () => {
         }
       }
     } else if (source === "tally") {
+      // We can count the Tally Operations here. This will happen only if data is submitted to Tally
       // We should get the indices here and clear the modifiedRows
       console.log(`handleDataChange: source:${source} updates=`, updates);
 
@@ -77,6 +80,7 @@ const App = () => {
       }
 
       clearModifiedRows();
+      setTallySaved(true);
     } else {
       console.error(`handleDataChange: source '${source}' not supported`);
     }
@@ -95,10 +99,10 @@ const App = () => {
   const appContext = {
     data,
     onDataChange: handleDataChange,
-    // modifiedRows,
-    // onModifiedRowsChange: handleModifiedRowsChange,
     ledgers,
-    onLedgersChange: handleLedgersChange
+    onLedgersChange: handleLedgersChange,
+    tallySaved,
+    modifiedRows
   }
 
   return (
