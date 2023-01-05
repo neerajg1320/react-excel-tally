@@ -11,7 +11,12 @@ const BulkOperationsSection = ({edit}) => {
     console.log(`Rendering <BulkOperationsComponent>`);
   }
 
-  const {featureBulk, columns, tableInstance, onChange:updateData} = useContext(TableDataContext);
+  const {
+    featureBulk,
+    columns,
+    tableInstance,
+    onChange:updateData
+  } = useContext(TableDataContext);
 
   // console.log(tableInstance);
   const {selectedFlatRows, toggleAllRowsSelected} = tableInstance;

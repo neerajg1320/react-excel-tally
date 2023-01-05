@@ -18,7 +18,7 @@ export const ReadWrapper = () => {
   }
 
   const {
-    onDataChange
+    onDataChange: updateData
   } = useContext(AppContext);
 
   const debugFiltering = false;
@@ -424,8 +424,9 @@ export const ReadWrapper = () => {
 
     const accountingData = addAccountingColumns(filteredData);
 
-    if (onDataChange) {
-      onDataChange(accountingData);
+    if (updateData) {
+      const update = {action: 'ADD', payload:accountingData};
+      updateData(accountingData, [update], 'fileReader');
     }
 
     navigate('/table', { state: { data:accountingData, headersMap:JSON.stringify(exactMapper) } });

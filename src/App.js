@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Routes, Route, redirect} from 'react-router-dom';
 import {TableWrapper} from "./table/TableWrapper";
-import {ReadWrapper} from "./files/ReadWrapper";
+import {ReadWrapper} from "./fileReader/ReadWrapper";
 import {useCallback, useEffect, useState} from "react";
 import {debug} from "./components/config/debug";
 import {HomeLayout} from "./components/HomeLayout";
@@ -28,10 +28,58 @@ const App = () => {
   // The App keeps a copy of data
   const [data, setData] = useState([]);
   const [ledgers, setLedgers] = useState([]);
+  const [modifiedRows, setModifiedRows] = useState([]);
 
-  const handleDataChange = useCallback((data) => {
-    console.log(`handleDataChange:`, data);
+  const updateModifiedRows = useCallback((indices) => {
+    setModifiedRows((prev) => {
+      const newIds = indices.filter(index => !prev.includes(index));
+      return [...prev, ...newIds];
+    });
+  }, [setModifiedRows]);
+
+  const clearModifiedRows = useCallback(() => {
+    setModifiedRows([]);
+  }, [setModifiedRows]);
+
+  // The App component just maintains a copy of data.
+  // The modification are done in table and tally components.
+  const handleDataChange = useCallback((data, updates, source) => {
+    console.log(`handleDataChange: source=${source} data=`, data);
     setData(data);
+
+    // TBD: We can do the below asynchronously
+    // In case it is a data modify or delete action
+
+    if (source === "fileReader") {
+      const indices = data.map((item,index) => index);
+      if (indices.length > 0) {
+        setModifiedRows(indices);
+      }
+    } else if (source === "table") {
+      if (updates) {
+        console.log(`App:handleDataChange ${JSON.stringify(updates, null, 2)}`);
+        const indices = updates.reduce((prev, update) => {
+          const newIds = update.payload.indices.filter(index => !prev.includes(index));
+          return [...prev, ...newIds];
+        }, [])
+
+        if (indices.length > 0) {
+          updateModifiedRows(indices);
+        }
+      }
+    } else if (source === "tally") {
+      // We should get the indices here and clear the modifiedRows
+      console.log(`handleDataChange: source:${source} updates=`, updates);
+
+      const responseIds = updates[0].payload;
+      if (responseIds.length === modifiedRows.length) {
+        console.log(`Modified rows saved.`)
+      }
+
+      clearModifiedRows();
+    } else {
+      console.error(`handleDataChange: source '${source}' not supported`);
+    }
   }, []);
 
   const handleLedgersChange = useCallback((ledgers) => {
@@ -39,10 +87,16 @@ const App = () => {
     setLedgers(ledgers);
   }, []);
 
+  useEffect(() => {
+    console.log(`modifiedRows:`, modifiedRows);
+  }, [modifiedRows]);
+
   // Currently we are not using the AppContext
   const appContext = {
     data,
     onDataChange: handleDataChange,
+    // modifiedRows,
+    // onModifiedRowsChange: handleModifiedRowsChange,
     ledgers,
     onLedgersChange: handleLedgersChange
   }

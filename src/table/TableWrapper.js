@@ -169,7 +169,7 @@ export const TableWrapper = () => {
 
       if (updateData) {
         setTimeout(() => {
-          updateData(newData);
+          updateData(newData, updates, 'table');
         })
       }
       return newData;

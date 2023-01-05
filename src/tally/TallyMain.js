@@ -194,7 +194,7 @@ export const TallyMain = ({children}) => {
   }, [])
 
   const handleSubmit = useCallback((data, bankLedger, targetCompany) => {
-    console.log(`handleSubmitClick: data=${JSON.stringify(data, null, 2)}`);
+    // console.log(`handleSubmitClick: data=${JSON.stringify(data, null, 2)}`);
     addVouchers(data, bankLedger, targetCompany);
   }, []);
 
@@ -207,7 +207,8 @@ export const TallyMain = ({children}) => {
     });
 
     if (updateData) {
-      updateData(newData);
+      const update = {action: 'SET', payload: responseIds}
+      updateData(newData, [update], "tally");
     }
   }, [responseIds]);
 
