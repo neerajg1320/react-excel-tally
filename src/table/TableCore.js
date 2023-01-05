@@ -14,11 +14,11 @@ import {RowCheckbox} from "./parts/RowCheckbox";
 import EditableCell from "./parts/editableControlledCell";
 import SelectableCell from "./parts/selectableCell";
 import React, {useCallback, useContext, useEffect, useMemo} from "react";
-import {debug} from "../config/debug";
+import {debug} from "../components/config/debug";
 import TableDataContext from "./TableDataContext";
 import {ColumnFilterWithIcon} from "./filter/ColumnFilterWithIcon";
 import {filterEmptyValues} from "./filter/customFilter";
-import TooltipComponent from "../tooltip/TooltipComponent";
+import TooltipComponent from "../components/tooltip/TooltipComponent";
 
 // Supports:
 //  - Rows Selection

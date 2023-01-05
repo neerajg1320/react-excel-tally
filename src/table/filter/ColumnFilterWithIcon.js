@@ -2,9 +2,9 @@ import {BiSearchAlt} from "react-icons/bi";
 import {FaSearchPlus} from "react-icons/fa";
 import {AiOutlineClose} from "react-icons/ai";
 import {TiTick} from "react-icons/ti";
-import ExpandableButton from "../../expandableButton/ExpandableButton";
+import ExpandableButton from "../../components/expandableButton/ExpandableButton";
 import {useCallback, useEffect, useState} from "react";
-import InputWithIcons from "../../inputFlags/InputWithIcons";
+import InputWithIcons from "../../components/inputFlags/InputWithIcons";
 
 export const ColumnFilterWithIcon = ({ column }) => {
   const { filterValue, setFilter } = column;

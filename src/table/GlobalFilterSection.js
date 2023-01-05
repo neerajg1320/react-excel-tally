@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useRef} from "react";
 import TableDataContext from "./TableDataContext";
 import {GlobalFilter} from "./filter/GlobalFilter";
-import {debug} from "../config/debug";
+import {debug} from "../components/config/debug";
 
 const GlobalFilterSection = () => {
   if (debug.lifecycle) {

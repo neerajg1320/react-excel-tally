@@ -1,16 +1,16 @@
-import {debug} from "../config/debug";
+import {debug} from "../components/config/debug";
 import {useNavigate} from "react-router-dom";
 import {useCallback, useContext, useMemo, useState} from "react";
 import ReadContext from "./ReadContext";
-import {accountingColumns, presetColumns, statementColumns} from "../../presets/presetColumns";
-import {generateKeyFromHeader} from "../../schema/core";
-import {dateFromNumber, dateFromString, getValueType, isDate, isString, numberFromString} from "../../utils/types";
+import {accountingColumns, presetColumns, statementColumns} from "../presets/presetColumns";
+import {generateKeyFromHeader} from "../schema/core";
+import {dateFromNumber, dateFromString, getValueType, isDate, isString, numberFromString} from "../utils/types";
 import ReadExcel from "./xlsx/ReadExcel";
 import {Mappers} from "./mappers/Mappers";
 import * as React from "react";
-import * as hdfc from "../../banks/hdfc";
-import * as kotak from "../../banks/kotak";
-import AppContext from "../../AppContext";
+import * as hdfc from "../banks/hdfc";
+import * as kotak from "../banks/kotak";
+import AppContext from "../AppContext";
 
 export const ReadWrapper = () => {
   if (debug.lifecycle) {

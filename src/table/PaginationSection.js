@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from "react";
-import {debug} from "../config/debug";
+import {debug} from "../components/config/debug";
 import TableDataContext from "./TableDataContext";
 
 const PaginationSection = () => {

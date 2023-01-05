@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import {excelToJson} from "./excel";
 import {AiOutlineClose} from "react-icons/ai";
 import './readExcel.css';
-import {debug} from "../../config/debug";
+import {debug} from "../../components/config/debug";
 
 
 const ReadExcel = ({onComplete}) => {

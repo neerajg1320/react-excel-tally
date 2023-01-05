@@ -1,10 +1,10 @@
 import {useLocation} from "react-router-dom";
-import {getColumns} from "../../schema/generate";
+import {getColumns} from "../schema/generate";
 import {colToRTCol} from "./adapters/reactTableAdapter";
-import {presetColumns} from "../../presets/presetColumns";
+import {presetColumns} from "../presets/presetColumns";
 import React, {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import Button from "react-bootstrap/Button";
-import {debug} from "../config/debug";
+import {debug} from "../components/config/debug";
 import BulkOperationsSection from "./BulkOperationsSection";
 import TableDataContext from "./TableDataContext";
 import TableCore from "./TableCore";
@@ -12,7 +12,7 @@ import {DELETE, PATCH} from "./common/operationsTypes";
 import GlobalFilterSection from "./GlobalFilterSection";
 import PaginationSection from "./PaginationSection";
 import ColumnVisibilitySection from "./ColumnVisibilitySection";
-import AppContext from "../../AppContext";
+import AppContext from "../AppContext";
 
 // We derive columns from data
 // We will just convert the columns.

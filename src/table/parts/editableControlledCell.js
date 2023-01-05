@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {debug} from "../../config/debug";
+import {debug} from "../../components/config/debug";
 import {PATCH} from "../common/operationsTypes";
 
 // https://cloudnweb.dev/2020/08/how-to-build-an-actionable-data-table-with-react-table-and-tailwindcss/

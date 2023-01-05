@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
-import {debug} from "../config/debug";
-import ExpandableButton from "../expandableButton/ExpandableButton";
+import {debug} from "../components/config/debug";
+import ExpandableButton from "../components/expandableButton/ExpandableButton";
 import {RowCheckbox} from "./parts/RowCheckbox";
 import TableDataContext from "./TableDataContext";
 

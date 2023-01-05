@@ -1,4 +1,4 @@
-import {valToString, getValueType} from "../../../utils/types";
+import {valToString, getValueType} from "../../utils/types";
 
 export function colToRTCol (colObj, {showTypes}) {
   const reactColObj = {

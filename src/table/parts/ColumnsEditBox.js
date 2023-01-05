@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Select from "react-select";
 import {useEffect} from "react";
-import {debug} from "../../config/debug";
+import {debug} from "../../components/config/debug";
 
 const ColumnsEditBox = ({columns, onSave, onCancel, onButtonClick}) => {
   if (debug.lifecycle) {

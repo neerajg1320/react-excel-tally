@@ -1,4 +1,4 @@
-import {debug} from "../../config/debugEnabled";
+import {debug} from "../../components/config/debugEnabled";
 import {useContext, useEffect, useMemo} from "react";
 import ReadContext from "../ReadContext";
 
