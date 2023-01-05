@@ -7,7 +7,6 @@ import {setServer, setStatus, setLedgers, setResponseIds} from "./state/tallyAct
 import TallySubmitBar from "./TallySubmitBar/TallySubmitBar";
 import Connection from "./ConnectionStatus/Connection";
 import {setCompanies, setCurrentCompany, setTargetCompany} from "./state/tallyActions";
-import {addVouchers} from "./state/actionCreators";
 import AppContext from "../AppContext";
 
 export const TallyMain = ({children}) => {
@@ -56,6 +55,7 @@ export const TallyMain = ({children}) => {
   }, [banksLedgers])
 
   const [currentBank, setCurrentBank] = useState('');
+
 
   const tallyDebug = true;
   const channelServerHealth = 'tally:server:status:health';
@@ -155,21 +155,41 @@ export const TallyMain = ({children}) => {
     setBankLedgers(tallyLedgers.filter(ledger => ledger.parent === "Bank Accounts"));
   }, [tallyLedgers]);
 
-  const addVouchers = useCallback((data, bankLedger, targetCompany) => {
-    // console.log(`targetCompany=${targetCompany}`);
+  const deleteVouchers = useCallback((data, ids, targetCompany) => {
+      const vouchers = data.filter(item => ids.includes(item.id));
 
+      remoteCall('tally:command:vouchers:delete', {targetCompany, vouchers})
+          .then((response) => {
+            console.log(response);
+            // dispatch(deleteRows(ids));
+          })
+          .catch((error) => {
+            alert("Error deleting vouchers. Make sure master Id is correct")
+          });
+  }, []);
+
+  const modifyVouchers = useCallback((data, ids, values, targetCompany, bank) => {
+    const vouchers = data.filter(item => ids.includes(item.id));
+
+    remoteCall('tally:command:vouchers:modify', {targetCompany, vouchers, bank, values})
+        .then((response) => {
+          console.log(response);
+          // dispatch(editRows(ids, values));
+        })
+        .catch((error) => {
+          alert("Error modifying vouchers. Make sure master Id is correct")
+        });
+  }, []);
+
+  const addVouchers = useCallback((data, bankLedger, targetCompany) => {
     remoteCall('tally:command:vouchers:add', {vouchers:data, bank:bankLedger, targetCompany})
         .then((response) => {
           // console.log(`handleResponse: response=${JSON.stringify(response, null, 2)}`);
-
           const resultIds = Object.fromEntries(response.map(res => [res.index, res.voucherId]));
-          // console.log(`resultIds=`, resultIds);
-
           dispatch(setResponseIds(resultIds));
         })
         .catch(error => {
           alert(error.reason || error);
-          // alert(JSON.stringify(error));
         });
   }, [])
 
@@ -222,12 +242,10 @@ export const TallyMain = ({children}) => {
         <div style={{width:"30%"}}>
           <Connection title={"Tally Server"} status={tallyStatus} />
         </div>
-        <div style={{
-          // width:"10%",
-          minWidth:"200px",
-          // border:"1px dashed blue",
-          display: "flex", flexDirection:"column", alignItems: "flex-end"
 
+        <div style={{
+          minWidth:"200px",
+          display: "flex", flexDirection:"column", alignItems: "flex-end"
         }}
         >
           <label>
@@ -242,9 +260,10 @@ export const TallyMain = ({children}) => {
           />
           </div>
         </div>
+
         <div style={{width:"30%"}}>
           <TallySubmitBar
-              disabled={!tallyStatus}
+              disabled={false}
               onSubmit={e => handleSubmit(data, currentBank, tallyTargetCompany)}
           />
         </div>

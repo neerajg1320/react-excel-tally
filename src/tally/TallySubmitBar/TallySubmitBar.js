@@ -24,7 +24,7 @@ const TallySubmitBar = ({disabled, onSubmit}) => {
               condition={disabled} message="No connection to Tally"
           >
             <Button
-                disabled={false}
+                disabled={disabled}
                 onClick={e => {if (onSubmit) {onSubmit(e)}}}
             >
               Submit To Tally
