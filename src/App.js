@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Routes, Route, redirect} from 'react-router-dom';
 import {TableWrapper} from "./table/TableWrapper";
-import {ReadWrapper} from "./components/readFiles/ReadWrapper";
+import {ReadWrapper} from "./files/ReadWrapper";
 import {useCallback, useEffect, useState} from "react";
 import {debug} from "./components/config/debug";
 import {HomeLayout} from "./components/HomeLayout";
