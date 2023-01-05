@@ -10,11 +10,16 @@ import {Mappers} from "./mappers/Mappers";
 import * as React from "react";
 import * as hdfc from "../../banks/hdfc";
 import * as kotak from "../../banks/kotak";
+import AppContext from "../../AppContext";
 
-export const ReadWrapper = ({onDataChange}) => {
+export const ReadWrapper = () => {
   if (debug.lifecycle) {
     console.log(`Rendering <Read>`);
   }
+
+  const {
+    onDataChange
+  } = useContext(AppContext);
 
   const debugFiltering = false;
   const debugRowIdx = debugFiltering ? 22 : -1;

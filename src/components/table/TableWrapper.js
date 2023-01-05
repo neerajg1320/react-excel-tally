@@ -18,7 +18,7 @@ import ColumnVisibilitySection from "./ColumnVisibilitySection";
 // Any modification of columns should be handled above this.
 
 
-export const TableWrapper = ({appData, onDataChange}) => {
+export const TableWrapper = ({data:initialData, onDataChange}) => {
   if (debug.lifecycle) {
     console.log(`Rendering <TableWrapper>`);
   }
@@ -27,14 +27,14 @@ export const TableWrapper = ({appData, onDataChange}) => {
 
   const {state} = useLocation();
   // const [data, setData] = useState(state?.data);
-  const [data, setData] = useState(appData);
+  const [data, setData] = useState(initialData);
   const headersMap = useMemo(() => state?.headersMap && JSON.parse(state?.headersMap), []);
 
   useEffect(() => {
-    console.log(`TableWrapper: initialData changed`);
-    console.log(appData);
-    setData(appData);
-  }, [appData]);
+    // console.log(`TableWrapper: initialData changed`);
+    // console.log(appData);
+    setData(initialData);
+  }, [initialData]);
 
   // Data Features:
   // Update with commit
@@ -133,6 +133,7 @@ export const TableWrapper = ({appData, onDataChange}) => {
 
     switch (action) {
       case PATCH:
+        // Here we should mark pending
         const updatedData = prevData.map((item, item_idx) => {
           if (indices.includes(item_idx)) {
             return {...item, ...patch};
@@ -144,6 +145,7 @@ export const TableWrapper = ({appData, onDataChange}) => {
         return updatedData;
 
       case DELETE:
+        // Here we should marked for delete
         return prevData.filter((item, index) => !indices.includes(index))
 
       default:

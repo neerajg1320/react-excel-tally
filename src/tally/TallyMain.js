@@ -2,13 +2,13 @@ import {debug} from "../components/config/debugEnabled";
 import {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {remoteCall, remoteMonitorStart, remoteMonitorStop} from "../communication/electron";
-import {setServer, setStatus} from "./state/tallyActions";
+import {setServer, setStatus, setLedgers} from "./state/tallyActions";
 import TallySubmitBar from "./TallySubmitBar/TallySubmitBar";
 import Connection from "./ConnectionStatus/Connection";
 import {setCompanies, setCurrentCompany, setTargetCompany} from "./state/tallyActions";
 import {addVouchers} from "./state/actionCreators";
 
-export const TallyMain = ({children, data, onDataChange}) => {
+export const TallyMain = ({children, data, onDataChange, onLedgersChange}) => {
   if (debug.lifecycle) {
     console.log(`Rendering <TallyMain>`);
   }
@@ -38,6 +38,7 @@ export const TallyMain = ({children, data, onDataChange}) => {
   const tallyCompanies = useSelector((state) => state.tally.companies);
   const tallyCurrentCompany = useSelector((state) => state.tally.currentCompany);
   const tallyTargetCompany = useSelector((state) => state.tally.targetCompany);
+  const tallyLedgers = useSelector((state) => state.tally.ledgers);
   const responseIds = useSelector((state) => state.tally.responseIds);
 
   const bank = "ICICIBank";
@@ -45,7 +46,7 @@ export const TallyMain = ({children, data, onDataChange}) => {
   const tallyDebug = true;
   const channelServerHealth = 'tally:server:status:health';
 
-  const tallyServerSetup = useCallback(() => {
+  const setServerSuccess = useCallback(() => {
     const channelStatus = 'tally:server:status';
     remoteCall(channelStatus)
         .then(status => {
@@ -73,7 +74,7 @@ export const TallyMain = ({children, data, onDataChange}) => {
       remoteCall(serverInit, {serverAddr})
           .then(response => {
             console.log(`serverInit: response=${response}`);
-            tallyServerSetup();
+            setServerSuccess();
           })
           .catch(error => {
             console.error(`serverInit: error=${error}`);
@@ -116,6 +117,28 @@ export const TallyMain = ({children, data, onDataChange}) => {
   useEffect(() => {
     dispatch(setTargetCompany(tallyCurrentCompany))
   }, [tallyCurrentCompany]);
+
+  // dep: tallyCurrentCompany
+  useEffect(() => {
+    // console.log(`Need to get the ledgers`);
+    if (tallyTargetCompany !== '') {
+      remoteCall('tally:command:ledgers:list', {tallyTargetCompany})
+          .then(({request, response}) => {
+            // console.log('ledgers:', JSON.stringify(response));
+            dispatch(setLedgers(response));
+            // console.log(`Updated ledgers request=${request}`);
+          })
+          .catch(error => {
+            console.log(`useEffect[tallyStatus]: error=${error}`);
+          });
+    }
+  }, [tallyTargetCompany]);
+
+  useEffect(() => {
+    if (onLedgersChange) {
+      onLedgersChange(tallyLedgers);
+    }
+  }, [tallyLedgers]);
 
   const handleSubmit = useCallback(() => {
     console.log(`handleSubmitClick: data=${JSON.stringify(data, null, 2)}`);
