@@ -5,7 +5,7 @@ import {
   SET_COMPANIES,
   SET_CURRENT_COMPANY,
   SET_TARGET_COMPANY,
-  SET_SERVER, SET_RESPONSE_IDS
+  SET_SERVER
 } from "./tallyActionTypes";
 
 const flagDebugTallyReducer = false;
@@ -70,12 +70,6 @@ const tallyReducer = (state = initialState, action) => {
       return {
         ...state,
         serverAddr: action.payload.value
-      };
-
-    case SET_RESPONSE_IDS:
-      return {
-        ...state,
-        responseIds: action.payload.value
       };
 
     default:

@@ -7,7 +7,7 @@ import {
   SET_COMPANIES,
   SET_CURRENT_COMPANY,
   SET_TARGET_COMPANY,
-  SET_SERVER, SET_RESPONSE_IDS
+  SET_SERVER
 } from "./tallyActionTypes";
 
 export const startPing = () => {
@@ -79,15 +79,6 @@ export const setTargetCompany= (value) => {
 export const setServer= (value) => {
   return {
     type: SET_SERVER,
-    payload: {
-      value
-    }
-  };
-};
-
-export const setResponseIds= (value) => {
-  return {
-    type: SET_RESPONSE_IDS,
     payload: {
       value
     }

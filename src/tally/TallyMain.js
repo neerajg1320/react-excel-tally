@@ -3,7 +3,7 @@ import {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import Select from "react-select";
 import {remoteCall, remoteMonitorStart, remoteMonitorStop} from "../communication/electron";
-import {setServer, setStatus, setLedgers, setResponseIds} from "./state/tallyActions";
+import {setServer, setStatus, setLedgers} from "./state/tallyActions";
 import TallySubmitBar from "./TallySubmitBar/TallySubmitBar";
 import Connection from "./ConnectionStatus/Connection";
 import {setCompanies, setCurrentCompany, setTargetCompany} from "./state/tallyActions";
@@ -241,21 +241,21 @@ export const TallyMain = ({children}) => {
     addVouchers(vouchers, bankLedger, targetCompany);
   }, [updateData]);
 
-  useEffect(() => {
-    const responseIdMap = Object.fromEntries(responseIds);
-    const dataWithServerIds = data.map((item) => {
-      return {
-        ...item,
-        voucherId: responseIdMap[item.id]
-      }
-    });
-
-    console.log(`TallyMain: dataWithVoucherIds: ${JSON.stringify(dataWithServerIds, null, 2)}`)
-    if (updateData) {
-      const update = {action: 'SET', payload: responseIds}
-      updateData(dataWithServerIds, [update], "dataSourceTally");
-    }
-  }, [responseIds, updateData]);
+  // useEffect(() => {
+  //   const responseIdMap = Object.fromEntries(responseIds);
+  //   const dataWithServerIds = data.map((item) => {
+  //     return {
+  //       ...item,
+  //       voucherId: responseIdMap[item.id]
+  //     }
+  //   });
+  //
+  //   console.log(`TallyMain: dataWithVoucherIds: ${JSON.stringify(dataWithServerIds, null, 2)}`)
+  //   if (updateData) {
+  //     const update = {action: 'SET', payload: responseIds}
+  //     updateData(dataWithServerIds, [update], "dataSourceTally");
+  //   }
+  // }, [responseIds, updateData]);
 
   return (
     <div
