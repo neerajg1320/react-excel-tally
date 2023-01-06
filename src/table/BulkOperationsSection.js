@@ -11,6 +11,8 @@ const BulkOperationsSection = ({edit}) => {
     console.log(`Rendering <BulkOperationsComponent>`);
   }
 
+  const debugClicks = false;
+
   const {
     featureBulk,
     columns,
@@ -45,7 +47,9 @@ const BulkOperationsSection = ({edit}) => {
 
   const handleBulkDeleteClick = useCallback(() => {
     const indices = getRowIndices(selectedFlatRows);
-    console.log(`handleBulkDeleteClick: ids=${JSON.stringify(indices)}`);
+    if (debugClicks) {
+      console.log(`handleBulkDeleteClick: ids=${JSON.stringify(indices)}`);
+    }
 
     updateData(DELETE, indices);
     setBulkEditExpanded(false);
@@ -54,7 +58,10 @@ const BulkOperationsSection = ({edit}) => {
   const handleBulkEditSaveClick = useCallback((patch) => {
     const indices = getRowIndices(selectedFlatRows);
 
-    console.log(`handleBulkEditSaveClick: indices=${JSON.stringify(indices)} patch=${JSON.stringify(patch)}`);
+    if (debugClicks) {
+      console.log(`handleBulkEditSaveClick: indices=${JSON.stringify(indices)} patch=${JSON.stringify(patch)}`);
+    }
+
     updateData(PATCH, indices, patch);
 
     setBulkEditExpanded(false);

@@ -30,10 +30,10 @@ export const remoteCall = (channel, command) => {
     try {
       ipcRenderer.send(channel, command);
       ipcRenderer.once(channel, (event, response) => {
-        if (channel ===  "tally:command:vouchers:modify") {
-          console.log(`remoteCall: command:response ${JSON.stringify(channel, null, 2)}`);
-          console.log(`remoteCall: command:response ${JSON.stringify(response, null, 2)}`);
-        }
+        // if (channel ===  "tally:command:vouchers:modify") {
+        //   console.log(`remoteCall: command:response ${JSON.stringify(channel, null, 2)}`);
+        //   console.log(`remoteCall: command:response ${JSON.stringify(response, null, 2)}`);
+        // }
         if(!response.error) {
           resolve(response)
         } else {

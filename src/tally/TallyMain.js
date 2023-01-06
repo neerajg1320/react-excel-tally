@@ -14,7 +14,9 @@ export const TallyMain = ({children}) => {
     console.log(`Rendering <TallyMain>`);
   }
 
-  const tallyDebug = false;
+  const debugTally = false;
+  const debugResponse = false;
+  const debugData = false;
 
   useEffect(() => {
     if (debug.lifecycle) {
@@ -23,7 +25,7 @@ export const TallyMain = ({children}) => {
 
     remoteCall('tally:server:get', {})
         .then((config) => {
-          if (tallyDebug) {
+          if (debugTally) {
             console.log(`config=${JSON.stringify(config)}`);
           }
           dispatch(setServer(config));
@@ -68,7 +70,7 @@ export const TallyMain = ({children}) => {
     const channelStatus = 'tally:server:status';
     remoteCall(channelStatus)
         .then(status => {
-          if (tallyDebug) {
+          if (debugTally) {
             console.log(`${channelStatus}=${status}`);
           }
           dispatch(setStatus(status));
@@ -86,7 +88,7 @@ export const TallyMain = ({children}) => {
 
   // dep: serverAddr
   useEffect(() => {
-    if (tallyDebug) {
+    if (debugTally) {
       console.log(`TallyMain: useEffect[${JSON.stringify(serverAddr)}]`)
     }
 
@@ -115,7 +117,7 @@ export const TallyMain = ({children}) => {
       console.log('The Tally Server is ON');
       remoteCall('tally:command:companies:list', {})
           .then(({request, response}) => {
-            if (tallyDebug) {
+            if (debugTally) {
               console.log(`useEffect[tallyStatus] companies=${JSON.stringify(response, null, 2)}`);
             }
             dispatch(setCompanies(response));
@@ -212,7 +214,9 @@ export const TallyMain = ({children}) => {
   const addVouchers = useCallback((vouchers, bankLedger, targetCompany) => {
     remoteCall('tally:command:vouchers:add', {vouchers, bank:bankLedger, targetCompany})
         .then((response) => {
-          console.log(`handleResponse: response=${JSON.stringify(response, null, 2)}`);
+          if (debugResponse) {
+            console.log(`handleResponse: response=${JSON.stringify(response, null, 2)}`);
+          }
           const responseIds = response.map(res => [res.id, res.voucherId]);
 
           const responseIdMap = Object.fromEntries(responseIds);
@@ -224,7 +228,10 @@ export const TallyMain = ({children}) => {
             }
           });
 
-          console.log(`TallyMain: dataWithVoucherIds: ${JSON.stringify(dataWithServerIds, null, 2)}`)
+          if (debugData) {
+            console.log(`TallyMain: dataWithVoucherIds: ${JSON.stringify(dataWithServerIds, null, 2)}`)
+          }
+
           if (updateData) {
             const update = {action: 'SET', payload: responseIds}
             updateData(dataWithServerIds, [update], "dataSourceTally");

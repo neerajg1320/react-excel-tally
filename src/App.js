@@ -86,7 +86,7 @@ const App = () => {
       }
     } else if (source === "dataSourceTable") {
       if (updates) {
-        console.log(`App:handleDataChange ${JSON.stringify(updates, null, 2)}`, data);
+        console.log(`App:handleDataChange`, updates, data);
         const modificationUpdates = updates.filter(update => update.action === 'PATCH');
         const modifiedIndices = modificationUpdates.reduce((prev, update) => {
           const newIds = update.payload.indices.filter(index => !prev.includes(index));
