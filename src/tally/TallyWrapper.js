@@ -1,7 +1,7 @@
 import {Provider} from "react-redux";
 import store from "./state/store";
 import {useEffect} from "react";
-import {debug} from "../components/config/debugEnabled";
+import {debug} from "../components/config/debug";
 import {TallyMain} from "./TallyMain";
 
 export const TallyWrapper = (props) => {

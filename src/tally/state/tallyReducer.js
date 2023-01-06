@@ -13,7 +13,7 @@ const flagDebugTallyReducer = false;
 const initialState = {
   status: false,
   debug: false,
-  ledgers: ['Cash', 'Bank'],
+  ledgers: [],
   companies: [],
   currentCompany: '',
   targetCompany: '',

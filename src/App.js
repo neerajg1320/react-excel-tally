@@ -13,6 +13,9 @@ const App = () => {
     console.log(`Rendering <App>`);
   }
 
+  const debugData = false;
+  const debugLedgers = false;
+
   useEffect(() => {
     if (debug.lifecycle) {
       console.log(`<App>: First render`);
@@ -28,9 +31,11 @@ const App = () => {
   // The App keeps a copy of data
   const [data, setData] = useState([]);
   const [ledgers, setLedgers] = useState([]);
+  // The following two could be turned to refs
   const [modifiedRows, setModifiedRows] = useState([]);
   const [deletedRows, setDeletedRows] = useState([]);
   const tallySavedRef = useRef(false);
+
 
   const updateModifiedRows = useCallback((indices) => {
     setModifiedRows((prev) => {
@@ -57,8 +62,10 @@ const App = () => {
   }, [setModifiedRows, setDeletedRows]);
 
   useEffect(() => {
-    console.log(`modifiedRows:`, modifiedRows);
-    console.log(`deletedRows:`, deletedRows);
+    if (debugData) {
+      console.log(`modifiedRows:`, modifiedRows);
+      console.log(`deletedRows:`, deletedRows);
+    }
   }, [modifiedRows, deletedRows]);
 
   // The App component just maintains a copy of data.
@@ -126,7 +133,9 @@ const App = () => {
   }, []);
 
   const handleLedgersChange = useCallback((ledgers) => {
-    console.log(`App: handleLedgersChange:`, ledgers);
+    if (debugLedgers) {
+      console.log(`App: handleLedgersChange:`, ledgers);
+    }
     setLedgers(ledgers);
   }, []);
 

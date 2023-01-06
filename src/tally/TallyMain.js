@@ -1,4 +1,4 @@
-import {debug} from "../components/config/debugEnabled";
+import {debug} from "../components/config/debug";
 import {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import Select from "react-select";
@@ -14,6 +14,8 @@ export const TallyMain = ({children}) => {
     console.log(`Rendering <TallyMain>`);
   }
 
+  const tallyDebug = false;
+
   useEffect(() => {
     if (debug.lifecycle) {
       console.log(`<TallyMain>: First render`);
@@ -21,7 +23,9 @@ export const TallyMain = ({children}) => {
 
     remoteCall('tally:server:get', {})
         .then((config) => {
-          console.log(`config=${JSON.stringify(config)}`);
+          if (tallyDebug) {
+            console.log(`config=${JSON.stringify(config)}`);
+          }
           dispatch(setServer(config));
         });
 
@@ -58,8 +62,6 @@ export const TallyMain = ({children}) => {
 
   const [currentBank, setCurrentBank] = useState('');
 
-
-  const tallyDebug = true;
   const channelServerHealth = 'tally:server:status:health';
 
   const setServerSuccess = useCallback(() => {
@@ -84,12 +86,15 @@ export const TallyMain = ({children}) => {
 
   // dep: serverAddr
   useEffect(() => {
-    console.log(`TallyMain: useEffect[${JSON.stringify(serverAddr)}]`)
+    if (tallyDebug) {
+      console.log(`TallyMain: useEffect[${JSON.stringify(serverAddr)}]`)
+    }
+
     if (serverAddr.host !== "") {
       const serverInit = 'tally:server:set';
       remoteCall(serverInit, {serverAddr})
           .then(response => {
-            console.log(`serverInit: response=${response}`);
+            // console.log(`serverInit: response=${response}`);
             setServerSuccess();
           })
           .catch(error => {
@@ -110,7 +115,9 @@ export const TallyMain = ({children}) => {
       console.log('The Tally Server is ON');
       remoteCall('tally:command:companies:list', {})
           .then(({request, response}) => {
-            console.log(`useEffect[tallyStatus] companies=${JSON.stringify(response, null, 2)}`);
+            if (tallyDebug) {
+              console.log(`useEffect[tallyStatus] companies=${JSON.stringify(response, null, 2)}`);
+            }
             dispatch(setCompanies(response));
           });
 
