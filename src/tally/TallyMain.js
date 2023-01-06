@@ -180,20 +180,36 @@ export const TallyMain = ({children}) => {
           console.log(response);
           // dispatch(editRows(ids, values));
           // TBD: We need to have a dirty flag which which should be reset when saved.
+          const newData = data;
+          if (updateData) {
+            const update = {action: "SET", payload:response};
+            updateData(newData, [update], "dataSourceTally");
+          }
         })
         .catch((error) => {
-          alert("Error modifying vouchers. Make sure master Id is correct")
+          alert(error.reason || error);
         });
   }, []);
 
   const addVouchers = useCallback((vouchers, bankLedger, targetCompany) => {
-    // const vouchersWithIds = vouchers.map((voucher, index) => {return {...voucher, id: index}});
-
     remoteCall('tally:command:vouchers:add', {vouchers, bank:bankLedger, targetCompany})
         .then((response) => {
-          // console.log(`handleResponse: response=${JSON.stringify(response, null, 2)}`);
-          const resultIds = response.map(res => [res.id, res.voucherId]);
-          dispatch(setResponseIds(resultIds));
+          console.log(`handleResponse: response=${JSON.stringify(response, null, 2)}`);
+          const responseIds = response.map(res => [res.id, res.voucherId]);
+
+          const responseIdMap = Object.fromEntries(responseIds);
+          const dataWithServerIds = vouchers.map((item) => {
+            return {
+              ...item,
+              voucherId: responseIdMap[item.id]
+            }
+          });
+
+          console.log(`TallyMain: dataWithVoucherIds: ${JSON.stringify(dataWithServerIds, null, 2)}`)
+          if (updateData) {
+            const update = {action: 'SET', payload: responseIds}
+            updateData(dataWithServerIds, [update], "dataSourceTally");
+          }
         })
         .catch(error => {
           alert(error.reason || error);
@@ -220,6 +236,7 @@ export const TallyMain = ({children}) => {
     }
 
     // We might have deleted the rows before submitting to server
+    // We need to see if we need addedRows as well
     const vouchers = dataWithIds.filter((item, index) => modifiedRows.includes(index));
     addVouchers(vouchers, bankLedger, targetCompany);
   }, [updateData]);
