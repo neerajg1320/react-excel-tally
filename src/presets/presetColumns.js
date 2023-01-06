@@ -14,7 +14,7 @@ export const statementColumns = [
     header: "Transaction Date",
     matchLabels: ["Transaction Date", "Date"],
     keyName: "transactionDate",
-    width: 120,
+    width: 100,
     type: "date",
     // format: `${indiaDateFormat} HH:mm`,
     required: true
@@ -23,7 +23,7 @@ export const statementColumns = [
     header: "Value Date",
     matchLabels: ["Value Date", "Value Dt"],
     keyName: "valueDate",
-    width: 120,
+    width: 100,
     type: "date",
     format: indiaDateFormat,
     required: false
@@ -32,7 +32,7 @@ export const statementColumns = [
     header: "Description",
     matchLabels: ["Description", "Narration"],
     keyName: "description",
-    width: 300,
+    width: 250,
     type: "string",
     required: true,
     format: "yyyy-MM-dd",
@@ -41,7 +41,7 @@ export const statementColumns = [
     header: "Reference",
     matchLabels: ["Chq / Ref number", "Chq./Ref.No."],
     keyName: "reference",
-    width: 100,
+    width: 80,
     type: "string",
     acceptedTypes: ["string", "number"],
     required: false
@@ -50,7 +50,7 @@ export const statementColumns = [
     header: "Debit",
     matchLabels: ["Debit", "Withdrawal Amt."],
     keyName: "debit",
-    width: 100,
+    width: 80,
     type: "number",
     required: false,
   },
@@ -58,7 +58,7 @@ export const statementColumns = [
     header: "Credit",
     matchLabels: ["Credit", "Deposit Amt."],
     keyName: "credit",
-    width: 100,
+    width: 80,
     type: "number",
     required: false
   },
@@ -66,7 +66,7 @@ export const statementColumns = [
     header: "Balance",
     matchLabels: ["Balance", "Closing Balance"],
     keyName: "balance",
-    width: 120,
+    width: 100,
     type: "number",
     required: true
   },
@@ -92,6 +92,7 @@ export const accountingColumns = [
     choices: [
       'Conveyance', 'Lodging', 'Stationary', 'Salary', 'Travel', "Suspense"
     ],
+    width: 120,
     defaultValue: "Suspense",
     required: true
   },
@@ -102,6 +103,7 @@ export const accountingColumns = [
     edit: false,
     bulk: false,
     defaultValue: -1,
+    width: 50,
     required: true,
     hidden: false
   },

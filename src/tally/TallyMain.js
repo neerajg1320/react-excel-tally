@@ -161,8 +161,7 @@ export const TallyMain = ({children}) => {
   const deleteVouchers = useCallback((data, vouchers, targetCompany) => {
       remoteCall('tally:command:vouchers:delete', {targetCompany, vouchers})
           .then((response) => {
-            console.log(response);
-            // dispatch(deleteRows(ids));
+            // console.log(response);
             const deletedIds = response.map(item => item.id);
             const newData = data.filter(item => !deletedIds.includes(item.id));
             if (updateData) {
@@ -176,12 +175,11 @@ export const TallyMain = ({children}) => {
   }, []);
 
   const modifyVouchers = useCallback((data, vouchers, bankLedger, targetCompany) => {
-    console.log(`modifyVouchers: `, vouchers);
-
     remoteCall('tally:command:vouchers:modify', {vouchers, bank:bankLedger, targetCompany})
         .then((response) => {
           console.log(response);
           // dispatch(editRows(ids, values));
+          // TBD: We need to have a dirty flag which which should be reset when saved.
         })
         .catch((error) => {
           alert("Error modifying vouchers. Make sure master Id is correct")
