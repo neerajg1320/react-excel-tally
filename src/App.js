@@ -30,7 +30,6 @@ const App = () => {
   const [ledgers, setLedgers] = useState([]);
   const [modifiedRows, setModifiedRows] = useState([]);
   const [deletedRows, setDeletedRows] = useState([]);
-  // const [tallySaved, setTallySaved] = useState(false);
   const tallySavedRef = useRef(false);
 
   const updateModifiedRows = useCallback((indices) => {
@@ -76,7 +75,6 @@ const App = () => {
       const indices = data.map((item,index) => index);
       if (indices.length > 0) {
         setModifiedRows(indices);
-        // setTallySaved(false);
         tallySavedRef.current = false;
       }
     } else if (source === "dataSourceTable") {
@@ -113,11 +111,10 @@ const App = () => {
       const responseIds = updates[0].payload;
 
       // We need to be very careful here
-      // This should be an array instead of a map
+      // We need to check if all responses are accounted
       if (responseIds.length > 0) {
         console.log(`Modified rows saved.`)
         clearMarkedRows();
-        // setTallySaved(true);
         tallySavedRef.current = true;
       }
 

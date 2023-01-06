@@ -103,22 +103,24 @@ export const TableWrapper = () => {
   }, []);
 
   // col must have keyName property
-  const attachPresetProperties = (col, index) => {
+  const attachPresetProperties = useCallback((col, index) => {
     const mPresetCols = presetColumns.filter(pcol=> pcol.keyName === col.keyName);
 
     if (mPresetCols.length) {
       col = mPresetCols[0];
 
       if (col.type === 'select') {
-        // The Column choices have to be updated.
-        // col.choices = choices[col.keyName.toLowerCase()];
-        // col.choices = categoryChoices;
+        // console.log(`attachPresetProperties: ${col.keyName} ledgers=${JSON.stringify(ledgers)}`);
+        if (ledgers && ledgers.length > 0) {
+          col.choices = ledgers.map(ledger => ledger.name);
+        }
       }
     }
 
     col.index = index;
     return colToRTCol(col, {showTypes:layoutShowTypes});
-  };
+  }, [ledgers]);
+
   // eslint-disable-next-line
   const [rtColumns, setRTColumns] = useState(getColumns(data).map(attachPresetProperties));
 
@@ -143,7 +145,7 @@ export const TableWrapper = () => {
         // Here we should mark pending
         const updatedData = prevData.map((item, item_idx) => {
           if (indices.includes(item_idx)) {
-            return {...item, ...patch};
+            return {...item, ...patch, modifyMarker:true};
           }
           return {...item};
         })

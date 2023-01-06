@@ -49,7 +49,6 @@ export const TallyMain = ({children}) => {
   const tallyCurrentCompany = useSelector((state) => state.tally.currentCompany);
   const tallyTargetCompany = useSelector((state) => state.tally.targetCompany);
   const tallyLedgers = useSelector((state) => state.tally.ledgers);
-  const responseIds = useSelector((state) => state.tally.responseIds);
 
   const [banksLedgers, setBankLedgers] = useState([]);
 
@@ -177,10 +176,22 @@ export const TallyMain = ({children}) => {
   const modifyVouchers = useCallback((data, vouchers, bankLedger, targetCompany) => {
     remoteCall('tally:command:vouchers:modify', {vouchers, bank:bankLedger, targetCompany})
         .then((response) => {
-          console.log(response);
+          console.log(`modifyVouchers:success`, response);
+          const modifiedIds = response.map(res => [res.id, res.status]);
+          const modifiedIdsMap = Object.fromEntries(modifiedIds);
+
           // dispatch(editRows(ids, values));
           // TBD: We need to have a dirty flag which which should be reset when saved.
-          const newData = data;
+          const newData = data.map(item => {
+            const status = modifiedIdsMap[item.id];
+            if (status) {
+              console.log(`${item.id} status=${status}`);
+              if (status === "SUCCESS") {
+                item.modifyMarker = false;
+              }
+            }
+            return item;
+          });
           if (updateData) {
             const update = {action: "SET", payload:response};
             updateData(newData, [update], "dataSourceTally");
@@ -201,7 +212,8 @@ export const TallyMain = ({children}) => {
           const dataWithServerIds = vouchers.map((item) => {
             return {
               ...item,
-              voucherId: responseIdMap[item.id]
+              voucherId: responseIdMap[item.id],
+              modifyMarker: false,
             }
           });
 
