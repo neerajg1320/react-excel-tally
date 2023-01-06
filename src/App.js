@@ -120,7 +120,6 @@ const App = () => {
       // We need to be very careful here
       // We need to check if all responses are accounted
       if (responseIds.length > 0) {
-        console.log(`Modified rows saved.`)
         clearMarkedRows();
         tallySavedRef.current = true;
       }
