@@ -134,7 +134,7 @@ export const TallyMain = ({children}) => {
     dispatch(setTargetCompany(tallyCurrentCompany))
   }, [tallyCurrentCompany]);
 
-  // dep: tallyCurrentCompany
+  // dep: tallyTargetCompany
   useEffect(() => {
     // console.log(`Need to get the ledgers`);
     if (tallyTargetCompany !== '') {
@@ -185,7 +185,7 @@ export const TallyMain = ({children}) => {
           const newData = data.map(item => {
             const status = modifiedIdsMap[item.id];
             if (status) {
-              console.log(`${item.id} status=${status}`);
+              // console.log(`${item.id} status=${status}`);
               if (status === "SUCCESS") {
                 item.modifyMarker = false;
               }
@@ -252,22 +252,6 @@ export const TallyMain = ({children}) => {
     const vouchers = dataWithIds.filter((item, index) => modifiedRows.includes(index));
     addVouchers(vouchers, bankLedger, targetCompany);
   }, [updateData]);
-
-  // useEffect(() => {
-  //   const responseIdMap = Object.fromEntries(responseIds);
-  //   const dataWithServerIds = data.map((item) => {
-  //     return {
-  //       ...item,
-  //       voucherId: responseIdMap[item.id]
-  //     }
-  //   });
-  //
-  //   console.log(`TallyMain: dataWithVoucherIds: ${JSON.stringify(dataWithServerIds, null, 2)}`)
-  //   if (updateData) {
-  //     const update = {action: 'SET', payload: responseIds}
-  //     updateData(dataWithServerIds, [update], "dataSourceTally");
-  //   }
-  // }, [responseIds, updateData]);
 
   return (
     <div
