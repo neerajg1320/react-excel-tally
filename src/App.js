@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Routes, Route, redirect} from 'react-router-dom';
 import {TableWrapper} from "./table/TableWrapper";
 import {ReadWrapper} from "./fileReader/ReadWrapper";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {debug} from "./components/config/debug";
 import {HomeLayout} from "./components/HomeLayout";
 import {TallyWrapper} from "./tally/TallyWrapper";
@@ -29,7 +29,9 @@ const App = () => {
   const [data, setData] = useState([]);
   const [ledgers, setLedgers] = useState([]);
   const [modifiedRows, setModifiedRows] = useState([]);
-  const [tallySaved, setTallySaved] = useState(false);
+  const [deletedRows, setDeletedRows] = useState([]);
+  // const [tallySaved, setTallySaved] = useState(false);
+  const tallySavedRef = useRef(false);
 
   const updateModifiedRows = useCallback((indices) => {
     setModifiedRows((prev) => {
@@ -38,55 +40,92 @@ const App = () => {
     });
   }, [setModifiedRows]);
 
-  const clearModifiedRows = useCallback(() => {
+  const updateDeletedRows = useCallback((indices) => {
+    setDeletedRows((prev) => {
+      const newIds = indices.filter(index => !prev.includes(index));
+      return [...prev, ...newIds];
+    });
+
+    // Remove the deleted indices from the modifiedRows
+    setModifiedRows((prev) => {
+      return prev.filter(index => !indices.includes(index))
+    });
+  }, [setDeletedRows, setModifiedRows]);
+
+  const clearMarkedRows = useCallback(() => {
     setModifiedRows([]);
-  }, [setModifiedRows]);
+    setDeletedRows([]);
+  }, [setModifiedRows, setDeletedRows]);
+
+  useEffect(() => {
+    console.log(`modifiedRows:`, modifiedRows);
+    console.log(`deletedRows:`, deletedRows);
+  }, [modifiedRows, deletedRows]);
 
   // The App component just maintains a copy of data.
   // The modification are done in table and tally components.
   const handleDataChange = useCallback((data, updates, source) => {
-    console.log(`handleDataChange: source=${source} data=`, data);
-    setData(data);
+    console.log(`handleDataChange: source=${source} tallySaved=${tallySavedRef.current} data=`, data);
+
+    let newData = data;
 
     // TBD: We can do the below asynchronously
     // In case it is a data modify or delete action
 
-    if (source === "fileReader") {
+    if (source === "dataSourceFileReader") {
       const indices = data.map((item,index) => index);
       if (indices.length > 0) {
         setModifiedRows(indices);
-        setTallySaved(false);
+        // setTallySaved(false);
+        tallySavedRef.current = false;
       }
-    } else if (source === "table") {
+    } else if (source === "dataSourceTable") {
       if (updates) {
         console.log(`App:handleDataChange ${JSON.stringify(updates, null, 2)}`, data);
-        const modifiedIndices = updates.reduce((prev, update) => {
-          if (update.payload.action === 'PATCH') {
-            const newIds = update.payload.indices.filter(index => !prev.includes(index));
-            return [...prev, ...newIds];
-          }
-          return prev;
+        const modificationUpdates = updates.filter(update => update.action === 'PATCH');
+        const modifiedIndices = modificationUpdates.reduce((prev, update) => {
+          const newIds = update.payload.indices.filter(index => !prev.includes(index));
+          return [...prev, ...newIds];
         }, [])
-
         if (modifiedIndices.length > 0) {
           updateModifiedRows(modifiedIndices);
         }
+
+        const deletionUpdates = updates.filter(update => update.action === 'DELETE');
+        const deletedIndices = deletionUpdates.reduce((prev, update) => {
+          const newIds = update.payload.indices.filter(index => !prev.includes(index));
+          return [...prev, ...newIds];
+        }, [])
+        if (deletedIndices.length > 0) {
+          // TBD: This is the place where we need to check if data is in sync with server
+          if (tallySavedRef.current) {
+            updateDeletedRows(deletedIndices);
+          } else {
+            newData = data.filter((item, index) => !deletedIndices.includes(index));
+          }
+        }
       }
-    } else if (source === "tally") {
+    } else if (source === "dataSourceTally") {
       // We can count the Tally Operations here. This will happen only if data is submitted to Tally
       // We should get the indices here and clear the modifiedRows
       console.log(`handleDataChange: source:${source} updates=`, updates);
 
       const responseIds = updates[0].payload;
-      if (responseIds.length === modifiedRows.length) {
+
+      // We need to be very careful here
+      // This should be an array instead of a map
+      if (responseIds.length > 0) {
         console.log(`Modified rows saved.`)
+        clearMarkedRows();
+        // setTallySaved(true);
+        tallySavedRef.current = true;
       }
 
-      clearModifiedRows();
-      setTallySaved(true);
     } else {
       console.error(`handleDataChange: source '${source}' not supported`);
     }
+
+    setData(newData);
   }, []);
 
   const handleLedgersChange = useCallback((ledgers) => {
@@ -94,9 +133,9 @@ const App = () => {
     setLedgers(ledgers);
   }, []);
 
-  useEffect(() => {
-    console.log(`modifiedRows:`, modifiedRows);
-  }, [modifiedRows]);
+  // useEffect(() => {
+  //   console.log(`modifiedRows:`, modifiedRows);
+  // }, [modifiedRows]);
 
   // Currently we are not using the AppContext
   const appContext = {
@@ -104,8 +143,9 @@ const App = () => {
     onDataChange: handleDataChange,
     ledgers,
     onLedgersChange: handleLedgersChange,
-    tallySaved,
-    modifiedRows
+    tallySaved:tallySavedRef.current,
+    modifiedRows,
+    deletedRows
   }
 
   return (

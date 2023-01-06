@@ -38,6 +38,7 @@ export const TallyMain = ({children}) => {
     onLedgersChange: updateLedgers,
     tallySaved,
     modifiedRows,
+    deletedRows
   } = useContext(AppContext);
 
   const boxShadow = "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px";
@@ -157,20 +158,24 @@ export const TallyMain = ({children}) => {
     setBankLedgers(tallyLedgers.filter(ledger => ledger.parent === "Bank Accounts"));
   }, [tallyLedgers]);
 
-  const deleteVouchers = useCallback((data, ids, targetCompany) => {
-      const vouchers = data.filter(item => ids.includes(item.id));
-
+  const deleteVouchers = useCallback((data, vouchers, targetCompany) => {
       remoteCall('tally:command:vouchers:delete', {targetCompany, vouchers})
           .then((response) => {
             console.log(response);
             // dispatch(deleteRows(ids));
+            const deletedIds = response.map(item => item.id);
+            const newData = data.filter(item => !deletedIds.includes(item.id));
+            if (updateData) {
+              const update = {action: "SET", payload:response};
+              updateData(newData, [update], "dataSourceTally");
+            }
           })
           .catch((error) => {
             alert("Error deleting vouchers. Make sure master Id is correct")
           });
   }, []);
 
-  const modifyVouchers = useCallback((vouchers, bankLedger, targetCompany) => {
+  const modifyVouchers = useCallback((data, vouchers, bankLedger, targetCompany) => {
     console.log(`modifyVouchers: `, vouchers);
 
     remoteCall('tally:command:vouchers:modify', {vouchers, bank:bankLedger, targetCompany})
@@ -184,10 +189,12 @@ export const TallyMain = ({children}) => {
   }, []);
 
   const addVouchers = useCallback((vouchers, bankLedger, targetCompany) => {
+    // const vouchersWithIds = vouchers.map((voucher, index) => {return {...voucher, id: index}});
+
     remoteCall('tally:command:vouchers:add', {vouchers, bank:bankLedger, targetCompany})
         .then((response) => {
           // console.log(`handleResponse: response=${JSON.stringify(response, null, 2)}`);
-          const resultIds = Object.fromEntries(response.map(res => [res.index, res.voucherId]));
+          const resultIds = response.map(res => [res.id, res.voucherId]);
           dispatch(setResponseIds(resultIds));
         })
         .catch(error => {
@@ -195,28 +202,45 @@ export const TallyMain = ({children}) => {
         });
   }, [])
 
-  const handleSync = useCallback((data, bankLedger, targetCompany, modifiedRows) => {
-    const vouchers = data.filter((item, index) => modifiedRows.includes(index));
-    modifyVouchers(vouchers, bankLedger, targetCompany);
+  const handleSync = useCallback((data, bankLedger, targetCompany, modifiedRows, deletedRows) => {
+    if (modifiedRows.length > 0) {
+      const vouchers = data.filter((item, index) => modifiedRows.includes(index));
+      modifyVouchers(data, vouchers, bankLedger, targetCompany);
+    }
+
+    if (deletedRows.length > 0) {
+      const vouchers = data.filter((item, index) => deletedRows.includes(index));
+      deleteVouchers(data, vouchers, targetCompany);
+    }
   }, []);
 
-  const handleSubmit = useCallback((data, bankLedger, targetCompany) => {
-    addVouchers(data, bankLedger, targetCompany);
-  }, []);
+  const handleSubmit = useCallback((data, bankLedger, targetCompany, modifiedRows) => {
+    const dataWithIds = data.map((item, index) => {return {...item, id: index}});
+    const update = {action: 'SET', payload: {}}
+    if (updateData) {
+      updateData(dataWithIds, [update], "dataSourceTally")
+    }
+
+    // We might have deleted the rows before submitting to server
+    const vouchers = dataWithIds.filter((item, index) => modifiedRows.includes(index));
+    addVouchers(vouchers, bankLedger, targetCompany);
+  }, [updateData]);
 
   useEffect(() => {
-    const newData = data.map((item, index) => {
+    const responseIdMap = Object.fromEntries(responseIds);
+    const dataWithServerIds = data.map((item) => {
       return {
         ...item,
-        voucherId: responseIds[index]
+        voucherId: responseIdMap[item.id]
       }
     });
 
+    console.log(`TallyMain: dataWithVoucherIds: ${JSON.stringify(dataWithServerIds, null, 2)}`)
     if (updateData) {
       const update = {action: 'SET', payload: responseIds}
-      updateData(newData, [update], "tally");
+      updateData(dataWithServerIds, [update], "dataSourceTally");
     }
-  }, [responseIds]);
+  }, [responseIds, updateData]);
 
   return (
     <div
@@ -271,11 +295,11 @@ export const TallyMain = ({children}) => {
         <div style={{width:"30%"}}>
           <TallySubmitBar
               title={tallySaved ? "Sync To Tally" : "Submit To Tally"}
-              disabled={modifiedRows.length < 1}
+              disabled={modifiedRows.length < 1 && deletedRows.length < 1}
               onSubmit={e => {
                 tallySaved ?
-                handleSync(data, currentBank, tallyTargetCompany, modifiedRows) :
-                handleSubmit(data, currentBank, tallyTargetCompany)
+                handleSync(data, currentBank, tallyTargetCompany, modifiedRows, deletedRows) :
+                handleSubmit(data, currentBank, tallyTargetCompany, modifiedRows)
               }}
           />
         </div>

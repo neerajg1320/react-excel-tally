@@ -175,7 +175,7 @@ export const TableWrapper = () => {
 
       if (updateData) {
         setTimeout(() => {
-          updateData(newData, updates, 'table');
+          updateData(newData, updates, 'dataSourceTable');
         })
       }
       return newData;

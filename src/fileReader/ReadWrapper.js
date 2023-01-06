@@ -426,7 +426,7 @@ export const ReadWrapper = () => {
 
     if (updateData) {
       const update = {action: 'ADD', payload:accountingData};
-      updateData(accountingData, [update], 'fileReader');
+      updateData(accountingData, [update], 'dataSourceFileReader');
     }
 
     navigate('/table', { state: { data:accountingData, headersMap:JSON.stringify(exactMapper) } });
