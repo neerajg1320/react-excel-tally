@@ -69,7 +69,7 @@ export const TableWrapper = () => {
   const [featureEdit, setFeatureEdit] = useState(true);
   const [featureBulk, setFeatureBulk] = useState(true);
   const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
-  const [featurePagination, setFeaturePagination] = useState(false);
+  const [featurePagination, setFeaturePagination] = useState(true);
   const [featureColumnFilter, setFeatureColumnFilter] = useState(true);
   const [featureSorting, setFeatureSorting] = useState(true);
   const [featureColumnVisibility, setFeatureColumnVisibility] = useState(true);
@@ -341,6 +341,8 @@ export const TableWrapper = () => {
     pageCount: tableInstanceRef.current.pageCount,
     setPageSize: tableInstanceRef.current.setPageSize,
     state: tableInstanceRef.current.state,
+
+    setGlobalFilter: tableInstanceRef.current.setGlobalFilter,
     
     onSelectionChange: handleSelectionUpdate,
     onRTableChange: handleRTableChange,
