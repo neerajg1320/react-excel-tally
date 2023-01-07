@@ -62,7 +62,7 @@ export const TableWrapper = () => {
   //    When we filter data the page numnber needs to be reset to 0.
   // 3. ColumnFilters, GlobalFilters
   //    When we clear filters we clear filters on both.
-  const {toggleAllRowsSelected, gotoPage} = tableInstanceRef.current;
+  const {toggleAllRowsSelected} = tableInstanceRef.current;
 
   // Table features:
   const [featureSelection, setFeatureSelection] = useState(true);
@@ -284,12 +284,6 @@ export const TableWrapper = () => {
     if (featurePagination) {
       if (!globalFilterValueRef.current && value) {
         console.log(`handleGlobalFilterChange: Filter active pulse`);
-        // We need to reset the page as the current page might be out of bound for filtered data
-
-        // Note: The following cause a rerender
-        setTimeout(() => {
-          // gotoPage(0);
-        }, 0)
       }
 
       if (globalFilterValueRef.current && !value) {
@@ -298,7 +292,7 @@ export const TableWrapper = () => {
     }
 
     globalFilterValueRef.current = value;
-  }, [gotoPage, globalFilterValueRef])
+  }, [globalFilterValueRef])
 
   const provideGlobalFilter = () => {
     return globalFilterValueRef.current;
@@ -319,18 +313,10 @@ export const TableWrapper = () => {
     }
 
     if (featurePagination) {
-      // We need to fill this as we do in GlobalFilter. We need a way to know
-      // if we started adding filter so that we can go to page number 1.
       const oldValue = columnFilters.filter(col => col.id === columnId)[0]?.value;
-      console.log(`handleColumnFilterChange: oldValue=`, oldValue);
+
       if (oldValue.filterText === "" && newValue.filterText !== "") {
         console.log(`handleColumnFilterChange: Filter active pulse`);
-        // We need to reset the page as the current page might be out of bound for filtered data
-
-        // Note: The following cause a rerender
-        setTimeout(() => {
-          // gotoPage(0);
-        }, 0)
       }
 
       if (oldValue.filterText !== "" && newValue.filterText === "") {
@@ -344,7 +330,6 @@ export const TableWrapper = () => {
       }
       return col;
     });
-
   }
 
   const provideColumnsFilters = () => {
