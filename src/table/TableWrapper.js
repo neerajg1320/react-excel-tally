@@ -13,7 +13,6 @@ import GlobalFilterSection from "./GlobalFilterSection";
 import PaginationSection from "./PaginationSection";
 import ColumnVisibilitySection from "./ColumnVisibilitySection";
 import AppContext from "../AppContext";
-import ColumnsFiltersSection from "./ColumnsFiltersSection";
 
 // We derive columns from data
 // We will just convert the columns.
@@ -493,7 +492,6 @@ export const TableWrapper = () => {
                     </Button>
                   }
                   {featureGlobalFilter && <GlobalFilterSection />}
-                  {featureColumnFilter && <ColumnsFiltersSection />}
                 </div>
               </div>
 
