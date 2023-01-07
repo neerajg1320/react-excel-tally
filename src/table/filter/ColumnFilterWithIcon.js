@@ -5,20 +5,38 @@ import {TiTick} from "react-icons/ti";
 import ExpandableButton from "../../components/expandableButton/ExpandableButton";
 import {useCallback, useEffect, useState} from "react";
 import InputWithIcons from "../../components/inputFlags/InputWithIcons";
+import {debug} from "../../components/config/debugEnabled";
 
 export const ColumnFilterWithIcon = ({ column: renderedColumn }) => {
+  if (debug.lifecycle && renderedColumn.id === "description") {
+    console.log(`Rendering <ColumnFilterWithIcon>`);
+  }
+
+  useEffect(() => {
+    if (debug.lifecycle && renderedColumn.id === "description") {
+      console.log(`<ColumnFilterWithIcon>: First render`);
+    }
+
+    return () => {
+      if (debug.lifecycle && renderedColumn.id === "description") {
+        console.log(`<ColumnFilterWithIcon>: Destroyed`);
+      }
+    }
+  }, []);
+
+
   const { filterValue, setFilter } = renderedColumn;
   const [expanded, setExpanded] = useState(false);
 
-  const [textEnabled, setTextEnabled] = useState(true);
   const [blankEnabled, setBlankEnabled] = useState(false);
+  const [textEnabled, setTextEnabled] = useState(true);
   const [filterText, setFilterText] = useState("");
   const [textFlags, setTextFlags] = useState({});
 
   useEffect(() => {
     // console.log(renderedColumn);
     if (renderedColumn.id === "description") {
-      console.log(`filterValue=${JSON.stringify(filterValue)}`);
+      console.log(`ColumnFilterWithIcon: filterValue=${JSON.stringify(filterValue)}`);
     }
   }, [filterValue]);
 

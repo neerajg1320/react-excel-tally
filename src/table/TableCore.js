@@ -243,6 +243,23 @@ const TableCore = () => {
       }
     }
 
+    if (featureColumnFilter) {
+      initState = {
+        ...initState,
+        filters:[
+          {
+            id: "description",
+            value: {
+              flagBlank: false,
+              flagText: true,
+              filterText: "cred",
+              textFlags:{}
+            }
+          }
+        ]
+      }
+    }
+
     return initState;
   }, [currentPageIndex, hiddenColumns, globalFilter]);
 

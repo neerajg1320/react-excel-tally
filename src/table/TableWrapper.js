@@ -68,11 +68,11 @@ export const TableWrapper = () => {
   const [featureSelection, setFeatureSelection] = useState(true);
   const [featureEdit, setFeatureEdit] = useState(true);
   const [featureBulk, setFeatureBulk] = useState(true);
-  const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
+  const [featureGlobalFilter, setFeatureGlobalFilter] = useState(false);
   const [featurePagination, setFeaturePagination] = useState(true);
   const [featureColumnFilter, setFeatureColumnFilter] = useState(true);
   const [featureSorting, setFeatureSorting] = useState(true);
-  const [featureColumnVisibility, setFeatureColumnVisibility] = useState(true);
+  const [featureColumnVisibility, setFeatureColumnVisibility] = useState(false);
 
   const [layoutDebug, setLayoutDebug] = useState(true);
   const [layoutShowTypes, setLayoutShowTypes] = useState(false);
@@ -304,6 +304,7 @@ export const TableWrapper = () => {
     setVisibleColumns(visibleColumns);
   }
 
+
   const tableContext = {
     data,
     columns: rtColumns,
@@ -340,6 +341,8 @@ export const TableWrapper = () => {
     gotoPage: tableInstanceRef.current.gotoPage,
     pageCount: tableInstanceRef.current.pageCount,
     setPageSize: tableInstanceRef.current.setPageSize,
+
+    // state changes because of any of pagination, globalFilter, columnFilter will render all
     state: tableInstanceRef.current.state,
 
     setGlobalFilter: tableInstanceRef.current.setGlobalFilter,
