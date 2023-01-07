@@ -307,13 +307,6 @@ export const TableWrapper = () => {
 
   const handleColumnsFiltersChange = (value) => {
     console.log(`TableWrapper:handleColumnsFiltersChange value:`, value);
-
-    if (featurePagination) {
-      // We need to fill this as we do in GlobalFilter. We need a way to know
-      // if we started adding filter so that we can go to page number 1.
-
-    }
-
     columnFiltersValueRef.current = value;
   }
 
@@ -321,9 +314,34 @@ export const TableWrapper = () => {
   const handleColumnFilterChange = (columnId, newValue) => {
     console.log(`TableWrapper:handleColumnFilterChange column=${columnId} newValue=`, newValue);
     const columnFilters = columnFiltersValueRef.current;
+
+    if (newValue === undefined) {
+      newValue = defaultColumnFilterState;
+    }
+
+    if (featurePagination) {
+      // We need to fill this as we do in GlobalFilter. We need a way to know
+      // if we started adding filter so that we can go to page number 1.
+      const oldValue = columnFilters.filter(col => col.id === columnId)[0]?.value;
+      console.log(`handleColumnFilterChange: oldValue=`, oldValue);
+      if (oldValue.filterText === "" && newValue.filterText !== "") {
+        console.log(`handleColumnFilterChange: Filter active pulse`);
+        // We need to reset the page as the current page might be out of bound for filtered data
+
+        // Note: The following cause a rerender
+        setTimeout(() => {
+          gotoPage(0);
+        }, 0)
+      }
+
+      if (oldValue.filterText !== "" && newValue.filterText === "") {
+        console.log(`handleColumnFilterChange: Filter inactive pulse`);
+      }
+    }
+
     columnFiltersValueRef.current = columnFilters.map(col => {
-      if (col.id == columnId) {
-        return {...col, value:newValue || defaultColumnFilterState};
+      if (col.id === columnId) {
+        return {...col, value:newValue};
       }
       return col;
     });

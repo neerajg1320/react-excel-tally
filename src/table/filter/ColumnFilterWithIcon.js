@@ -57,7 +57,7 @@ export const ColumnFilterWithIcon = ({ column: renderedColumn }) => {
       textFlags
     }
     // This is a hook we are trying
-    updateColumnFilter(renderedColumn.id, filterValue);
+    updateColumnFilter(renderedColumn.id, filterObject);
     setFilter(filterObject);
   }, [blankEnabled, textEnabled, filterText, textFlags]);
 
