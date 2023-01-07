@@ -14,7 +14,7 @@ import {RowCheckbox} from "./parts/RowCheckbox";
 import EditableCell from "./parts/editableControlledCell";
 import SelectableCell from "./parts/selectableCell";
 import React, {useCallback, useContext, useEffect, useMemo, useRef} from "react";
-import {debug} from "../components/config/debugEnabled";
+import {debug} from "../components/config/debug";
 import TableDataContext from "./TableDataContext";
 import {ColumnFilterWithIcon} from "./filter/ColumnFilterWithIcon";
 import {filterUsingRegex} from "./filter/customFilter";

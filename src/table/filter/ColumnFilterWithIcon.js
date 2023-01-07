@@ -5,7 +5,7 @@ import {TiTick} from "react-icons/ti";
 import ExpandableButton from "../../components/expandableButton/ExpandableButton";
 import {useCallback, useContext, useEffect, useState} from "react";
 import InputWithIcons from "../../components/inputFlags/InputWithIcons";
-import {debug} from "../../components/config/debugEnabled";
+import {debug} from "../../components/config/debug";
 import TableDataContext from "../TableDataContext";
 
 export const ColumnFilterWithIcon = ({ column: renderedColumn }) => {
