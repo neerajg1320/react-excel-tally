@@ -2,37 +2,37 @@ import {debug} from "../components/config/debugEnabled";
 import React, {useContext, useEffect} from "react";
 import TableDataContext from "./TableDataContext";
 
-const ColumnsFilterSection = () => {
+const ColumnsFiltersSection = () => {
   if (debug.lifecycle) {
-    console.log(`Rendering <ColumnsFilterSection>`);
+    console.log(`Rendering <ColumnsFiltersSection>`);
   }
 
   useEffect(() => {
     if (debug.lifecycle) {
-      console.log(`<ColumnsFilterSection>: First render`);
+      console.log(`<ColumnsFiltersSection>: First render`);
     }
 
     return () => {
       if (debug.lifecycle) {
-        console.log(`<ColumnsFilterSection>: Destroyed`);
+        console.log(`<ColumnsFiltersSection>: Destroyed`);
       }
     }
   }, []);
 
   const {
     state,
-    onColumnsFilterChange: updateColumnsFilter
+    onColumnsFiltersChange: updateColumnsFilters
   } = useContext(TableDataContext);
 
-  console.log(`ColumnsFilterSection: state=`, state);
+  console.log(`ColumnsFiltersSection: state=`, state);
 
   const filters = state?.filters;
 
   // This is important. The updated value is stored in the TableWrapper.
   // It is provided to TableCore upon re-render.
   useEffect(() => {
-    console.log(`ColumnsFilterSection: `, filters)
-    updateColumnsFilter(filters);
+    console.log(`ColumnsFiltersSection: `, filters)
+    updateColumnsFilters(filters);
   }, [filters]);
 
   return (
@@ -43,4 +43,4 @@ const ColumnsFilterSection = () => {
   );
 }
 
-export default React.memo(ColumnsFilterSection);
+export default React.memo(ColumnsFiltersSection);

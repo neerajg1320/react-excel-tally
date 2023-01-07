@@ -3,7 +3,7 @@ import {FaSearchPlus} from "react-icons/fa";
 import {AiOutlineClose} from "react-icons/ai";
 import {TiTick} from "react-icons/ti";
 import ExpandableButton from "../../components/expandableButton/ExpandableButton";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import InputWithIcons from "../../components/inputFlags/InputWithIcons";
 import {debug} from "../../components/config/debugEnabled";
 import TableDataContext from "../TableDataContext";
@@ -34,21 +34,30 @@ export const ColumnFilterWithIcon = ({ column: renderedColumn }) => {
   const [filterText, setFilterText] = useState(filterValue?.filterText);
   const [textFlags, setTextFlags] = useState(filterValue?.filterText);
 
+  // This should be taken out if we can find a way to know which column filter changed
+  const {
+    onColumnFilterChange: updateColumnFilter
+  } = useContext(TableDataContext);
+
   useEffect(() => {
     // console.log(renderedColumn);
     if (renderedColumn.id === "description") {
       console.log(`ColumnFilterWithIcon: filterValue=${JSON.stringify(filterValue)}`);
     }
+    updateColumnFilter(renderedColumn.id, filterValue);
   }, [filterValue]);
 
   useEffect(() => {
     // Check if we need state
+    console.log(`ColumnFilterWithIcon: filterText=${filterText}`)
     const filterObject = {
       flagBlank: blankEnabled,
       flagText: textEnabled,
       filterText,
       textFlags
     }
+    // This is a hook we are trying
+    updateColumnFilter(renderedColumn.id, filterValue);
     setFilter(filterObject);
   }, [blankEnabled, textEnabled, filterText, textFlags]);
 

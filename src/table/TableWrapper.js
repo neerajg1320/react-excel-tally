@@ -13,7 +13,7 @@ import GlobalFilterSection from "./GlobalFilterSection";
 import PaginationSection from "./PaginationSection";
 import ColumnVisibilitySection from "./ColumnVisibilitySection";
 import AppContext from "../AppContext";
-import ColumnsFilterSection from "./ColumnsFilterSection";
+import ColumnsFiltersSection from "./ColumnsFiltersSection";
 
 // We derive columns from data
 // We will just convert the columns.
@@ -278,8 +278,8 @@ export const TableWrapper = () => {
     return globalFilterValueRef.current;
   }
 
-  const handleColumnsFilterChange = (value) => {
-    console.log(`TableWrapper:handleColumnsFilterChange value:`, value);
+  const handleColumnsFiltersChange = (value) => {
+    console.log(`TableWrapper:handleColumnsFiltersChange value:`, value);
 
     if (featurePagination) {
       // We need to fill this as we do in GlobalFilter. We need a way to know
@@ -288,6 +288,11 @@ export const TableWrapper = () => {
     }
 
     columnFiltersValueRef.current = value;
+  }
+
+  // This is called from the ColumnFilterWithIcon component
+  const handleColumnFilterChange = (column, value) => {
+    console.log(`TableWrapper:handleColumnFilterChange column=${column} value=`, value);
   }
 
   const provideColumnsFilters = () => {
@@ -364,7 +369,8 @@ export const TableWrapper = () => {
 
     onGlobalFilterChange: handleGlobalFilterChange,
     getGlobalFilter: provideGlobalFilter,
-    onColumnsFilterChange: handleColumnsFilterChange,
+    onColumnsFiltersChange: handleColumnsFiltersChange,
+    onColumnFilterChange: handleColumnFilterChange,
     getColumnsFilters: provideColumnsFilters,
 
     onVisibleColumnsChange: handleVisibleColumnsChange,
@@ -434,7 +440,7 @@ export const TableWrapper = () => {
                     </Button>
                   }
                   {featureGlobalFilter && <GlobalFilterSection />}
-                  {featureColumnFilter && <ColumnsFilterSection />}
+                  {featureColumnFilter && <ColumnsFiltersSection />}
                 </div>
               </div>
 
