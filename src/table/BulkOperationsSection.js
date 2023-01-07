@@ -15,13 +15,11 @@ const BulkOperationsSection = ({edit}) => {
 
   const {
     columns,
-    tableInstance,
+    selectedFlatRows,
+    toggleAllRowsSelected,
     onChange:updateData
   } = useContext(TableDataContext);
-
-  // console.log(tableInstance);
-  const {selectedFlatRows, toggleAllRowsSelected} = tableInstance;
-
+  
   const bulkEnabled = selectedFlatRows && selectedFlatRows?.length > 0;
   const [bulkEditExpanded, setBulkEditExpanded] = useState(false);
 

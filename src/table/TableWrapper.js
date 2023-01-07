@@ -327,6 +327,9 @@ export const TableWrapper = () => {
     tableInstance: tableInstanceRef.current,
     allColumns: tableInstanceRef.current.allColumns,
     getToggleHideAllColumnsProps: tableInstanceRef.current.getToggleHideAllColumnsProps,
+    selectedFlatRows: tableInstanceRef.current.selectedFlatRows,
+    toggleAllRowsSelected:tableInstanceRef.current.toggleAllRowsSelected,
+
     onSelectionChange: handleSelectionUpdate,
     onRTableChange: handleRTableChange,
     onPageChange: handlePageChange,
