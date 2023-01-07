@@ -32,8 +32,8 @@ const ColumnsFiltersSection = () => {
   // This is important. The updated value is stored in the TableWrapper.
   // It is provided to TableCore upon re-render.
   useEffect(() => {
-    console.log(`ColumnsFiltersSection: `, filters)
-    updateColumnsFilters(filters);
+    // console.log(`ColumnsFiltersSection: `, filters)
+    // updateColumnsFilters(filters);
   }, [filters]);
 
   return (

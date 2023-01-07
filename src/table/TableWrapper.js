@@ -138,17 +138,19 @@ export const TableWrapper = () => {
     return columns.map(attachPresetProperties);
   }, [columns]);
 
+  const defaultColumnFilterState = {
+    flagBlank: false,
+    flagText: true,
+    filterText:"",
+    textFlags:{}
+  };
+
   const colFiltersInitState = useMemo(() => {
     return rtColumns.map(col => {
       // console.log(col);
       return {
         id: col.id,
-        value: {
-          flagBlank: false,
-          flagText: true,
-          filterText:"",
-          textFlags:{}
-        }
+        value: defaultColumnFilterState
       };
     });
   }, [rtColumns]);
@@ -316,8 +318,16 @@ export const TableWrapper = () => {
   }
 
   // This is called from the ColumnFilterWithIcon component
-  const handleColumnFilterChange = (column, value) => {
-    // console.log(`TableWrapper:handleColumnFilterChange column=${column} value=`, value);
+  const handleColumnFilterChange = (columnId, newValue) => {
+    console.log(`TableWrapper:handleColumnFilterChange column=${columnId} newValue=`, newValue);
+    const columnFilters = columnFiltersValueRef.current;
+    columnFiltersValueRef.current = columnFilters.map(col => {
+      if (col.id == columnId) {
+        return {...col, value:newValue || defaultColumnFilterState};
+      }
+      return col;
+    });
+
   }
 
   const provideColumnsFilters = () => {

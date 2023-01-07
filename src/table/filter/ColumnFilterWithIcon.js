@@ -39,13 +39,13 @@ export const ColumnFilterWithIcon = ({ column: renderedColumn }) => {
     onColumnFilterChange: updateColumnFilter
   } = useContext(TableDataContext);
 
-  useEffect(() => {
-    // console.log(renderedColumn);
-    if (renderedColumn.id === "description") {
-      console.log(`ColumnFilterWithIcon: filterValue=${JSON.stringify(filterValue)}`);
-    }
-    updateColumnFilter(renderedColumn.id, filterValue);
-  }, [filterValue]);
+  // useEffect(() => {
+  //   // console.log(renderedColumn);
+  //   if (renderedColumn.id === "description") {
+  //     console.log(`ColumnFilterWithIcon: filterValue=${JSON.stringify(filterValue)}`);
+  //   }
+  //   // updateColumnFilter(renderedColumn.id, filterValue);
+  // }, [filterValue]);
 
   useEffect(() => {
     // Check if we need state
@@ -63,6 +63,7 @@ export const ColumnFilterWithIcon = ({ column: renderedColumn }) => {
 
   const clearFilter = useCallback(() => {
     setExpanded(!expanded);
+    updateColumnFilter(renderedColumn.id, undefined);
     setFilter(undefined);
   }, [expanded]);
 
