@@ -14,7 +14,7 @@ import {RowCheckbox} from "./parts/RowCheckbox";
 import EditableCell from "./parts/editableControlledCell";
 import SelectableCell from "./parts/selectableCell";
 import React, {useCallback, useContext, useEffect, useMemo} from "react";
-import {debug} from "../components/config/debug";
+import {debug} from "../components/config/debugEnabled";
 import TableDataContext from "./TableDataContext";
 import {ColumnFilterWithIcon} from "./filter/ColumnFilterWithIcon";
 import {filterEmptyValues} from "./filter/customFilter";
@@ -51,6 +51,9 @@ const TableCore = () => {
     onPageChange: updatePageIndex,
     onPageSizeChange: updatePageSize,
     getPageIndex: getCurrentPageIndex,
+
+    getGlobalFilter,
+
     onVisibleColumnsChange: updateVisibleColumns,
   } = useContext(TableDataContext);
 
@@ -170,7 +173,10 @@ const TableCore = () => {
     return hooks;
   }, [featureSelection, featureGlobalFilter, featureEdit, featurePagination])
 
-  const currentPageIndex = getCurrentPageIndex();
+  const currentPageIndex = useMemo(() => {
+    return getCurrentPageIndex();
+  }, [getCurrentPageIndex]);
+
   // console.log(`<TableCore>: currentPageIndex:${currentPageIndex}`);
 
   const defaultColumnAttrs = useMemo(() => {
@@ -209,15 +215,24 @@ const TableCore = () => {
       });
   }, [columns]);
 
+  const globalFilter = useMemo(() => {
+    return getGlobalFilter();
+  }, [getGlobalFilter]);
+
+  const initialState = useMemo(() => {
+    return {
+      pageIndex: currentPageIndex,
+      hiddenColumns,
+      globalFilter
+    }
+  }, [currentPageIndex, hiddenColumns, globalFilter]);
+
   const tableInstance = useTable({
         columns,
         data,
         updateData,
         autoResetSelectedRows: false,
-        initialState: {
-          pageIndex: currentPageIndex,
-          hiddenColumns
-        },
+        initialState,
         defaultColumn: defaultColumnAttrs,
       },
       // useRowSelect is causing two renders

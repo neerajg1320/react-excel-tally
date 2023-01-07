@@ -1,7 +1,7 @@
-import React, {useContext, useEffect, useRef} from "react";
+import React, {useContext, useEffect, useMemo, useRef} from "react";
 import TableDataContext from "./TableDataContext";
 import {GlobalFilter} from "./filter/GlobalFilter";
-import {debug} from "../components/config/debug";
+import {debug} from "../components/config/debugEnabled";
 
 const GlobalFilterSection = () => {
   if (debug.lifecycle) {
@@ -23,15 +23,23 @@ const GlobalFilterSection = () => {
   const {
     tableInstance,
     featureGlobalFilter,
+    getGlobalFilter,
     onGlobalFilterChange: updateGlobalFilter
   } = useContext(TableDataContext);
 
+  const initialGlobalFilter = useMemo(() => {
+    return getGlobalFilter();
+  }, [getGlobalFilter]);
+
+  console.log(`initialGlobalFilter:${initialGlobalFilter}`);
+
   const {state, setGlobalFilter} = tableInstance;
-  const {globalFilter} = state || {};
+  const globalFilter = state?.globalFilter || initialGlobalFilter;
+
 
   // const globalFilterActiveRef = useRef(globalFilter && globalFilter.length);
   useEffect(() => {
-    // console.log(`Global Filter: ${globalFilter}`)
+    console.log(`Global Filter: ${globalFilter}`)
     updateGlobalFilter(globalFilter);
   }, [globalFilter]);
 

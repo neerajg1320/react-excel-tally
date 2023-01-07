@@ -4,7 +4,7 @@ import {colToRTCol} from "./adapters/reactTableAdapter";
 import {presetColumns} from "../presets/presetColumns";
 import React, {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import Button from "react-bootstrap/Button";
-import {debug} from "../components/config/debug";
+import {debug} from "../components/config/debugEnabled";
 import BulkOperationsSection from "./BulkOperationsSection";
 import TableDataContext from "./TableDataContext";
 import TableCore from "./TableCore";
@@ -87,6 +87,8 @@ export const TableWrapper = () => {
 
   // Store table position so that we can restore
   const tableScrollPositionRef = useRef(0);
+
+  console.log(`globalFilter='${globalFilterValueRef.current}'`);
 
   useEffect(() => {
     if (debug.lifecycle) {
@@ -242,7 +244,7 @@ export const TableWrapper = () => {
 
   // We need to fix the pageIndex when filtering starts
   const handleGlobalFilterChange = useCallback((value) => {
-    // console.log(`handleGlobalFilterChange: value=${value}`);
+    console.log(`handleGlobalFilterChange: value=${value}`);
 
     if (!globalFilterValueRef.current && value) {
       console.log(`Filter active pulse`);
@@ -259,7 +261,7 @@ export const TableWrapper = () => {
     }
 
     globalFilterValueRef.current = value;
-  }, [gotoPage])
+  }, [gotoPage, globalFilterValueRef])
 
   const providePageIndex = () => {
     // console.log(`providePageIndex: pageIndex=${pageIndex}`)
@@ -272,6 +274,10 @@ export const TableWrapper = () => {
     const {setGlobalFilter, setAllFilters} = tableInstanceRef.current;
     setAllFilters([]);
     setGlobalFilter("");
+  }
+
+  const provideGlobalFilter = () => {
+    return globalFilterValueRef.current;
   }
 
   const handleTableCoreScroll = (e) => {
@@ -313,7 +319,10 @@ export const TableWrapper = () => {
     onPageChange: handlePageChange,
     onPageSizeChange: handlePageSizeChange,
     getPageIndex: providePageIndex,
+
     onGlobalFilterChange: handleGlobalFilterChange,
+    getGlobalFilter: provideGlobalFilter,
+
     onVisibleColumnsChange: handleVisibleColumnsChange,
   };
 
