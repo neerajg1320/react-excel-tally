@@ -53,6 +53,7 @@ const TableCore = () => {
     getPageIndex: getCurrentPageIndex,
 
     getGlobalFilter,
+    getColumnsFilters,
 
     onVisibleColumnsChange: updateVisibleColumns,
   } = useContext(TableDataContext);
@@ -219,6 +220,10 @@ const TableCore = () => {
     return getGlobalFilter();
   }, [getGlobalFilter]);
 
+  const columnsFilters = useMemo(() => {
+    return getColumnsFilters();
+  }, [getColumnsFilters]);
+
   const initialState = useMemo(() => {
     let initState = {}
 
@@ -244,24 +249,15 @@ const TableCore = () => {
     }
 
     if (featureColumnFilter) {
+      console.log(`TableCore:columnsFilters`, columnsFilters);
       initState = {
         ...initState,
-        filters:[
-          // {
-          //   id: "description",
-          //   value: {
-          //     flagBlank: false,
-          //     flagText: true,
-          //     filterText: "cred",
-          //     textFlags:{}
-          //   }
-          // }
-        ]
+        filters:columnsFilters
       }
     }
 
     return initState;
-  }, [currentPageIndex, hiddenColumns, globalFilter]);
+  }, [currentPageIndex, hiddenColumns, globalFilter, columnsFilters]);
 
   const tableInstance = useTable({
         columns,

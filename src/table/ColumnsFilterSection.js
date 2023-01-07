@@ -1,5 +1,6 @@
 import {debug} from "../components/config/debugEnabled";
-import React,{useEffect} from "react";
+import React, {useContext, useEffect} from "react";
+import TableDataContext from "./TableDataContext";
 
 const ColumnsFilterSection = () => {
   if (debug.lifecycle) {
@@ -17,6 +18,20 @@ const ColumnsFilterSection = () => {
       }
     }
   }, []);
+
+  const {
+    state,
+    onColumnsFilterChange: updateColumnsFilter
+  } = useContext(TableDataContext);
+
+  const filters = state?.filters;
+
+  // This is important. The updated value is stored in the TableWrapper.
+  // It is provided to TableCore upon re-render.
+  useEffect(() => {
+    console.log(`ColumnsFilterSection: `, filters)
+    updateColumnsFilter(filters);
+  }, [filters]);
 
   return (
     <>

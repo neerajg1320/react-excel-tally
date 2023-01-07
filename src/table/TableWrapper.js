@@ -85,7 +85,7 @@ export const TableWrapper = () => {
   const [pageSize, setPageSize] = useState(10);
 
   const globalFilterValueRef = useRef(undefined);
-  const columnFiltersValueRef = useRef({});
+  const columnFiltersValueRef = useRef([]);
 
   const [visibleColumns, setVisibleColumns] = useState([]);
 
@@ -278,11 +278,19 @@ export const TableWrapper = () => {
     return globalFilterValueRef.current;
   }
 
-  const handleColumnFilterChange = ({column, value}) => {
+  const handleColumnsFilterChange = (value) => {
+    console.log(`TableWrapper:handleColumnsFilterChange value:`, value);
 
+    if (featurePagination) {
+      // We need to fill this as we do in GlobalFilter. We need a way to know
+      // if we started adding filter so that we can go to page number 1.
+      
+    }
+
+    columnFiltersValueRef.current = value;
   }
 
-  const provideColumnFilters = () => {
+  const provideColumnsFilters = () => {
     return columnFiltersValueRef.current;
   }
 
@@ -356,8 +364,8 @@ export const TableWrapper = () => {
 
     onGlobalFilterChange: handleGlobalFilterChange,
     getGlobalFilter: provideGlobalFilter,
-    onColumnFilterChange: handleColumnFilterChange,
-    getColumnFilters: provideColumnFilters,
+    onColumnsFilterChange: handleColumnsFilterChange,
+    getColumnsFilters: provideColumnsFilters,
 
     onVisibleColumnsChange: handleVisibleColumnsChange,
   };
