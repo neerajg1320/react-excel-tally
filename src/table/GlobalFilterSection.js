@@ -28,7 +28,8 @@ const GlobalFilterSection = () => {
 
   const globalFilter = state?.globalFilter;
 
-  // const globalFilterActiveRef = useRef(globalFilter && globalFilter.length);
+  // This is important. The updated value is stored in the TableWrapper.
+  // It is provided to TableCore upon re-render.
   useEffect(() => {
     console.log(`Global Filter: ${globalFilter}`)
     updateGlobalFilter(globalFilter);

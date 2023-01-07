@@ -13,6 +13,7 @@ import GlobalFilterSection from "./GlobalFilterSection";
 import PaginationSection from "./PaginationSection";
 import ColumnVisibilitySection from "./ColumnVisibilitySection";
 import AppContext from "../AppContext";
+import ColumnsFilterSection from "./ColumnsFilterSection";
 
 // We derive columns from data
 // We will just convert the columns.
@@ -68,7 +69,7 @@ export const TableWrapper = () => {
   const [featureSelection, setFeatureSelection] = useState(true);
   const [featureEdit, setFeatureEdit] = useState(true);
   const [featureBulk, setFeatureBulk] = useState(true);
-  const [featureGlobalFilter, setFeatureGlobalFilter] = useState(false);
+  const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
   const [featurePagination, setFeaturePagination] = useState(true);
   const [featureColumnFilter, setFeatureColumnFilter] = useState(true);
   const [featureSorting, setFeatureSorting] = useState(true);
@@ -425,6 +426,7 @@ export const TableWrapper = () => {
                     </Button>
                   }
                   {featureGlobalFilter && <GlobalFilterSection />}
+                  {featureColumnFilter && <ColumnsFilterSection />}
                 </div>
               </div>
 

@@ -247,15 +247,15 @@ const TableCore = () => {
       initState = {
         ...initState,
         filters:[
-          {
-            id: "description",
-            value: {
-              flagBlank: false,
-              flagText: true,
-              filterText: "cred",
-              textFlags:{}
-            }
-          }
+          // {
+          //   id: "description",
+          //   value: {
+          //     flagBlank: false,
+          //     flagText: true,
+          //     filterText: "cred",
+          //     textFlags:{}
+          //   }
+          // }
         ]
       }
     }

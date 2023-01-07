@@ -28,10 +28,10 @@ export const ColumnFilterWithIcon = ({ column: renderedColumn }) => {
   const { filterValue, setFilter } = renderedColumn;
   const [expanded, setExpanded] = useState(false);
 
-  const [blankEnabled, setBlankEnabled] = useState(false);
-  const [textEnabled, setTextEnabled] = useState(true);
-  const [filterText, setFilterText] = useState("");
-  const [textFlags, setTextFlags] = useState({});
+  const [blankEnabled, setBlankEnabled] = useState(filterValue?.flagBlank);
+  const [textEnabled, setTextEnabled] = useState(filterValue?.flagText);
+  const [filterText, setFilterText] = useState(filterValue?.filterText);
+  const [textFlags, setTextFlags] = useState(filterValue?.filterText);
 
   useEffect(() => {
     // console.log(renderedColumn);
