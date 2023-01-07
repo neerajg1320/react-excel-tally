@@ -283,6 +283,7 @@ const TableCore = () => {
     prepareRow,
     selectedFlatRows,
     page,
+    gotoPage,
     state,
     visibleColumns
   } = tableInstance;
@@ -296,9 +297,17 @@ const TableCore = () => {
   useEffect(() => {
     if (rows.length != rowsPrevRef.current.length) {
       console.log(`TableCore:rows prevRowCount:${rowsPrevRef.current.length} count=${rows.length}`)
+      if (featurePagination) {
+        if (currentPageIndex > 0) {
+          console.log(`TableCore: Page index reset to 0`);
+          setTimeout(() => {
+            gotoPage(0);
+          }, 0);
+        }
+      }
     }
     rowsPrevRef.current = rows;
-  }, [rows]);
+  }, [rows, currentPageIndex, gotoPage]);
   // console.log(`tableInstance=`, tableInstance);
 
   useEffect(() => {

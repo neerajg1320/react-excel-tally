@@ -288,7 +288,7 @@ export const TableWrapper = () => {
 
         // Note: The following cause a rerender
         setTimeout(() => {
-          gotoPage(0);
+          // gotoPage(0);
         }, 0)
       }
 
@@ -329,7 +329,7 @@ export const TableWrapper = () => {
 
         // Note: The following cause a rerender
         setTimeout(() => {
-          gotoPage(0);
+          // gotoPage(0);
         }, 0)
       }
 
