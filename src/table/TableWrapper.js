@@ -284,7 +284,7 @@ export const TableWrapper = () => {
     if (featurePagination) {
       // We need to fill this as we do in GlobalFilter. We need a way to know
       // if we started adding filter so that we can go to page number 1.
-      
+
     }
 
     columnFiltersValueRef.current = value;

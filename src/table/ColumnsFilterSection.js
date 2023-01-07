@@ -24,6 +24,8 @@ const ColumnsFilterSection = () => {
     onColumnsFilterChange: updateColumnsFilter
   } = useContext(TableDataContext);
 
+  console.log(`ColumnsFilterSection: state=`, state);
+
   const filters = state?.filters;
 
   // This is important. The updated value is stored in the TableWrapper.
