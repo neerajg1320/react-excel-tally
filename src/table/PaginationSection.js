@@ -20,11 +20,6 @@ const PaginationSection = () => {
   }, []);
 
   const {
-    tableInstance
-  } = useContext(TableDataContext);
-
-  const {
-    // page,
     nextPage,
     previousPage,
     canNextPage,
@@ -34,7 +29,7 @@ const PaginationSection = () => {
     pageCount,
     setPageSize,
     state,
-  } = tableInstance;
+  } = useContext(TableDataContext);
 
   const {
     pageIndex,

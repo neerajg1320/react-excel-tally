@@ -69,7 +69,7 @@ export const TableWrapper = () => {
   const [featureEdit, setFeatureEdit] = useState(true);
   const [featureBulk, setFeatureBulk] = useState(true);
   const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
-  const [featurePagination, setFeaturePagination] = useState(true);
+  const [featurePagination, setFeaturePagination] = useState(false);
   const [featureColumnFilter, setFeatureColumnFilter] = useState(true);
   const [featureSorting, setFeatureSorting] = useState(true);
   const [featureColumnVisibility, setFeatureColumnVisibility] = useState(true);
@@ -254,14 +254,16 @@ export const TableWrapper = () => {
   const handleGlobalFilterChange = useCallback((value) => {
     console.log(`handleGlobalFilterChange: value=${value}`);
 
-    if (!globalFilterValueRef.current && value) {
-      console.log(`handleGlobalFilterChange: Filter active pulse`);
-      // We need to reset the page as the current page might be out of bound for filtered data
+    if (featurePagination) {
+      if (!globalFilterValueRef.current && value) {
+        console.log(`handleGlobalFilterChange: Filter active pulse`);
+        // We need to reset the page as the current page might be out of bound for filtered data
 
-      // Note: The following cause a rerender
-      setTimeout(() => {
-        gotoPage(0);
-      }, 0)
+        // Note: The following cause a rerender
+        setTimeout(() => {
+          gotoPage(0);
+        }, 0)
+      }
     }
 
     if (globalFilterValueRef.current && !value) {
@@ -330,6 +332,16 @@ export const TableWrapper = () => {
     selectedFlatRows: tableInstanceRef.current.selectedFlatRows,
     toggleAllRowsSelected:tableInstanceRef.current.toggleAllRowsSelected,
 
+    nextPage: tableInstanceRef.current.nextPage,
+    previousPage: tableInstanceRef.current.previousPage,
+    canNextPage: tableInstanceRef.current.canNextPage,
+    canPreviousPage: tableInstanceRef.current.canPreviousPage,
+    pageOptions: tableInstanceRef.current.pageOptions,
+    gotoPage: tableInstanceRef.current.gotoPage,
+    pageCount: tableInstanceRef.current.pageCount,
+    setPageSize: tableInstanceRef.current.setPageSize,
+    state: tableInstanceRef.current.state,
+    
     onSelectionChange: handleSelectionUpdate,
     onRTableChange: handleRTableChange,
     onPageChange: handlePageChange,
