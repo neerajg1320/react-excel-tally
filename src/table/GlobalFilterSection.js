@@ -25,16 +25,9 @@ const GlobalFilterSection = () => {
     getGlobalFilter,
     onGlobalFilterChange: updateGlobalFilter
   } = useContext(TableDataContext);
-
-  const initialGlobalFilter = useMemo(() => {
-    return getGlobalFilter();
-  }, [getGlobalFilter]);
-
-  console.log(`initialGlobalFilter:${initialGlobalFilter}`);
-
+  
   const {state, setGlobalFilter} = tableInstance;
-  const globalFilter = state?.globalFilter || initialGlobalFilter;
-
+  const globalFilter = state?.globalFilter;
 
   // const globalFilterActiveRef = useRef(globalFilter && globalFilter.length);
   useEffect(() => {

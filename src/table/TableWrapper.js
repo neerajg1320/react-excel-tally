@@ -83,7 +83,7 @@ export const TableWrapper = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
 
-  const globalFilterValueRef = useRef('');
+  const globalFilterValueRef = useRef(undefined);
   const columnFiltersValueRef = useRef({});
 
   const [visibleColumns, setVisibleColumns] = useState([]);
@@ -255,7 +255,7 @@ export const TableWrapper = () => {
     console.log(`handleGlobalFilterChange: value=${value}`);
 
     if (!globalFilterValueRef.current && value) {
-      console.log(`Filter active pulse`);
+      console.log(`handleGlobalFilterChange: Filter active pulse`);
       // We need to reset the page as the current page might be out of bound for filtered data
 
       // Note: The following cause a rerender
@@ -265,7 +265,7 @@ export const TableWrapper = () => {
     }
 
     if (globalFilterValueRef.current && !value) {
-      console.log(`Filter inactive pulse`);
+      console.log(`handleGlobalFilterChange: Filter inactive pulse`);
     }
 
     globalFilterValueRef.current = value;
