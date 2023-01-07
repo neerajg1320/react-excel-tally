@@ -264,10 +264,10 @@ export const TableWrapper = () => {
           gotoPage(0);
         }, 0)
       }
-    }
 
-    if (globalFilterValueRef.current && !value) {
-      console.log(`handleGlobalFilterChange: Filter inactive pulse`);
+      if (globalFilterValueRef.current && !value) {
+        console.log(`handleGlobalFilterChange: Filter inactive pulse`);
+      }
     }
 
     globalFilterValueRef.current = value;

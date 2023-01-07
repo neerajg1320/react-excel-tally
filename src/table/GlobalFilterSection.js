@@ -25,7 +25,7 @@ const GlobalFilterSection = () => {
     setGlobalFilter,
     onGlobalFilterChange: updateGlobalFilter
   } = useContext(TableDataContext);
-  
+
   const globalFilter = state?.globalFilter;
 
   // const globalFilterActiveRef = useRef(globalFilter && globalFilter.length);
