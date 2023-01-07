@@ -287,7 +287,10 @@ const TableCore = () => {
     visibleColumns
   } = tableInstance;
 
-  const visibleRows = featurePagination ? page : rows;
+  const visibleRows = useMemo(() => {
+    return featurePagination ? page : rows
+  }, [page, rows]);
+
 
   // console.log(`tableInstance=`, tableInstance);
 
