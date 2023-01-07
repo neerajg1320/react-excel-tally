@@ -220,11 +220,30 @@ const TableCore = () => {
   }, [getGlobalFilter]);
 
   const initialState = useMemo(() => {
-    return {
-      pageIndex: currentPageIndex,
-      hiddenColumns,
-      globalFilter
+    let initState = {}
+
+    if (featurePagination) {
+      initState = {
+        ...initState,
+        pageIndex: currentPageIndex,
+      }
     }
+
+    if (featureColumnVisibility) {
+      initState = {
+        ...initState,
+        hiddenColumns
+      }
+    }
+
+    if (featureGlobalFilter) {
+      initState = {
+        ...initState,
+        globalFilter
+      }
+    }
+
+    return initState;
   }, [currentPageIndex, hiddenColumns, globalFilter]);
 
   const tableInstance = useTable({
