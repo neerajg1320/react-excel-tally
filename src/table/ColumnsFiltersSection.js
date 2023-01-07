@@ -2,6 +2,7 @@ import {debug} from "../components/config/debugEnabled";
 import React, {useContext, useEffect} from "react";
 import TableDataContext from "./TableDataContext";
 
+// This is not used as of now.
 const ColumnsFiltersSection = () => {
   if (debug.lifecycle) {
     console.log(`Rendering <ColumnsFiltersSection>`);
@@ -31,8 +32,8 @@ const ColumnsFiltersSection = () => {
   // This is important. The updated value is stored in the TableWrapper.
   // It is provided to TableCore upon re-render.
   useEffect(() => {
-    console.log(`ColumnsFiltersSection: `, filters)
-    updateColumnsFilters(filters);
+    // console.log(`ColumnsFiltersSection: `, filters)
+    // updateColumnsFilters(filters);
   }, [filters]);
 
   return (

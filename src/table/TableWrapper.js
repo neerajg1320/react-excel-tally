@@ -130,6 +130,7 @@ export const TableWrapper = () => {
   // eslint-disable-next-line
   const [rtColumns, setRTColumns] = useState(getColumns(data).map(attachPresetProperties));
 
+
   // Keep this function as this is used for causing a render
   // Check the behaviour before and after in case this has to be deleted
   const handleSelectionUpdate = useCallback((seletedFlatRows) => {
