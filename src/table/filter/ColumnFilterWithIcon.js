@@ -6,14 +6,21 @@ import ExpandableButton from "../../components/expandableButton/ExpandableButton
 import {useCallback, useEffect, useState} from "react";
 import InputWithIcons from "../../components/inputFlags/InputWithIcons";
 
-export const ColumnFilterWithIcon = ({ column }) => {
-  const { filterValue, setFilter } = column;
+export const ColumnFilterWithIcon = ({ column: renderedColumn }) => {
+  const { filterValue, setFilter } = renderedColumn;
   const [expanded, setExpanded] = useState(false);
 
   const [textEnabled, setTextEnabled] = useState(true);
   const [blankEnabled, setBlankEnabled] = useState(false);
   const [filterText, setFilterText] = useState("");
   const [textFlags, setTextFlags] = useState({});
+
+  useEffect(() => {
+    // console.log(renderedColumn);
+    if (renderedColumn.id === "description") {
+      console.log(`filterValue=${JSON.stringify(filterValue)}`);
+    }
+  }, [filterValue]);
 
   useEffect(() => {
     // Check if we need state
@@ -49,9 +56,9 @@ export const ColumnFilterWithIcon = ({ column }) => {
           icon={searchIcon}
           value={expanded}
           onChange={e => setExpanded(!expanded)}
-          popupPosition={column.index < 3 ?
+          popupPosition={renderedColumn.index < 3 ?
               {top:"100%", left:"50%"}:
-                  column.index < 6 ?
+                  renderedColumn.index < 6 ?
                   {top:"100%", transform: "translate(-50%, 0)"} :
                   {top:"100%", right:"50%"}
           }
@@ -69,7 +76,7 @@ export const ColumnFilterWithIcon = ({ column }) => {
                 }}
             >
               <span style={{color:"black", fontSize:".8em", fontWeight: "normal" }}>
-                {column.Header}
+                {renderedColumn.Header}
               </span>
               <BiSearchAlt  />
             </div>

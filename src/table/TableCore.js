@@ -17,7 +17,7 @@ import React, {useCallback, useContext, useEffect, useMemo} from "react";
 import {debug} from "../components/config/debugEnabled";
 import TableDataContext from "./TableDataContext";
 import {ColumnFilterWithIcon} from "./filter/ColumnFilterWithIcon";
-import {filterEmptyValues} from "./filter/customFilter";
+import {filterUsingRegex} from "./filter/customFilter";
 import TooltipComponent from "../components/tooltip/TooltipComponent";
 
 // Supports:
@@ -185,7 +185,7 @@ const TableCore = () => {
     if (featureColumnFilter) {
       attrs = {
         Filter: ColumnFilterWithIcon,
-        filter: filterEmptyValues,
+        filter: filterUsingRegex,
       }
     }
 

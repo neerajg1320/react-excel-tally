@@ -82,13 +82,16 @@ export const TableWrapper = () => {
   const [selectedRows, setSelectedRows] = useState([])
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
+
   const globalFilterValueRef = useRef('');
+  const columnFiltersValueRef = useRef({});
+
   const [visibleColumns, setVisibleColumns] = useState([]);
 
   // Store table position so that we can restore
   const tableScrollPositionRef = useRef(0);
 
-  console.log(`globalFilter='${globalFilterValueRef.current}'`);
+  // console.log(`globalFilter='${globalFilterValueRef.current}'`);
 
   useEffect(() => {
     if (debug.lifecycle) {
@@ -242,6 +245,11 @@ export const TableWrapper = () => {
     setPageSize(pageSize);
   }, []);
 
+  const providePageIndex = () => {
+    // console.log(`providePageIndex: pageIndex=${pageIndex}`)
+    return pageIndex;
+  }
+
   // We need to fix the pageIndex when filtering starts
   const handleGlobalFilterChange = useCallback((value) => {
     console.log(`handleGlobalFilterChange: value=${value}`);
@@ -263,9 +271,16 @@ export const TableWrapper = () => {
     globalFilterValueRef.current = value;
   }, [gotoPage, globalFilterValueRef])
 
-  const providePageIndex = () => {
-    // console.log(`providePageIndex: pageIndex=${pageIndex}`)
-    return pageIndex;
+  const provideGlobalFilter = () => {
+    return globalFilterValueRef.current;
+  }
+
+  const handleColumnFilterChange = ({column, value}) => {
+
+  }
+
+  const provideColumnFilters = () => {
+    return columnFiltersValueRef.current;
   }
 
   // TBV: Check if this can be in TableWrapper
@@ -274,10 +289,6 @@ export const TableWrapper = () => {
     const {setGlobalFilter, setAllFilters} = tableInstanceRef.current;
     setAllFilters([]);
     setGlobalFilter("");
-  }
-
-  const provideGlobalFilter = () => {
-    return globalFilterValueRef.current;
   }
 
   const handleTableCoreScroll = (e) => {
@@ -322,6 +333,8 @@ export const TableWrapper = () => {
 
     onGlobalFilterChange: handleGlobalFilterChange,
     getGlobalFilter: provideGlobalFilter,
+    onColumnFilterChange: handleColumnFilterChange,
+    getColumnFilters: provideColumnFilters,
 
     onVisibleColumnsChange: handleVisibleColumnsChange,
   };
@@ -387,7 +400,7 @@ export const TableWrapper = () => {
                       Clear Filters
                     </Button>
                   }
-                  <GlobalFilterSection />
+                  {featureGlobalFilter && <GlobalFilterSection />}
                 </div>
               </div>
 

@@ -1,6 +1,6 @@
 import {isString, valToString} from "../../utils/types";
 
-export const filterEmptyValues = (rows, columnIds, filterValue) => {
+export const filterUsingRegex = (rows, columnIds, filterValue) => {
   // console.log(`rows[]=${rows.length} columnsIds=${JSON.stringify(columnIds, null, 2)}`);
   // console.log(`filterValue=${JSON.stringify(filterValue, null, 2)}`);
 
