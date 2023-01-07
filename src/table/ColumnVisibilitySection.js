@@ -24,18 +24,13 @@ const ColumnVisibilitySection = () => {
   const [showColumnsExpanded, setShowColumnsExpanded] = useState(false);
 
   const {
-    tableInstance,
-  } = useContext(TableDataContext);
-
-  const {
     allColumns,
     getToggleHideAllColumnsProps
-  } = tableInstance;
-
+  } = useContext(TableDataContext);
 
   return (
     <>
-      {(tableInstance && allColumns) &&
+      {allColumns &&
       <div style={{marginLeft: "20px"}}>
         <ExpandableButton
             title="Show Columns"

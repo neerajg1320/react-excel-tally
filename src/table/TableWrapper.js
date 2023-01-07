@@ -69,10 +69,10 @@ export const TableWrapper = () => {
   const [featureEdit, setFeatureEdit] = useState(true);
   const [featureBulk, setFeatureBulk] = useState(true);
   const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
-  const [featurePagination, setFeaturePagination] = useState(false);
+  const [featurePagination, setFeaturePagination] = useState(true);
   const [featureColumnFilter, setFeatureColumnFilter] = useState(true);
   const [featureSorting, setFeatureSorting] = useState(true);
-  const [featureColumnVisibility, setFeatureColumnVisibility] = useState(false);
+  const [featureColumnVisibility, setFeatureColumnVisibility] = useState(true);
 
   const [layoutDebug, setLayoutDebug] = useState(true);
   const [layoutShowTypes, setLayoutShowTypes] = useState(false);
@@ -325,6 +325,8 @@ export const TableWrapper = () => {
     layoutDebug,
 
     tableInstance: tableInstanceRef.current,
+    allColumns: tableInstanceRef.current.allColumns,
+    getToggleHideAllColumnsProps: tableInstanceRef.current.getToggleHideAllColumnsProps,
     onSelectionChange: handleSelectionUpdate,
     onRTableChange: handleRTableChange,
     onPageChange: handlePageChange,
