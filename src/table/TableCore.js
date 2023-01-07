@@ -13,7 +13,7 @@ import {
 import {RowCheckbox} from "./parts/RowCheckbox";
 import EditableCell from "./parts/editableControlledCell";
 import SelectableCell from "./parts/selectableCell";
-import React, {useCallback, useContext, useEffect, useMemo} from "react";
+import React, {useCallback, useContext, useEffect, useMemo, useRef} from "react";
 import {debug} from "../components/config/debugEnabled";
 import TableDataContext from "./TableDataContext";
 import {ColumnFilterWithIcon} from "./filter/ColumnFilterWithIcon";
@@ -287,11 +287,18 @@ const TableCore = () => {
     visibleColumns
   } = tableInstance;
 
+  const rowsPrevRef = useRef([]);
   const visibleRows = useMemo(() => {
     return featurePagination ? page : rows
   }, [page, rows]);
 
 
+  useEffect(() => {
+    if (rows.length != rowsPrevRef.current.length) {
+      console.log(`TableCore:rows prevRowCount:${rowsPrevRef.current.length} count=${rows.length}`)
+    }
+    rowsPrevRef.current = rows;
+  }, [rows]);
   // console.log(`tableInstance=`, tableInstance);
 
   useEffect(() => {
