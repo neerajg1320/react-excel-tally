@@ -25,7 +25,6 @@ const ColumnVisibilitySection = () => {
 
   const {
     tableInstance,
-    featureColumnVisibility,
   } = useContext(TableDataContext);
 
   const {
@@ -33,13 +32,10 @@ const ColumnVisibilitySection = () => {
     getToggleHideAllColumnsProps
   } = tableInstance;
 
-  useEffect(() => {
-    // console.log(`allColumns: changed`);
-  }, [allColumns]);
 
   return (
     <>
-      {(featureColumnVisibility && tableInstance && allColumns) &&
+      {(tableInstance && allColumns) &&
       <div style={{marginLeft: "20px"}}>
         <ExpandableButton
             title="Show Columns"

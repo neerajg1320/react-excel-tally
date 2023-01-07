@@ -69,7 +69,7 @@ export const TableWrapper = () => {
   const [featureEdit, setFeatureEdit] = useState(true);
   const [featureBulk, setFeatureBulk] = useState(true);
   const [featureGlobalFilter, setFeatureGlobalFilter] = useState(true);
-  const [featurePagination, setFeaturePagination] = useState(true);
+  const [featurePagination, setFeaturePagination] = useState(false);
   const [featureColumnFilter, setFeatureColumnFilter] = useState(true);
   const [featureSorting, setFeatureSorting] = useState(true);
   const [featureColumnVisibility, setFeatureColumnVisibility] = useState(false);
@@ -364,11 +364,13 @@ export const TableWrapper = () => {
                 display:"flex", flexDirection:"row", justifyContent:'space-between', gap:"40px",
                 width: "100%", padding: "0 40px",
               }}>
-                <div>
-                  <BulkOperationsSection edit={featureEdit}/>
-                </div>
+                {featureBulk &&
+                  <div>
+                    <BulkOperationsSection edit={featureEdit}/>
+                  </div>
+                }
 
-                <ColumnVisibilitySection />
+                {featureColumnVisibility && <ColumnVisibilitySection />}
 
                 {layoutDebug &&
                     <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
@@ -416,7 +418,7 @@ export const TableWrapper = () => {
                   <TableCore key={tableKeyRef.current} />
               </div>
 
-              <PaginationSection />
+              {featurePagination && <PaginationSection />}
 
               {updateWithCommit &&
               <div style={{
