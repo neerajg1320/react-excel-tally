@@ -85,7 +85,7 @@ export const TableWrapper = () => {
   const [pageSize, setPageSize] = useState(10);
 
   const globalFilterValueRef = useRef(undefined);
-  const columnFiltersValueRef = useRef([]);
+
 
   const [visibleColumns, setVisibleColumns] = useState([]);
 
@@ -127,9 +127,33 @@ export const TableWrapper = () => {
     return colToRTCol(col, {showTypes:layoutShowTypes});
   }, [ledgers]);
 
-  // eslint-disable-next-line
-  const [rtColumns, setRTColumns] = useState(getColumns(data).map(attachPresetProperties));
 
+  // The columns are derived from data only once.
+  // We will change this behaviour in the future if needed.
+  const columns = useMemo(() => {
+    return getColumns(data);
+  }, []);
+
+  const rtColumns = useMemo(() => {
+    return columns.map(attachPresetProperties);
+  }, [columns]);
+
+  const colFiltersInitState = useMemo(() => {
+    return rtColumns.map(col => {
+      // console.log(col);
+      return {
+        id: col.id,
+        value: {
+          flagBlank: false,
+          flagText: true,
+          filterText:"",
+          textFlags:{}
+        }
+      };
+    });
+  }, [rtColumns]);
+
+  const columnFiltersValueRef = useRef(colFiltersInitState);
 
   // Keep this function as this is used for causing a render
   // Check the behaviour before and after in case this has to be deleted
@@ -293,7 +317,7 @@ export const TableWrapper = () => {
 
   // This is called from the ColumnFilterWithIcon component
   const handleColumnFilterChange = (column, value) => {
-    console.log(`TableWrapper:handleColumnFilterChange column=${column} value=`, value);
+    // console.log(`TableWrapper:handleColumnFilterChange column=${column} value=`, value);
   }
 
   const provideColumnsFilters = () => {
