@@ -1,6 +1,6 @@
 {
-  "name": "excel-table-min",
-  "version": "0.1.0",
+  "name": "TallyKit",
+  "version": "0.5.1",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -31,7 +31,8 @@
   },
   "devDependencies": {
     "electron": "^22.0.0",
-    "electron-builder": "^23.6.0"
+    "electron-builder": "^23.6.0",
+    "electron-notarize": "^1.2.2"
   },
   "main": "public/electron/main.js",
   "homepage": "./",
@@ -45,7 +46,8 @@
     "app:client:nobrowser": "cross-env BROWSER=none npm run start",
     "app:server": "wait-on tcp:3000 && npm run electron:app",
     "app": "concurrently -k \"npm run app:client:nobrowser\" \"npm run app:server\"",
-    "electron:build:m": "yarn build && electron-builder -m -c.extraMetadata.main=build/electron/main.js"
+    "electron:build:m": "yarn build && electron-builder -m -c.extraMetadata.main=build/electron/main.js",
+    "electron:release:m": "electron-builder -m -p onTagOrDraft -c.extraMetadata.main=build/electron/main.js"
   },
   "eslintConfig": {
     "extends": [
@@ -64,5 +66,26 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "build": {
+    "appId": "com.glassball.tallykit",
+    "productName": "TallyKit",
+    "copyright": "Neeraj Gupta",
+    "afterSign": "build/electron/notarize.js",
+    "publish": {
+      "provider": "github",
+      "owner": "neeraj76",
+      "repo": "tallypad"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "default",
+          "arch": [
+            "universal"
+          ]
+        }
+      ]
+    }
   }
 }
