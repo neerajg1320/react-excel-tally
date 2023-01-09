@@ -48,4 +48,8 @@ export const headerKeynameMap= [
     matchLabels: ["Dr / Cr"],
     keyName: "drCr",
   },
+  {
+    matchLabels: ["Category"],
+    keyName: "category",
+  },
 ];

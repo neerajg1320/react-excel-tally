@@ -1,6 +1,6 @@
 {
-  "name": "TallyKit",
-  "version": "0.5.1",
+  "name": "TallyAbc",
+  "version": "0.5.3",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -43,11 +43,16 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "eject": "react-scripts eject",
     "electron:app": "electron .",
+
     "app:client:nobrowser": "cross-env BROWSER=none npm run start",
     "app:server": "wait-on tcp:3000 && npm run electron:app",
     "app": "concurrently -k \"npm run app:client:nobrowser\" \"npm run app:server\"",
+
     "electron:build:m": "yarn build && electron-builder -m -c.extraMetadata.main=build/electron/main.js",
-    "electron:release:m": "electron-builder -m -p onTagOrDraft -c.extraMetadata.main=build/electron/main.js"
+    "electron:build:w": "yarn build && electron-builder -w -c.extraMetadata.main=build/electron/main.js",
+
+    "electron:release:m": "electron-builder -m -p onTagOrDraft -c.extraMetadata.main=build/electron/main.js",
+    "electron:release:w": "electron-builder -w -p onTagOrDraft -c.extraMetadata.main=build/electron/main.js"
   },
   "eslintConfig": {
     "extends": [
@@ -67,11 +72,11 @@
       "last 1 safari version"
     ]
   },
+  "afterSignDisableForWindows": "build/electron/notarize.js",
   "build": {
     "appId": "com.glassball.tallykit",
     "productName": "TallyKit",
     "copyright": "Neeraj Gupta",
-    "afterSign": "build/electron/notarize.js",
     "publish": {
       "provider": "github",
       "owner": "neeraj76",
@@ -86,6 +91,20 @@
           ]
         }
       ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "certificateFile": "../.local/ComodoCodeSign.pfx",
+      "certificatePassword": "token@123",
+      "verifyUpdateCodeSignature": false
     }
   }
 }

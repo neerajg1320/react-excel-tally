@@ -356,7 +356,7 @@ export const ReadWrapper = () => {
           }
 
           if (interpretedValue === undefined && value !== undefined) {
-            if (statementColumn.type) {
+            if (statementColumn && statementColumn.type) {
               if (statementColumn.type === "date") {
                 if (isString(value)) {
                   if (debugRowIdx === rowIdx) { console.log(`got string`);}
