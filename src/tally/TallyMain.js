@@ -8,6 +8,7 @@ import TallySubmitBar from "./TallySubmitBar/TallySubmitBar";
 import Connection from "./ConnectionStatus/Connection";
 import {setCompanies, setCurrentCompany, setTargetCompany} from "./state/tallyActions";
 import AppContext from "../AppContext";
+import {listToOptions} from "../utils/options";
 
 export const TallyMain = ({children}) => {
   if (debug.lifecycle) {
@@ -57,6 +58,7 @@ export const TallyMain = ({children}) => {
   const tallyLedgers = useSelector((state) => state.tally.ledgers);
 
   const [banksLedgers, setBankLedgers] = useState([]);
+  const [companyOptions, setCompanyOptions] = useState([]);
 
   const bankOptions = useMemo(() => {
     return banksLedgers.map((ledger) => {return {label: ledger.name, value: ledger.name}});
@@ -129,6 +131,8 @@ export const TallyMain = ({children}) => {
   // dep: tallyCompanies
   useEffect(() => {
     if (tallyCompanies.length) {
+      setCompanyOptions(listToOptions(tallyCompanies.map(company => company.name), "Company"));
+
       remoteCall('tally:command:companies:current', {})
           .then(({request, response}) => {
             console.log(`currentCompany: ${JSON.stringify(response.value, null, 2)}`);
@@ -143,11 +147,15 @@ export const TallyMain = ({children}) => {
     dispatch(setTargetCompany(tallyCurrentCompany))
   }, [tallyCurrentCompany]);
 
+  const handleTargetCompanyChange = (e) => {
+    dispatch(setTargetCompany(e));
+  }
+
   // dep: tallyTargetCompany
   useEffect(() => {
     // console.log(`Need to get the ledgers`);
     if (tallyTargetCompany !== '') {
-      remoteCall('tally:command:ledgers:list', {tallyTargetCompany})
+      remoteCall('tally:command:ledgers:list', {targetCompany:tallyTargetCompany})
           .then(({request, response}) => {
             // console.log('ledgers:', JSON.stringify(response));
             dispatch(setLedgers(response));
@@ -303,9 +311,26 @@ export const TallyMain = ({children}) => {
         </div>
 
         <div style={{
-          minWidth:"200px",
-          display: "flex", flexDirection:"column", alignItems: "flex-end"
-        }}
+            minWidth:"200px",
+            display: "flex", flexDirection:"column", alignItems: "flex-end"
+          }}
+        >
+          <label>
+            Company
+          </label>
+          <div style={{width:"100%"}}>
+            <Select
+                menuPlacement="top"
+                options={companyOptions}
+                value={companyOptions.filter(opt => opt.value === tallyTargetCompany)}
+                onChange={opt => handleTargetCompanyChange(opt.value)}
+            />
+          </div>
+        </div>
+        <div style={{
+            minWidth:"200px",
+            display: "flex", flexDirection:"column", alignItems: "flex-end"
+          }}
         >
           <label>
             Bank
