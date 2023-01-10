@@ -335,9 +335,12 @@ export const ReadWrapper = () => {
     const data = rows.map((row, rowIdx) => {
       const item = {};
       for (let i=0; i < keyNames.length; i++) {
+        if (!header[i]) {
+          continue;
+        }
+
         const headerName = header[i];
         const {keyName, format, statementColumn, parse, detectedTypes} =  exactMapper[headerName];
-
         if (skipUndefined && row[i] === undefined) {
           continue;
         }
