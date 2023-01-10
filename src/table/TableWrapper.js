@@ -108,21 +108,14 @@ export const TableWrapper = () => {
   }, []);
 
   // col must have keyName property
-  const attachPresetProperties = useCallback((col, index, categories) => {
+  const attachPresetProperties = useCallback((col, index, choices) => {
     const mPresetCols = presetColumns.filter(pcol=> pcol.keyName === col.keyName);
 
     col.index = index;
 
     if (mPresetCols.length) {
       col = mPresetCols[0];
-
-      // This logic needs to be fixed
-      if (col.keyName === 'category') {
-        // console.log(`attachPresetProperties: ${col.keyName} categories=${JSON.stringify(categories)}`);
-        if (categories && categories.length > 0) {
-          col.choices = categories.map(category => category.name);
-        }
-      }
+      col.choices = choices;
     }
     return colToRTCol(col, {showTypes:layoutShowTypes});
   }, []);
@@ -135,8 +128,23 @@ export const TableWrapper = () => {
   }, []);
 
   const rtColumns = useMemo(() => {
+    const selectables = [
+      {
+        'keyName': 'category',
+        'choices': ledgers.map(ledger => ledger.name)
+      }
+    ];
+
     return columns.map((col, index) => {
-      return attachPresetProperties(col, index, ledgers);
+      const selIndex = selectables.findIndex(sel => sel.keyName === col.keyName);
+      let choices;
+      if (selIndex >= 0) {
+        const selectionItem = selectables[selIndex];
+        console.log(`keyName=${col.keyName} choices=${JSON.stringify(selectionItem.choices)}`);
+        choices = selectionItem.choices;
+      }
+
+      return attachPresetProperties(col, index, choices);
     });
   }, [columns, ledgers]);
 
