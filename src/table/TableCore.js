@@ -38,7 +38,6 @@ const TableCore = () => {
     featurePagination,
     featureColumnFilter,
     featureSorting,
-    featureColumnVisibility,
 
     layoutFooter,
     layoutFixed,
@@ -227,17 +226,16 @@ const TableCore = () => {
   const initialState = useMemo(() => {
     let initState = {}
 
+    // The hidden columns
+    initState = {
+      ...initState,
+      hiddenColumns
+    };
+
     if (featurePagination) {
       initState = {
         ...initState,
         pageIndex: currentPageIndex,
-      }
-    }
-
-    if (featureColumnVisibility) {
-      initState = {
-        ...initState,
-        hiddenColumns
       }
     }
 
