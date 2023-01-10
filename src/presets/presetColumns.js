@@ -135,4 +135,4 @@ export const shadowColumns = [
     hidden: true
   },
 ]
-export const presetColumns = [...statementColumns, ...accountingColumns];
+export const presetColumns = [...statementColumns, ...accountingColumns, ...shadowColumns];

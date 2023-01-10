@@ -12,9 +12,9 @@ function ConditionalTooltipButton({children, condition, message}) {
               {message}
             </Tooltip>
           )
-        } : (
-            <span></span>
-        )
+        } : function () {
+          return (<span></span>)
+        }
         }
         placement="top"
     >
