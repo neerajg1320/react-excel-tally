@@ -49,7 +49,7 @@ export const ColumnFilterWithIcon = ({ column: renderedColumn }) => {
 
   useEffect(() => {
     // Check if we need state
-    console.log(`ColumnFilterWithIcon: filterText=${filterText}`)
+    // console.log(`ColumnFilterWithIcon: filterText=${filterText}`)
     const filterObject = {
       flagBlank: blankEnabled,
       flagText: textEnabled,

@@ -279,7 +279,7 @@ export const TableWrapper = () => {
 
   // We need to fix the pageIndex when filtering starts
   const handleGlobalFilterChange = useCallback((value) => {
-    console.log(`handleGlobalFilterChange: value=${value}`);
+    // console.log(`handleGlobalFilterChange: value=${value}`);
 
     if (featurePagination) {
       if (!globalFilterValueRef.current && value) {
@@ -305,7 +305,7 @@ export const TableWrapper = () => {
 
   // This is called from the ColumnFilterWithIcon component
   const handleColumnFilterChange = (columnId, newValue) => {
-    console.log(`TableWrapper:handleColumnFilterChange column=${columnId} newValue=`, newValue);
+    // console.log(`TableWrapper:handleColumnFilterChange column=${columnId} newValue=`, newValue);
     const columnFilters = columnFiltersValueRef.current;
 
     if (newValue === undefined) {

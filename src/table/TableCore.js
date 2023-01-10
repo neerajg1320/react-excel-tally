@@ -249,7 +249,7 @@ const TableCore = () => {
     }
 
     if (featureColumnFilter) {
-      console.log(`TableCore:columnsFilters`, columnsFilters);
+      // console.log(`TableCore:columnsFilters`, columnsFilters);
       initState = {
         ...initState,
         filters:columnsFilters
@@ -296,10 +296,10 @@ const TableCore = () => {
 
   useEffect(() => {
     if (rows.length != rowsPrevRef.current.length) {
-      console.log(`TableCore:rows prevRowCount:${rowsPrevRef.current.length} count=${rows.length}`)
+      // console.log(`TableCore:rows prevRowCount:${rowsPrevRef.current.length} count=${rows.length}`)
       if (featurePagination) {
         if (currentPageIndex > 0) {
-          console.log(`TableCore: Page index reset to 0`);
+          // console.log(`TableCore: Page index reset to 0`);
           setTimeout(() => {
             gotoPage(0);
           }, 0);

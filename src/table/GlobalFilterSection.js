@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useMemo, useRef} from "react";
 import TableDataContext from "./TableDataContext";
 import {GlobalFilter} from "./filter/GlobalFilter";
-import {debug} from "../components/config/debugEnabled";
+import {debug} from "../components/config/debug";
 
 const GlobalFilterSection = () => {
   if (debug.lifecycle) {
@@ -31,7 +31,7 @@ const GlobalFilterSection = () => {
   // This is important. The updated value is stored in the TableWrapper.
   // It is provided to TableCore upon re-render.
   useEffect(() => {
-    console.log(`Global Filter: ${globalFilter}`)
+    // console.log(`Global Filter: ${globalFilter}`)
     updateGlobalFilter(globalFilter);
   }, [globalFilter]);
 

@@ -71,7 +71,7 @@ const App = () => {
   // The App component just maintains a copy of data.
   // The modification are done in table and tally components.
   const handleDataChange = useCallback((data, updates, source) => {
-    console.log(`handleDataChange: source=${source} tallySaved=${tallySavedRef.current} data=`, data);
+    // console.log(`handleDataChange: source=${source} tallySaved=${tallySavedRef.current} data=`, data);
 
     let newData = data;
 
