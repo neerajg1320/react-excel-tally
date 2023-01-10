@@ -128,6 +128,8 @@ export const TableWrapper = () => {
   }, []);
 
   const selectables = useMemo(() => {
+    // This is compile time mapping.
+    // For future: Can we do this run time?
     return [
       {
         'keyName': 'category',
@@ -141,9 +143,7 @@ export const TableWrapper = () => {
       const selIndex = selectables.findIndex(sel => sel.keyName === col.keyName);
       let choices;
       if (selIndex >= 0) {
-        const selectionItem = selectables[selIndex];
-        console.log(`keyName=${col.keyName} choices=${JSON.stringify(selectionItem.choices)}`);
-        choices = selectionItem.choices;
+        choices = selectables[selIndex].choices;
       }
 
       return attachPresetProperties(col, index, choices);
