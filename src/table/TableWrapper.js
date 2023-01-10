@@ -127,14 +127,16 @@ export const TableWrapper = () => {
     return getColumns(data);
   }, []);
 
-  const rtColumns = useMemo(() => {
-    const selectables = [
+  const selectables = useMemo(() => {
+    return [
       {
         'keyName': 'category',
         'choices': ledgers.map(ledger => ledger.name)
       }
     ];
+  }, []);
 
+  const rtColumns = useMemo(() => {
     return columns.map((col, index) => {
       const selIndex = selectables.findIndex(sel => sel.keyName === col.keyName);
       let choices;
@@ -146,7 +148,7 @@ export const TableWrapper = () => {
 
       return attachPresetProperties(col, index, choices);
     });
-  }, [columns, ledgers]);
+  }, [columns, selectables]);
 
   const defaultColumnFilterState = {
     flagBlank: false,

@@ -118,4 +118,21 @@ export const accountingColumns = [
   }
 ];
 
+export const shadowColumns = [
+  {
+    keyName: "id",
+    edit: false,
+    hidden: true
+  },
+  {
+    keyName: "modifyMarker",
+    edit: false,
+    hidden: true
+  },
+  {
+    keyName: "deleteMarker",
+    edit: false,
+    hidden: true
+  },
+]
 export const presetColumns = [...statementColumns, ...accountingColumns];

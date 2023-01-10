@@ -6,11 +6,13 @@ function ConditionalTooltipButton({children, condition, message}) {
   return (
     <OverlayTrigger
         delay={{hide: 450, show: 300}}
-        overlay={condition ? (props) => (
+        overlay={condition ? function (props) {
+          return (
             <Tooltip {...props}>
               {message}
             </Tooltip>
-        ) : (
+          )
+        } : (
             <span></span>
         )
         }
