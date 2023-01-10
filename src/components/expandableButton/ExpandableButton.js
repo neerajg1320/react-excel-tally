@@ -49,9 +49,9 @@ const ExpandableButton = ({ children, title, icon, disabled, value, onChange, po
         {value &&
             <div
                 style={{
+                  border:"2px dashed blue",
                   padding:"20px",
-                  display: "flex",
-                  flexDirection:"column",
+                  display: "flex", flexDirection:"column",
                   gap:"15px",
                   boxShadow: "rgba(0, 0, 0, 0.5) 0px 5px 15px",
                   borderRadius: "4px",
