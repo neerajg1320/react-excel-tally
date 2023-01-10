@@ -136,7 +136,7 @@ export const TableWrapper = () => {
         'choices': ledgers.map(ledger => ledger.name)
       }
     ];
-  }, []);
+  }, [ledgers]);
 
   const rtColumns = useMemo(() => {
     return columns.map((col, index) => {
@@ -296,11 +296,11 @@ export const TableWrapper = () => {
 
     if (featurePagination) {
       if (!globalFilterValueRef.current && value) {
-        console.log(`handleGlobalFilterChange: Filter active pulse`);
+        // console.log(`handleGlobalFilterChange: Filter active pulse`);
       }
 
       if (globalFilterValueRef.current && !value) {
-        console.log(`handleGlobalFilterChange: Filter inactive pulse`);
+        // console.log(`handleGlobalFilterChange: Filter inactive pulse`);
       }
     }
 
@@ -328,11 +328,11 @@ export const TableWrapper = () => {
     if (featurePagination) {
       const oldValue = columnFilters.filter(col => col.id === columnId)[0]?.value;
 
-      if (oldValue.filterText === "" && newValue.filterText !== "") {
+      if (oldValue?.filterText === "" && newValue?.filterText !== "") {
         console.log(`handleColumnFilterChange: Filter active pulse`);
       }
 
-      if (oldValue.filterText !== "" && newValue.filterText === "") {
+      if (oldValue?.filterText !== "" && newValue?.filterText === "") {
         console.log(`handleColumnFilterChange: Filter inactive pulse`);
       }
     }
@@ -351,7 +351,7 @@ export const TableWrapper = () => {
 
   // TBV: Check if this can be in TableWrapper
   const handleFilterClearClick = () => {
-    console.log(`Need to clear filters`);
+    // console.log(`Need to clear filters`);
     const {setGlobalFilter, setAllFilters} = tableInstanceRef.current;
     setAllFilters([]);
     setGlobalFilter("");

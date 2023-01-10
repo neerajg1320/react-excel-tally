@@ -6,7 +6,7 @@ export const GlobalFilter = ({globalFilter, setGlobalFilter}) => {
 
   const [value, setValue] = useState(globalFilter || "");
   const onChange = useAsyncDebounce(val => {
-    console.log(`GlobalFilter: val=${val}`);
+    // console.log(`GlobalFilter: val=${val}`);
     setGlobalFilter(val)
   }, 100);
 

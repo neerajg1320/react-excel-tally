@@ -86,7 +86,7 @@ const App = () => {
       }
     } else if (source === "dataSourceTable") {
       if (updates) {
-        console.log(`App:handleDataChange`, updates, data);
+        // console.log(`App:handleDataChange`, updates, data);
         const modificationUpdates = updates.filter(update => update.action === 'PATCH');
         const modifiedIndices = modificationUpdates.reduce((prev, update) => {
           const newIds = update.payload.indices.filter(index => !prev.includes(index));
@@ -113,7 +113,7 @@ const App = () => {
     } else if (source === "dataSourceTally") {
       // We can count the Tally Operations here. This will happen only if data is submitted to Tally
       // We should get the indices here and clear the modifiedRows
-      console.log(`handleDataChange: source:${source} updates=`, updates);
+      // console.log(`handleDataChange: source:${source} updates=`, updates);
 
       const responseIds = updates[0].payload;
 
