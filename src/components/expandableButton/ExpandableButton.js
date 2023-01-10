@@ -19,7 +19,7 @@ const ExpandableButton = ({ children, title, icon, disabled, value, onChange, po
     // https://stackoverflow.com/questions/12092261/prevent-firing-the-blur-event-if-any-one-of-its-children-receives-focus
     // if the blur was because of outside focus
     // currentTarget is the parent element, relatedTarget is the clicked element
-    if (!e.currentTarget.contains(e.relatedTarget)) {
+    if (value && !e.currentTarget.contains(e.relatedTarget)) {
       console.log(`ExpandableButton:handleBlur`)
       onChange(!value);
     }
