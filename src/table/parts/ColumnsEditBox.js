@@ -94,7 +94,6 @@ const ColumnsEditBox = ({columns, onSave, onCancel, onButtonClick}) => {
                 </form>
                 :
                 (col.type === "select") ?
-
                     <Select
                         options={col.choices.map(choice => {return {label: choice, value:choice}})}
                         value={columnValues[col_idx].value}

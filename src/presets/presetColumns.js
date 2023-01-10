@@ -105,7 +105,7 @@ export const accountingColumns = [
     defaultValue: -1,
     width: 50,
     required: true,
-    hidden: true
+    hidden: false
   },
   {
     header: "Remarks",
