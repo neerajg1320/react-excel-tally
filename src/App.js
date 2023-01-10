@@ -137,11 +137,7 @@ const App = () => {
     }
     setLedgers(ledgers);
   }, []);
-
-  // useEffect(() => {
-  //   console.log(`modifiedRows:`, modifiedRows);
-  // }, [modifiedRows]);
-
+  
   // Currently we are not using the AppContext
   const appContext = {
     data,
