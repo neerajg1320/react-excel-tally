@@ -137,7 +137,7 @@ const App = () => {
     }
     setLedgers(ledgers);
   }, []);
-  
+
   // Currently we are not using the AppContext
   const appContext = {
     data,

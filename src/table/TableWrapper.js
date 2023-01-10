@@ -108,23 +108,24 @@ export const TableWrapper = () => {
   }, []);
 
   // col must have keyName property
-  const attachPresetProperties = useCallback((col, index) => {
+  const attachPresetProperties = useCallback((col, index, categories) => {
     const mPresetCols = presetColumns.filter(pcol=> pcol.keyName === col.keyName);
+
+    col.index = index;
 
     if (mPresetCols.length) {
       col = mPresetCols[0];
 
-      if (col.type === 'select') {
-        // console.log(`attachPresetProperties: ${col.keyName} ledgers=${JSON.stringify(ledgers)}`);
-        if (ledgers && ledgers.length > 0) {
-          col.choices = ledgers.map(ledger => ledger.name);
+      // This logic needs to be fixed
+      if (col.keyName === 'category') {
+        // console.log(`attachPresetProperties: ${col.keyName} categories=${JSON.stringify(categories)}`);
+        if (categories && categories.length > 0) {
+          col.choices = categories.map(category => category.name);
         }
       }
     }
-
-    col.index = index;
     return colToRTCol(col, {showTypes:layoutShowTypes});
-  }, [ledgers]);
+  }, []);
 
 
   // The columns are derived from data only once.
@@ -134,8 +135,10 @@ export const TableWrapper = () => {
   }, []);
 
   const rtColumns = useMemo(() => {
-    return columns.map(attachPresetProperties);
-  }, [columns]);
+    return columns.map((col, index) => {
+      return attachPresetProperties(col, index, ledgers);
+    });
+  }, [columns, ledgers]);
 
   const defaultColumnFilterState = {
     flagBlank: false,
