@@ -19,17 +19,12 @@ const TallySubmitBar = ({title, disabled, onSubmit}) => {
               display: "flex", justifyContent:"flex-end", alignItems:"center", gap:"60px"
             }}
         >
-
-          <ConditionalTooltipButton
-              condition={disabled} message="No connection to Tally"
+          <Button
+              disabled={disabled}
+              onClick={e => {if (onSubmit) {onSubmit(e)}}}
           >
-            <Button
-                disabled={disabled}
-                onClick={e => {if (onSubmit) {onSubmit(e)}}}
-            >
-              {title}
-            </Button>
-          </ConditionalTooltipButton>
+            {title}
+          </Button>
         </div>
 
       </div>
