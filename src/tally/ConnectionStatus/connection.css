@@ -47,19 +47,6 @@
     cursor: pointer;
 }
 
-/*.settings-input-box {*/
-/*    !*border: 1px solid gray;*!*/
-/*    box-shadow: 0 0 4px 0 rgba(0,0,0,0.2);*/
-/*    border-radius: 5px;*/
-/*    padding: 20px 40px;*/
-/*    background-color: white;*/
-/*    flex-direction: column;*/
-/*    gap: 10px;*/
-/*    align-items: flex-end;*/
-/*    position: absolute;*/
-/*    bottom: 30px;*/
-/*    right: 30px;*/
-/*}*/
 
 .settings-input-box.active {
     display: flex;

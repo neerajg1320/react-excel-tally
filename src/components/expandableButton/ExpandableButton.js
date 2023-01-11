@@ -51,7 +51,6 @@ const ExpandableButton = ({ children, title, icon, clickComponent, disabled, val
         {value &&
             <div
                 style={{
-                  border:"2px dashed blue",
                   padding:"20px",
                   display: "flex", flexDirection:"column",
                   gap:"15px",
