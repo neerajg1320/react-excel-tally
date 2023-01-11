@@ -1,12 +1,8 @@
 import './connection.css';
 import React, {useState, useEffect} from "react";
-import {AiFillSetting} from "react-icons/ai";
-import Button from "react-bootstrap/Button";
-import {useDispatch, useSelector} from "react-redux";
-import {setServer} from "../state/tallyActions";
 import TallyServerAddress from "./TallyServerAddress";
 import ExpandableButton from "../../components/expandableButton/ExpandableButton";
-import ColumnsEditBox from "../../table/parts/ColumnsEditBox";
+import {AiFillSetting} from "react-icons/ai";
 
 function Connection({title, status}) {
   const [active, setActive] = useState(false);
@@ -23,13 +19,13 @@ function Connection({title, status}) {
       <div style={{display: "flex", gap: "20px"}}>
         <div className="settings-container">
             <div className="settings-input-trigger">
-              {/*<span>Tally Server</span>*/}
-              {/*<AiFillSetting size={24} onClick={handleSettingsClick}/>*/}
+              <span>Tally Server</span>
+
               <ExpandableButton
-                  title="Tally Server"
+                  clickComponent={<AiFillSetting size={24} onClick={handleSettingsClick}/>}
                   value={active}
                   onChange={exp => setActive(exp)}
-                  popupPosition={{right: "60px", bottom: "35px"}}
+                  popupPosition={{right: "0px", bottom: "35px"}}
               >
                 <TallyServerAddress onChange={exp => setActive(exp)}/>
               </ExpandableButton>

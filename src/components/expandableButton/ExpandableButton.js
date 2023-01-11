@@ -2,7 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 
 // Currently its a controlled component
-const ExpandableButton = ({ children, title, icon, disabled, value, onChange, popupPosition}) => {
+const ExpandableButton = ({ children, title, icon, clickComponent, disabled, value, onChange, popupPosition}) => {
   // console.log(`Rendering <ExpandableButton> value=${value}`);
 
   // The followed function can be use when we need to inject or remove props in child
@@ -37,7 +37,9 @@ const ExpandableButton = ({ children, title, icon, disabled, value, onChange, po
       >
         {icon}
 
-        {!icon &&
+        {clickComponent}
+
+        {!icon && !clickComponent &&
           <Button variant="primary" size="sm"
                   disabled={disabled}
                   onClick={e => onChange(!value)}
