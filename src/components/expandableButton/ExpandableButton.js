@@ -2,7 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 
 // Currently its a controlled component
-const ExpandableButton = ({ children, title, icon, clickComponent, disabled, value, onChange, popupPosition}) => {
+const ExpandableButton = ({ children, title, icon, clickComponent, disabled, expanded, onChange, popupPosition}) => {
   // console.log(`Rendering <ExpandableButton> value=${value}`);
 
   // The followed function can be use when we need to inject or remove props in child
@@ -19,9 +19,9 @@ const ExpandableButton = ({ children, title, icon, clickComponent, disabled, val
     // https://stackoverflow.com/questions/12092261/prevent-firing-the-blur-event-if-any-one-of-its-children-receives-focus
     // if the blur was because of outside focus
     // currentTarget is the parent element, relatedTarget is the clicked element
-    if (value && !e.currentTarget.contains(e.relatedTarget)) {
+    if (expanded && !e.currentTarget.contains(e.relatedTarget)) {
       console.log(`ExpandableButton:handleBlur`)
-      onChange(!value);
+      onChange(!expanded);
     }
   }
 
@@ -42,13 +42,13 @@ const ExpandableButton = ({ children, title, icon, clickComponent, disabled, val
         {!icon && !clickComponent &&
           <Button variant="primary" size="sm"
                   disabled={disabled}
-                  onClick={e => onChange(!value)}
+                  onClick={e => onChange(!expanded)}
           >
             {title}
           </Button>
         }
 
-        {value &&
+        {expanded &&
             <div
                 style={{
                   padding:"20px",

@@ -83,7 +83,7 @@ export const ColumnFilterWithIcon = ({ column: renderedColumn }) => {
       <ExpandableButton
           title="S"
           icon={searchIcon}
-          value={expanded}
+          expanded={expanded}
           onChange={e => setExpanded(!expanded)}
           popupPosition={renderedColumn.index < 3 ?
               {top:"100%", left:"50%"}:

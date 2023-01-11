@@ -23,7 +23,7 @@ function Connection({title, status}) {
 
               <ExpandableButton
                   clickComponent={<AiFillSetting size={24} onClick={handleSettingsClick}/>}
-                  value={active}
+                  expanded={active}
                   onChange={exp => setActive(exp)}
                   popupPosition={{right: "0px", bottom: "35px"}}
               >

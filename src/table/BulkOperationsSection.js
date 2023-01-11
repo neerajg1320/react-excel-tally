@@ -95,7 +95,7 @@ const BulkOperationsSection = ({edit}) => {
           <ExpandableButton
               title="Bulk Edit"
               disabled={!bulkColumns.length || !bulkEnabled}
-              value={bulkEditExpanded}
+              expanded={bulkEditExpanded}
               onChange={exp => setBulkEditExpanded(exp)}
               popupPosition={{left: "60px", top: "25px"}}
           >

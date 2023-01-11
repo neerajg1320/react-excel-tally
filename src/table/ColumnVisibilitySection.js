@@ -34,7 +34,7 @@ const ColumnVisibilitySection = () => {
       <div style={{marginLeft: "20px"}}>
         <ExpandableButton
             title="Show Columns"
-            value={showColumnsExpanded}
+            expanded={showColumnsExpanded}
             onChange={setShowColumnsExpanded}
             popupPosition={{top:"100%", left:"0px"}}
         >
