@@ -1,5 +1,4 @@
 import * as XLSX from 'xlsx';
-import {fixDatesInObject} from "../../utils/types";
 
 // headerRow < 0 means no header
 export function excelToJson (file, {headerRow}) {

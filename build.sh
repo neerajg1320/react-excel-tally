@@ -1,0 +1,1 @@
+appleId="neerajgupta.mbox@gmail.com" appleIdPassword="ueib-tpwi-jjlb-msko" yarn electron:build:m

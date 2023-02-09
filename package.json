@@ -1,6 +1,6 @@
 {
-  "name": "TallyAbc",
-  "version": "0.5.3",
+  "name": "TallyKit",
+  "version": "0.5.6",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -72,16 +72,17 @@
       "last 1 safari version"
     ]
   },
-  "afterSignDisableForWindows": "build/electron/notarize.js",
   "build": {
     "appId": "com.glassball.tallykit",
     "productName": "TallyKit",
     "copyright": "Neeraj Gupta",
+    "afterSign": "build/electron/notarize.js",
     "publish": {
       "provider": "github",
       "owner": "neeraj76",
       "repo": "tallypad"
     },
+
     "mac": {
       "target": [
         {
@@ -92,6 +93,7 @@
         }
       ]
     },
+
     "win": {
       "target": [
         {
